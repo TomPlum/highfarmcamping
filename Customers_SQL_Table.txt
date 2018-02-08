@@ -1,9 +1,9 @@
 CREATE TABLE Customers (
     Customer_ID         INTEGER PRIMARY KEY AUTOINCREMENT,
-    First_Name          TEXT,
-    Last_Name           TEXT,
-    Date_of_Birth       DATE,
-    Email_Address       TEXT,
-    Home_Phone_Number   INTEGER,
-    Mobile_Phone_Number INTEGER
+    First_Name          TEXT NOT NULL,
+    Last_Name           TEXT NOT NULL,
+    Date_of_Birth       DATE NOT NULL,
+    Email_Address       TEXT NOT NULL,
+    Home_Phone_Number   TEXT NOT NULL,
+    Mobile_Phone_Number TEXT
 );
