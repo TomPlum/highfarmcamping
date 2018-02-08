@@ -1,6 +1,6 @@
 CREATE TABLE Customer_Address (
-    Customer_ID INTEGER,
-    Address_ID  INTEGER,
+    Customer_ID INTEGER PRIMARY KEY,
+    Address_ID  INTEGER PRIMARY KEY,
     FOREIGN KEY (
         Customer_ID
     )
