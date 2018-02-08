@@ -1,0 +1,12 @@
+CREATE TABLE Customer_Address (
+    Customer_ID INTEGER,
+    Address_ID  INTEGER,
+    FOREIGN KEY (
+        Customer_ID
+    )
+    REFERENCES Customers (Customer_ID),
+    FOREIGN KEY (
+        Address_ID
+    )
+    REFERENCES Address (Address_ID) 
+);
