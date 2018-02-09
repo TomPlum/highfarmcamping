@@ -1,0 +1,47 @@
+.find-pitch {
+    background-color: #67d753;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    width: 130px;
+    transition: all ease 0.5s;
+}
+
+.find-pitch:hover {
+    background-color: white;
+    border: 2px solid #67d753;
+    color: #67d753;
+}
+
+.pitch-availability {
+    border: 1px solid black;
+    font-family: 'Poppins', sans-serif;
+}
+
+.pitch-availability td {
+    border: 1px solid black;
+    text-align: center;
+    color: rgba(0, 0, 0, 0);
+}
+
+.pitch-details {
+    color: black !important;
+}
+
+
+.pitch-availability th {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.available {
+    background-color: #76ff77;
+}
+
+.not-available {
+    background-color: #ff3e30;
+}

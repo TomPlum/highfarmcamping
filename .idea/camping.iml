@@ -14,5 +14,9 @@
     <orderEntry type="library" name="jquery-1.12.0" level="application" />
     <orderEntry type="library" name="all" level="application" />
     <orderEntry type="library" name="moment" level="application" />
+    <orderEntry type="library" name="moment" level="application" />
+    <orderEntry type="library" name="all" level="application" />
+    <orderEntry type="library" name="jquery-1.12.0" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

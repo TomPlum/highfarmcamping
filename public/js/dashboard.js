@@ -51,8 +51,3 @@ function updateTime() {
 
     $('#current-time').html(HH + ":" + MM + ":" + SS);
 }
-
-$(document).ready(function() {
-   $('#today').html(getToday());
-   setInterval(updateTime, 1000);
-});

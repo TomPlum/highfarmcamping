@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../public/css/daterangepicker.css">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="../public/css/dashboard.css">
+    <link rel="stylesheet" href="../public/css/booking.css">
 </head>
 <body>
     <div class="wrapper">
@@ -81,9 +82,11 @@
                 </li>
             </ul>
 
+            <!--
             <ul class="list-unstyled CTAs">
                 <li><a href="" class="download"><span class="fa fa-fw fa-phone"></span>&nbsp;01706 984215</a></li>
             </ul>
+            -->
         </nav>
 
         <!-- Page Content Holder -->
@@ -104,7 +107,7 @@
                                 <p id="today"></p>
                             </div>
                             <div class="row">
-                                <p id="current-time"></p>
+                                <p id="current-time">00:00:00</p>
                             </div>
                         </div>
 
@@ -112,59 +115,79 @@
                 </div>
             </nav>
 
-            <h2>Create a New Booking</h2>
+            <h2><span class="glyphicon glyphicon-book"></span> Create a New Booking</h2>
             <p> Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.</p>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6">
-                        <!-- Tent Filter Checkbox -->
-                        <div class="[ form-group ]">
-                            <input type="checkbox" name="tent" id="tent" autocomplete="off" />
-                            <div class="[ btn-group ]">
-                                <label for="tent" class="[ btn btn-default ]">
-                                    <span class="[ glyphicon glyphicon-ok ]"></span>
-                                    <span></span>
-                                </label>
-                                <label for="tent" class="[ btn btn-default active ]">
-                                    Tent
-                                </label>
-                            </div>
+
+            <!-- Form Wraps Whole Container - Encapsulates Filter & Date Range -->
+            <form action="">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fiedset>
+                                <!-- Tent Filter Checkbox -->
+                                <div class="[ form-group ]">
+                                    <input type="checkbox" value="tent" name="pitch-type" id="tent" autocomplete="off" />
+                                    <div class="[ btn-group ]">
+                                        <label for="tent" class="[ btn btn-default ]">
+                                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                                            <span></span>
+                                        </label>
+                                        <label for="tent" class="[ btn btn-default active ]">
+                                            <i class="glyphicon glyphicon-tent"></i>
+                                            Tent
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Caravan Filter Checkbox -->
+                                <div class="[ form-group ]">
+                                    <input type="checkbox" value="caravan" name="pitch-type" id="caravan" autocomplete="off" />
+                                    <div class="[ btn-group ]">
+                                        <label for="caravan" class="[ btn btn-default ]">
+                                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                                            <span></span>
+                                        </label>
+                                        <label for="caravan" class="[ btn btn-default active ]">
+                                            <span class="fa fa-fw fa-car"></span>
+                                            Caravan
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Motorhome Filter Checkbox -->
+                                <div class="[ form-group ]">
+                                    <input type="checkbox" value="motorhome" name="pitch-type" id="motorhome" autocomplete="off" />
+                                    <div class="[ btn-group ]">
+                                        <label for="motorhome" class="[ btn btn-default ]">
+                                            <span class="[ glyphicon glyphicon-ok ]"></span>
+                                            <span></span>
+                                        </label>
+                                        <label for="motorhome" class="[ btn btn-default active ]">
+                                            <span class="fa fa-fw fa-truck"></span>
+                                            Motorhome
+                                        </label>
+                                    </div>
+                                </div>
+                            </fiedset>
                         </div>
 
-                        <!-- Caravan Filter Checkbox -->
-                        <div class="[ form-group ]">
-                            <input type="checkbox" name="caravan" id="caravan" autocomplete="off" />
-                            <div class="[ btn-group ]">
-                                <label for="caravan" class="[ btn btn-default ]">
-                                    <span class="[ glyphicon glyphicon-ok ]"></span>
-                                    <span></span>
-                                </label>
-                                <label for="caravan" class="[ btn btn-default active ]">
-                                    Caravan
-                                </label>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <label for="date-range">Select Date Range</label>
+                                <input type="text" id="date-range" name="date-range" value="01/01/2018 - 01/14/2018" />
+                            </div>
+                            <div class="row">
+                                <button class="form-control find-pitch" type="button" onclick="populatePitchSelection()"><span class="glyphicon glyphicon-tent"></span> Find Pitch</button>
                             </div>
                         </div>
-
-                        <!-- Motorhome Filter Checkbox -->
-                        <div class="[ form-group ]">
-                            <input type="checkbox" name="motorhome" id="motorhome" autocomplete="off" />
-                            <div class="[ btn-group ]">
-                                <label for="motorhome" class="[ btn btn-default ]">
-                                    <span class="[ glyphicon glyphicon-ok ]"></span>
-                                    <span></span>
-                                </label>
-                                <label for="motorhome" class="[ btn btn-default active ]">
-                                    Motorhome
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="date-range">Select Date Range</label>
-                        <input type="text" id="date-range" name="date-range" value="01/01/2015 - 01/31/2015" />
                     </div>
                 </div>
+            </form>
+
+            <!-- Available Pitches Output Here -->
+            <div class="row pitch-selection">
+
             </div>
         </div>
     </div>
@@ -177,6 +200,7 @@
 <script src="../public/js/daterangepicker.js"></script>
 <!-- Other JS -->
 <script src="../public/js/dashboard.js"></script>
+<script src="../public/js/booking.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
