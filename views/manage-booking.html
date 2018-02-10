@@ -1,10 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
 
-    </body>
+    <title>Booking Management</title>
+
+    <!-- Include Date Range Picker -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- FontAwesome CSS CDN -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Date Range Picker -->
+    <link rel="stylesheet" href="../public/css/daterangepicker.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../public/css/dashboard.css">
+    <link rel="stylesheet" href="../public/css/manage-booking.css">
+</head>
+<body>
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Camping Booking System</h3>
+            <strong>CBS</strong>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li>
+                <a href="./dashboard.html">
+                    <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+                    <i class="glyphicon glyphicon-home"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="./booking.html">
+                    <!-- <i class="far fa-fw fa-calendar-alt"></i> -->
+                    <i class="glyphicon glyphicon-book"></i>
+                    Book Pitch
+                </a>
+                <a href="#manage-booking" data-toggle="collapse" aria-expanded="false">
+                    <!--  <i class="far fa-fw fa-clipboard"></i> -->
+                    <i class="glyphicon glyphicon-paperclip"></i>
+                    Manage Bookings
+                </a>
+                <ul class="collapse list-unstyled" id="manage-booking">
+                    <li><a href="./manage-booking.html"><i class="glyphicon g-fw glyphicon-align-justify"></i>Bookings Overview</a></li>
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-pencil"></i>Edit Booking</a></li>
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-minus"></i>Delete Booking</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#manage-customer" data-toggle="collapse" aria-expanded="false">
+                    <!-- <i class="fa fa-fw fa-address-book"></i> -->
+                    <i class="glyphicon glyphicon-user"></i>
+                    Manage Customers
+                </a>
+                <ul class="collapse list-unstyled" id="manage-customer">
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-plus"></i>Add Customer</a></li>
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-pencil"></i>Edit Customer</a></li>
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-minus"></i>Delete Customer</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#manage-pitch" data-toggle="collapse" aria-expanded="false">
+                    <!-- <i class="fa fa-fw fa-map-signs"></i> -->
+                    <i class="glyphicon glyphicon-tent"></i>
+                    Manage Pitches
+                </a>
+                <ul class="collapse list-unstyled" id="manage-pitch">
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-plus"></i>Add Pitch</a></li>
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-pencil"></i>Edit Pitch</a></li>
+                    <li><a href="#"><i class="glyphicon g-fw glyphicon-minus"></i>Delete Pitch</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!--
+        <ul class="list-unstyled CTAs">
+            <li><a href="" class="download"><span class="fa fa-fw fa-phone"></span>&nbsp;01706 984215</a></li>
+        </ul>
+        -->
+    </nav>
+
+    <!-- Page Content Holder -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i id="chevron" class="fa fa-fw fa-chevron-left"></i>
+                                <span>Menu</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <p id="today"></p>
+                        </div>
+                        <div class="row">
+                            <p id="current-time">00:00:00</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <h2><span class="glyphicon glyphicon-align-justify"></span> Booking Management</h2>
+        <p> Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.</p>
+
+        <!-- Main Page Content -->
+        <form action="">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="pitch-booking-overview">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Available Pitches Output Here -->
+        <div class="row pitch-selection">
+
+        </div>
+    </div>
+</div>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<!-- Bootstrap Js CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Date Range Picker JS --->
+<script src="../public/js/daterangepicker.js"></script>
+<!-- Other JS -->
+<script src="../public/js/dashboard.js"></script>
+<script src="../public/js/manage-booking.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+
+    $(function() {
+        $('input[name="date-range"]').daterangepicker({
+            "opens": "left",
+            "showDropdowns": true
+        });
+    });
+
+    //Menu Chevron Change on Click
+    $("#sidebarCollapse").on("click", function() {
+        $("#chevron").toggleClass("fa-chevron-left").toggleClass("fa-chevron-right");
+    });
+</script>
+</body>
 </html>

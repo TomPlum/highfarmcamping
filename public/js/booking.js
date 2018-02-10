@@ -79,7 +79,7 @@ function populatePitchSelection() {
                         icon = tentIcon;
                 }
 
-                body += "<td class='pitch-details'>Pitch" + (i + 1) + icon + "</td>";
+                body += "<td class='pitch-details'>Pitch " + (i + 1) + "<br>" + icon + "</td>";
             } else {
                 let available = Math.floor(Math.random() * 2);
                 if (available === 0) {

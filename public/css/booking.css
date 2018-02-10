@@ -17,13 +17,20 @@
     color: #67d753;
 }
 
+.pitch-selection-container {
+    display: block;
+    width: 100%;
+}
+
 .pitch-availability {
-    border: 1px solid black;
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     font-family: 'Poppins', sans-serif;
 }
 
 .pitch-availability td {
-    border: 1px solid black;
+    border-bottom: 1px solid black;
     text-align: center;
     color: rgba(0, 0, 0, 0);
     transition: all ease 0.2s;
