@@ -1,4 +1,4 @@
-CREATE TABLE Customer_Address (
+CREATE TABLE Customers_Addresses (
     Customer_ID INTEGER,
     Address_ID  INTEGER,
     FOREIGN KEY (
