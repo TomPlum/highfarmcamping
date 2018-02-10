@@ -1,13 +1,13 @@
-CREATE TABLE Customers_Addresses (
-    Customer_ID INTEGER,
-    Address_ID  INTEGER,
+CREATE TABLE customers_addresses (
+    customer_ID INTEGER,
+    address_ID  INTEGER,
     FOREIGN KEY (
-        Customer_ID
+        customer_ID
     )
-    REFERENCES Customers (Customer_ID),
+    REFERENCES customers (customer_ID),
     FOREIGN KEY (
-        Address_ID
+        address_ID
     )
-    REFERENCES Addresses (Address_ID), 
-    PRIMARY KEY (Customer_ID, Address_ID)
+    REFERENCES addresses (address_ID), 
+    PRIMARY KEY (customer_ID, address_ID)
 );
