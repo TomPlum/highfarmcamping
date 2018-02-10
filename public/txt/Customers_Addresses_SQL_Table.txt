@@ -8,6 +8,6 @@ CREATE TABLE Customers_Addresses (
     FOREIGN KEY (
         Address_ID
     )
-    REFERENCES Address (Address_ID) 
+    REFERENCES Addresses (Address_ID) 
     PRIMARY KEY (Customer_ID, Address_ID)
 );
