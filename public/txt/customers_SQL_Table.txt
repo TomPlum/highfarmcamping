@@ -1,0 +1,9 @@
+CREATE TABLE customers (
+    customer_ID         INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_Name          TEXT NOT NULL,
+    last_Name           TEXT NOT NULL,
+    date_of_Birth       DATE NOT NULL,
+    email_Address       TEXT NOT NULL,
+    home_Phone_Number   TEXT NOT NULL,
+    mobile_Phone_Number TEXT
+);
