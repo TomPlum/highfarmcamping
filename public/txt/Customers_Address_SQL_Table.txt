@@ -1,6 +1,6 @@
 CREATE TABLE Customer_Address (
-    Customer_ID INTEGER PRIMARY KEY,
-    Address_ID  INTEGER PRIMARY KEY,
+    Customer_ID INTEGER,
+    Address_ID  INTEGER,
     FOREIGN KEY (
         Customer_ID
     )
@@ -9,4 +9,5 @@ CREATE TABLE Customer_Address (
         Address_ID
     )
     REFERENCES Address (Address_ID) 
+    PRIMARY KEY (Customer_ID, Address_ID)
 );
