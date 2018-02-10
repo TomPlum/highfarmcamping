@@ -1,0 +1,8 @@
+CREATE TABLE pitches_bookings (
+    pitch_id   INTEGER REFERENCES pitches (pitch_id),
+    booking_id INTEGER REFERENCES bookings (booking_id),
+    PRIMARY KEY (
+        pitch_id,
+        booking_id
+    )
+);

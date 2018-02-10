@@ -1,0 +1,8 @@
+Possible order:
+customers,
+then addresses, 
+then customers_addresses, 
+then bookings, 
+then pitches, 
+then pitches_bookings
+then seasons

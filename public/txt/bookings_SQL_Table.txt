@@ -1,0 +1,14 @@
+
+CREATE TABLE bookings (
+    booking_id      INTEGER PRIMARY KEY,
+    customer_id     INTEGER REFERENCES Customers (customer_id) 
+                            NOT NULL,
+    count_dogs      INTEGER DEFAULT (0),
+    stay_start_date DATE    NOT NULL,
+    stay_end_date   DATE    NOT NULL,
+    payment_type    TEXT    CHECK (payment_type IN ('cash', 'cheque') ),
+    payment_total   DECIMAL NOT NULL,
+    paid            BOOLEAN DEFAULT false,
+    type            TEXT    CHECK (type IN ('phone booking', 'on-site booking') ) 
+                            NOT NULL
+);
