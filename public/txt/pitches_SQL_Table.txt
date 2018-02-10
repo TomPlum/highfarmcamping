@@ -1,0 +1,7 @@
+CREATE TABLE pitches (
+    pitch_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    type       TEXT    CHECK (type IN ('onlyTent', 'onlyCaravan', 'forAll') ),
+    available  BOOLEAN,
+    price      DECIMAL,
+    electrical BOOLEAN
+);

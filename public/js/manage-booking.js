@@ -130,14 +130,8 @@ function getName() {
 
 
 function formatDate(date) {
-    let DD = date.getDate();
-    if (DD < 10) {
-        DD = "0" + DD;
-    }
-    let MM = date.getMonth();
-    if (MM < 10) {
-        MM = "0" + MM;
-    }
+    const DD = date.getDate();
+    const MM = date.getMonth();
     const YYYY = date.getFullYear();
     return DD + "/" + MM + "/" + YYYY;
 }
