@@ -6,8 +6,6 @@ function getToday() {
     let day = today.getDay(); //0-6 (0 is Sunday)
     let date = today.getDate(); //1-31
     let month = today.getMonth(); //0-11
-    console.log(day);
-
     return days[day] + " " + date + getDateSuffix(date) + " " + months[month] + " " + YYYY;
 }
 
@@ -35,25 +33,33 @@ function getDateSuffix(number) {
 }
 
 function updateTime() {
+    //new Date() = System Current Time
     const today = new Date();
+
+    //Define Hour, if its less than 9, append a 0 before (consistent format)
     let HH = today.getHours();
     if (HH < 10) {
         HH = "0" + HH;
     }
+
     let MM = today.getMinutes();
     if (MM < 10) {
         MM = "0" + MM;
     }
+
     let SS = today.getSeconds();
     if (SS < 10) {
         SS = "0" + SS;
     }
 
+    //Update the div in the DOM
     $('#current-time').html(HH + ":" + MM + ":" + SS);
 }
 
 $(document).ready(() => {
     //Instantiate Date and Time on Navbar
     $('#today').html(getToday());
+
+    //Update the time every second (1000ms)
     setInterval(updateTime, 1000);
 });

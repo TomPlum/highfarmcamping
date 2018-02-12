@@ -211,6 +211,11 @@ a.article, a.article:hover {
     float: right;
 }
 
+.active-nav {
+    color: #2f8fd5;
+    background: #fff;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */

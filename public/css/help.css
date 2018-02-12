@@ -1,0 +1,7 @@
+.hotkeys p {
+    transition: all ease 0.5s;
+}
+
+.active-hotkey {
+    color: #2f8fd5;
+}

@@ -16,4 +16,9 @@ router.get('/book', function(req, res) {
    res.render('booking', {title: 'Book a Pitch'});
 });
 
+/* GET Help Page */
+router.get('/help', function(req, res) {
+    res.render('help', {title: 'Information'});
+});
+
 module.exports = router;

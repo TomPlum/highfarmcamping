@@ -1,14 +1,16 @@
 $(document).ready(() => {
-    const oTable = "<table>";
+    const oTable = "<table class='table table-hover table-striped table-condensed'>";
     const cTable = "</table>";
-    let tBody = "";
+    let tBody = "<tbody>";
 
-    let headers = "<tr>" +
-                    "<th>Pitch Details</th>" +
-                    "<th>Customer Name</th>" +
-                    "<th>Paid?</th>" +
-                    "<th>Booking Duration</th>" +
-                  "</tr>";
+    let headers = "<thead>" +
+                      "<tr>" +
+                        "<th>Pitch Details</th>" +
+                        "<th>Customer Name</th>" +
+                        "<th>Paid?</th>" +
+                        "<th>Booking Duration</th>" +
+                      "</tr>" +
+                  "</thead>";
 
     let data = [];
 
@@ -83,6 +85,8 @@ $(document).ready(() => {
         tBody += "<td>" + formatDate(data[i].start_date) + " - " + formatDate(data[i].end_date) + "</td>";
         tBody += "</tr>";
     }
+
+    tBody += "</tbody>";
 
 
     $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);

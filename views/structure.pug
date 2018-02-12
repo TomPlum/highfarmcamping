@@ -26,66 +26,71 @@ html
                         li
                             a(href='/')
                                 // <i class="fas fa-fw fa-tachometer-alt"></i>
-                                i.glyphicon.glyphicon-home
+                                i.glyphicon.glyphicon-home.g-fw
                                 | Dashboard
                         li
                             a(href='/book')
                                 // <i class="far fa-fw fa-calendar-alt"></i>
-                                i.glyphicon.glyphicon-book
+                                i.glyphicon.glyphicon-book.g-fw
                                 | Book Pitch
+                        li
                             a(href='#manage-booking', data-toggle='collapse', aria-expanded='false')
                                 // <i class="far fa-fw fa-clipboard"></i>
-                                i.glyphicon.glyphicon-paperclip
+                                i.glyphicon.glyphicon-paperclip.g-fw
                                 | Manage Bookings
                             ul#manage-booking.collapse.list-unstyled
                                 li
                                     a(href='/manage-booking/overview')
-                                        i.glyphicon.g-fw.glyphicon-align-justify
+                                        i.glyphicon.g-fw.glyphicon-align-justify.g-fw
                                         | Bookings Overview
                                 li
                                     a(href='/manage-booking/edit')
-                                        i.glyphicon.g-fw.glyphicon-pencil
+                                        i.glyphicon.g-fw.glyphicon-pencil.g-fw
                                         | Edit Booking
                                 li
                                     a(href='/manage-booking/delete')
-                                        i.glyphicon.g-fw.glyphicon-minus
+                                        i.glyphicon.g-fw.glyphicon-minus.g-fw
                                         | Delete Booking
                         li
                             a(href='#manage-customer', data-toggle='collapse', aria-expanded='false')
                                 // <i class="fa fa-fw fa-address-book"></i>
-                                i.glyphicon.glyphicon-user
-                                |                         Manage Customers
+                                i.glyphicon.glyphicon-user.g-fw
+                                | Manage Customers
                             ul#manage-customer.collapse.list-unstyled
                                 li
                                     a(href='/manage-customer/add')
-                                        i.glyphicon.g-fw.glyphicon-plus
+                                        i.glyphicon.g-fw.glyphicon-plus.g-fw
                                         | Add Customer
                                 li
                                     a(href='/manage-customer/edit')
-                                        i.glyphicon.g-fw.glyphicon-pencil
+                                        i.glyphicon.g-fw.glyphicon-pencil.g-fw
                                         | Edit Customer
                                 li
                                     a(href='/manage-customer/delete')
-                                        i.glyphicon.g-fw.glyphicon-minus
+                                        i.glyphicon.g-fw.glyphicon-minus.g-fw
                                         | Delete Customer
                         li
                             a(href='#manage-pitch', data-toggle='collapse', aria-expanded='false')
                                 // <i class="fa fa-fw fa-map-signs"></i>
-                                i.glyphicon.glyphicon-tent
-                                |                         Manage Pitches
+                                i.glyphicon.glyphicon-tent.g-fw
+                                | Manage Pitches
                             ul#manage-pitch.collapse.list-unstyled
                                 li
                                     a(href='/manage-pitch/add')
-                                        i.glyphicon.g-fw.glyphicon-plus
+                                        i.glyphicon.g-fw.glyphicon-plus.g-fw
                                         | Add Pitch
                                 li
                                     a(href='/manage-pitch/edit')
-                                        i.glyphicon.g-fw.glyphicon-pencil
+                                        i.glyphicon.g-fw.glyphicon-pencil.g-fw
                                         | Edit Pitch
                                 li
                                     a(href='/manage-pitch/delete')
-                                        i.glyphicon.g-fw.glyphicon-minus
+                                        i.glyphicon.g-fw.glyphicon-minus.g-fw
                                         | Delete Pitch
+                        li
+                            a(href="/help")
+                                i.glyphicon.glyphicon-info-sign.g-fw
+                                | Help
                 // Page Content Holder
                 #content
                     nav.navbar.navbar-default
@@ -94,19 +99,20 @@ html
                                 .col-md-6
                                     .navbar-header
                                         button#sidebarCollapse.btn.btn-info.navbar-btn(type='button')
-                                            i#chevron.fa.fa-fw.fa-chevron-left
+                                            i#chevron.fa.fa-fw.fa-chevron-left.g-fw
                                             span Menu
                                 .col-md-6
                                     .row
                                         p#today
                                     .row
                                         p#current-time
-                                            span.fa.
+                                            span.fa.fa-fw.fa-spinner.fa-pulse
                     block body-content
     block scripts
         // jQuery CDN
         script(src='https://code.jquery.com/jquery-1.12.0.min.js')
         script(src="js/ui.js")
+        script(src="js/hotkeys.js")
         // Bootstrap JS CDN
         script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
         script(type='text/javascript').
