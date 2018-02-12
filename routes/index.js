@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const mysql = require('../db/mysql');
 
 /* GET Home Page */
 router.get('/', function(req, res) {
+    mysql.connection.query("SELECT * FROM test", (err, rows, fields) => {
+        console.log(rows);
+        console.log(fields);
+    });
     res.render('dashboard', {title: 'Dashboard'});
 });
 

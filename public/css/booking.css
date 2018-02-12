@@ -50,10 +50,10 @@
     padding: 2px;
 }
 
-.available {
+.available-pitch {
     background-color: #76ff77;
 }
 
-.not-available {
+.not-available-pitch {
     background-color: #ff5547;
 }

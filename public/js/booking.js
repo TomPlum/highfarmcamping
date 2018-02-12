@@ -80,9 +80,9 @@ function populatePitchSelection() {
             } else {
                 let available = Math.floor(Math.random() * 2);
                 if (available === 0) {
-                    body += "<td class='available'>1</td>";
+                    body += "<td class='available-pitch'>1</td>";
                 } else {
-                    body += "<td class='not-available'>1</td>";
+                    body += "<td class='not-available-pitch'>1</td>";
                 }
             }
         }
