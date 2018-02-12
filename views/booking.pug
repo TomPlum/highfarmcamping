@@ -1,0 +1,70 @@
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/daterangepicker.css")
+    link(rel="stylesheet" href="css/booking.css")
+
+block append body-content
+    h2
+        span.glyphicon.glyphicon-book
+        |  Create a New Booking
+    p
+        | Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.
+    // Form Wraps Whole Container - Encapsulates Filter & Date Range
+    form(action='')
+        .container-fluid
+            .row
+                .col-md-6
+                    fiedset
+                        // Tent Filter Checkbox
+                        .form-group(class='[ ]')
+                            input#tent(type='checkbox', value='tent', name='pitch-type', autocomplete='off')
+                            .btn-group(class='[ ]')
+                                label.btn.btn-default(for='tent', class='[ ]')
+                                    span.glyphicon.glyphicon-ok(class='[ ]')
+                                    span
+                                label.btn.btn-default.active(for='tent', class='[ ]')
+                                    i.glyphicon.glyphicon-tent
+                                    |                                             Tent
+                        // Caravan Filter Checkbox
+                        .form-group(class='[ ]')
+                            input#caravan(type='checkbox', value='caravan', name='pitch-type', autocomplete='off')
+                            .btn-group(class='[ ]')
+                                label.btn.btn-default(for='caravan', class='[ ]')
+                                    span.glyphicon.glyphicon-ok(class='[ ]')
+                                    span
+                                label.btn.btn-default.active(for='caravan', class='[ ]')
+                                    span.fa.fa-fw.fa-car
+                                    |                                             Caravan
+                        // Motorhome Filter Checkbox
+                        .form-group(class='[ ]')
+                            input#motorhome(type='checkbox', value='motorhome', name='pitch-type', autocomplete='off')
+                            .btn-group(class='[ ]')
+                                label.btn.btn-default(for='motorhome', class='[ ]')
+                                    span.glyphicon.glyphicon-ok(class='[ ]')
+                                    span
+                                label.btn.btn-default.active(for='motorhome', class='[ ]')
+                                    span.fa.fa-fw.fa-truck
+                                    |                                             Motorhome
+                .col-md-6
+                    .row
+                        label(for='date-range') Select Date Range
+                        input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
+                    .row
+                        button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
+                            span.glyphicon.glyphicon-tent
+                            |  Find Pitch
+    // Available Pitches Output Here
+    .row.pitch-selection
+
+block append scripts
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js")
+    script(src="js/booking.js")
+    script(src="js/daterangepicker.js")
+    script(type="text/javascript").
+        $(function() {
+            $('input[name="date-range"]').daterangepicker({
+                "opens": "left",
+                "showDropdowns": true
+            });
+        });

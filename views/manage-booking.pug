@@ -1,0 +1,21 @@
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/manage-booking.css")
+
+block append body-content
+    h2
+        span.glyphicon.glyphicon-align-justify
+        |  Booking Management
+    p
+        | Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.
+    // Main Page Content
+    form(action='')
+        .container-fluid
+            .row
+                .pitch-booking-overview
+    // Available Pitches Output Here
+    .row.pitch-selection
+
+block append scripts
+    script(src="js/manage-booking.js")

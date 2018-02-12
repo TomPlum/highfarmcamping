@@ -1,0 +1,126 @@
+doctype html
+html
+    head
+        block head-meta
+            meta(charset='utf-8')
+            meta(name='viewport', content='width=device-width, initial-scale=1.0')
+            meta(http-equiv='X-UA-Compatible', content='IE=edge')
+
+            title !{title}
+        block fonts
+            script(defer='', src='https://use.fontawesome.com/releases/v5.0.6/js/all.js')
+
+        block stylesheets
+            link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+            link(rel='stylesheet', href='css/ui.css')
+
+    body
+        block navigation
+            .wrapper
+                // Sidebar Holder
+                nav#sidebar
+                    .sidebar-header
+                        h3 Camping Booking System
+                        strong CBS
+                    ul.list-unstyled.components
+                        li
+                            a(href='/')
+                                // <i class="fas fa-fw fa-tachometer-alt"></i>
+                                i.glyphicon.glyphicon-home
+                                |                         Dashboard
+                        li
+                            a(href='/book')
+                                // <i class="far fa-fw fa-calendar-alt"></i>
+                                i.glyphicon.glyphicon-book
+                                |                         Book Pitch
+                            a(href='#manage-booking', data-toggle='collapse', aria-expanded='false')
+                                // <i class="far fa-fw fa-clipboard"></i>
+                                i.glyphicon.glyphicon-paperclip
+                                |                         Manage Bookings
+                            ul#manage-booking.collapse.list-unstyled
+                                li
+                                    a(href='/manage-booking/overview')
+                                        i.glyphicon.g-fw.glyphicon-align-justify
+                                        | Bookings Overview
+                                li
+                                    a(href='/manage-booking/edit')
+                                        i.glyphicon.g-fw.glyphicon-pencil
+                                        | Edit Booking
+                                li
+                                    a(href='/manage-booking/delete')
+                                        i.glyphicon.g-fw.glyphicon-minus
+                                        | Delete Booking
+                        li
+                            a(href='#manage-customer', data-toggle='collapse', aria-expanded='false')
+                                // <i class="fa fa-fw fa-address-book"></i>
+                                i.glyphicon.glyphicon-user
+                                |                         Manage Customers
+                            ul#manage-customer.collapse.list-unstyled
+                                li
+                                    a(href='/manage-customer/add')
+                                        i.glyphicon.g-fw.glyphicon-plus
+                                        | Add Customer
+                                li
+                                    a(href='/manage-customer/edit')
+                                        i.glyphicon.g-fw.glyphicon-pencil
+                                        | Edit Customer
+                                li
+                                    a(href='/manage-customer/delete')
+                                        i.glyphicon.g-fw.glyphicon-minus
+                                        | Delete Customer
+                        li
+                            a(href='#manage-pitch', data-toggle='collapse', aria-expanded='false')
+                                // <i class="fa fa-fw fa-map-signs"></i>
+                                i.glyphicon.glyphicon-tent
+                                |                         Manage Pitches
+                            ul#manage-pitch.collapse.list-unstyled
+                                li
+                                    a(href='/manage-pitch/add')
+                                        i.glyphicon.g-fw.glyphicon-plus
+                                        | Add Pitch
+                                li
+                                    a(href='/manage-pitch/edit')
+                                        i.glyphicon.g-fw.glyphicon-pencil
+                                        | Edit Pitch
+                                li
+                                    a(href='/manage-pitch/delete')
+                                        i.glyphicon.g-fw.glyphicon-minus
+                                        | Delete Pitch
+                // Page Content Holder
+                #content
+                    nav.navbar.navbar-default
+                        .container-fluid
+                            .row
+                                .col-md-6
+                                    .navbar-header
+                                        button#sidebarCollapse.btn.btn-info.navbar-btn(type='button')
+                                            i#chevron.fa.fa-fw.fa-chevron-left
+                                            span Menu
+                                .col-md-6
+                                    .row
+                                        p#today
+                                    .row
+                                        p#current-time 00:00:00
+                    block body-content
+    block scripts
+        // jQuery CDN
+        script(src='https://code.jquery.com/jquery-1.12.0.min.js')
+        script(src="js/ui.js")
+        // Bootstrap JS CDN
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+        script(type='text/javascript').
+            $(document).ready(function () {
+                const sidebarCollapse = $('#sidebarCollapse');
+
+                //Collapses & Opens the sidebar menu upon clicking 'Menu'
+                sidebarCollapse.on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
+
+                //Menu Chevron Change on Click (The little arrow in the 'Menu' Button)
+                sidebarCollapse.on("click", function () {
+                    $("#chevron").toggleClass("fa-chevron-left").toggleClass("fa-chevron-right");
+                });
+            });
+
+
