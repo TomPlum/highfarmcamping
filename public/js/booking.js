@@ -1,8 +1,5 @@
 $(document).ready(function() {
-    $('#today').html(getToday());
-    setInterval(updateTime, 1000);
-
-    $("input:checkbox").on('click', function() {
+        $("input:checkbox").on('click', function() {
         // in the handler, 'this' refers to the box clicked on
         let $box = $(this);
         if ($box.is(":checked")) {
@@ -59,7 +56,7 @@ function populatePitchSelection() {
     const caravanIcon = "<span class='fa fa-car'></span>";
 
     let body = "";
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
         body += "<tr>";
         for (let j = 0; j < allDates.length + 1; j++) {
             //First Column (Pitch Details)

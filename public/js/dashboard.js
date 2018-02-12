@@ -1,5 +1,3 @@
-console.log("Loaded dashboard.js");
-
 function getToday() {
     const today = new Date();
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -53,3 +51,9 @@ function updateTime() {
 
     $('#current-time').html(HH + ":" + MM + ":" + SS);
 }
+
+$(document).ready(() => {
+    //Instantiate Date and Time on Navbar
+    $('#today').html(getToday());
+    setInterval(updateTime, 1000);
+});
