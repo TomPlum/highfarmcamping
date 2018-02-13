@@ -1,0 +1,7 @@
+extends structure
+
+block append body-content
+    .form-wrapper
+        form(action="/send-to-database" method="POST")
+            input(type="text" name="test_field")
+            button(type="submit") Submit
