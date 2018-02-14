@@ -49,7 +49,7 @@ router.post('/send-to-database', function(req, res) {
 });
 
 function createSqlString(dbname, columns, data) {
-    return mysql.connection.query("INSERT INTO ? (?) VALUES ?", [dbname, columns data], function(err, result) {
+    return mysql.connection.query("INSERT INTO ? (?) VALUES ?", [dbname, columns, data], function(err, result) {
 
     });
 }
