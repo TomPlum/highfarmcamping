@@ -30,6 +30,19 @@ router.get('/test', function(req, res) {
     res.render('test', {title: "Testing page"});
 });
 
+//POST DB Querie of the Customer-Overview
+//Maybe need to create a common solution for such queries
+router.post('/test-db', function(req, res) {
+    mysql.connection.query("SELECT  * FROM customers JOIN address JOIN customers_addresses  WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id;", function(err, rows) {
+        res.send(rows);
+    });
+});
+
+/*GET customer-overview */
+router.get('/customer-overview', function(req, res) {
+        res.render('customer-overview', {title: "Customer Overview"});
+});
+
 /* POST Test page */
 router.post('/send-to-database', function(req, res) {
    let test_field = req.body.test_field;
@@ -49,7 +62,7 @@ router.post('/send-to-database', function(req, res) {
 });
 
 function createSqlString(dbname, columns, data) {
-    return mysql.connection.query("INSERT INTO ? (?) VALUES ?", [dbname, columns data], function(err, result) {
+    return mysql.connection.query("INSERT INTO ? (?) VALUES ?", [dbname, columns, data], function(err, result) {
 
     });
 }

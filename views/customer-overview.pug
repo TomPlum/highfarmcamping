@@ -1,0 +1,23 @@
+extends structure
+
+block append body-content
+    h2
+        span.glyphicon.glyphicon-user
+        |  Customer Overview
+    p
+        | Show a list of all customers
+    p   !{data}
+
+
+    // Main Page Content
+    form(action='')
+        .container-fluid
+            .row
+                .customer-overview
+
+block append scripts
+    script(src="js/customer-overview.js")
+
+
+
+
