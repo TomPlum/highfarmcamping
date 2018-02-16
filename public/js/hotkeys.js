@@ -3,6 +3,7 @@
     //Ctrl 17
     //Shift 16
     //b 66
+    //c 67
     //d 68
     //m 77
 
@@ -22,7 +23,7 @@
             $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
             setTimeout(function() {
                 $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
-                }, 2000);
+            }, 2000);
         }
     }
 })(jQuery);

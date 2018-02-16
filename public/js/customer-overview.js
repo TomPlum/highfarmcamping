@@ -14,8 +14,11 @@ $(document).ready(() => {
                 customer = dataP;
                 customer = addressGenerator(customer);
                 createTable();
-            }
-        });
+            },
+            error: function (error)
+            {
+                console.log("Error receiving data from the database")
+            }        });
     }
 
     /**
