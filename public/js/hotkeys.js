@@ -18,6 +18,11 @@
             setTimeout(function() {
                 $(".hotkeys").find(".ctrl-b").toggleClass("active-hotkey");
             }, 2000);
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 67) {
+            $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
+            setTimeout(function() {
+                $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
+                }, 2000);
         }
     }
 })(jQuery);

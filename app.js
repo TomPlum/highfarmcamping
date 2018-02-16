@@ -29,6 +29,7 @@ app.use(rootRoutes, express.static(path.join(__dirname, 'public'))); //For /x
 const index = require('./routes/index');
 const manage_bookings = require('./routes/manage-bookings');
 
+//This gives the functionality to manage branches to index.js
 app.use('/', index);
 app.use('/manage-booking', manage_bookings);
 
