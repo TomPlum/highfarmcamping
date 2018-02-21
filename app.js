@@ -25,34 +25,38 @@ app.use(express.static(path.join(__dirname, 'public'))); // For /
 app.use(rootRoutes, express.static(path.join(__dirname, 'public'))); //For /x
 
 
+const rootRoutesTwo = ["/manage-customer"];
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(rootRoutesTwo, express.static(path.join(__dirname, 'public')));
+
 //Page Routing
 const index = require('./routes/index');
 const manage_bookings = require('./routes/manage-bookings');
+const manage_customers = require('./routes/manage-customers');
 
-//This gives the functionality to manage branches to index.js
 app.use('/', index);
 app.use('/manage-booking', manage_bookings);
-
+app.use('/manage-customer', manage_customers);
 
 //Handle 404
 app.use(function(req, res) {
-	res.status(404);
-	res.render('error', {
-		title: '404 - Page Not Found', 
-		desc: 'Page Not Found',
-		error: 404
-	});
+    res.status(404);
+    res.render('error', {
+        title: '404 - Page Not Found',
+        desc: 'Page Not Found',
+        error: 404
+    });
 });
 
 //Handle 500 - Must have an arity of 4, otherwise express falls back to default error handling
 app.use(function(err, req, res, next) {
-	res.status(500);
-	console.log(err);
-	res.render('error', {
-	  	title: '500 - Internal Server Error',
-	  	desc: 'Internal Server Error',
-	  	error: 500
-	});
+    res.status(500);
+    console.log(err);
+    res.render('error', {
+        title: '500 - Internal Server Error',
+        desc: 'Internal Server Error',
+        error: 500
+    });
 });
 
 //Export App
