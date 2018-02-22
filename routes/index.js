@@ -30,17 +30,40 @@ router.get('/test', function(req, res) {
     res.render('test', {title: "Testing page"});
 });
 
-//POST DB Querie of the Customer-Overview
+//POST DB Query of the Customer-Overview
 //Maybe need to create a common solution for such queries
-router.post('/test-db', function(req, res) {
-    mysql.connection.query("SELECT  * FROM customers JOIN address JOIN customers_addresses  WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id;", function(err, rows) {
-        res.send(rows);
-    });
+    router.post('/test-db', function(req, res) {
+        mysql.connection.query("SELECT  * FROM customers ORDER BY customer_id;", function(err, rows) {
+            console.log(err);
+            res.send(rows);
+        });
 });
+//POST DB Query of the Customer-Overview
+//Maybe need to create a common solution for such queries
+router.post('/insert-customer', function(req, res) {
+  //  let obj={};
+  //  obj=req.body;
+  //  console.log(obj.query);
+    console.log(req.body.query);
+    mysql.connection.query(req.body.query, function(err,rows){
+        res.send();
+        console.log(err);
+    });
+
+   // mysql.connection.query("", function(err, rows) {
+     //   res.send(rows);
+    //});
+});
+
 
 /*GET customer-overview */
 router.get('/customer-overview', function(req, res) {
         res.render('customer-overview', {title: "Customer Overview"});
+});
+
+/*GET customer-addform */
+router.get('/addcustomer', function(req, res) {
+    res.render('addcustomer', {title: "Add Customer"});
 });
 
 /* POST Test page */

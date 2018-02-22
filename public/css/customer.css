@@ -1,0 +1,18 @@
+.alertBox{
+    height: 120px;
+    position: absolute;
+    z-index: 3;
+    color: black;
+    margin-top: 80px;
+    text-align: center;
+}
+
+#divDisabledBackground {
+    z-index:2;
+    background: gray;
+    opacity: 0.5;           /* muss man ausprobieren! */
+}
+
+.p{
+    color: black;
+}

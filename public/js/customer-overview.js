@@ -1,8 +1,60 @@
 $(document).ready(() => {
 
+    /**
+     * TODO First insert after Serverstart happens twice
+     * TODO DB data is inserted at id 6**
+     *
+     *
+     */
+
     let customer = [];
 
     getDataFromDB();
+
+
+    $('#btnAddCustomer').click(function () {
+
+        let query= "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\""+
+            document.forms[0].first_name.value + "\",\""+
+            document.forms[0].last_name.value + "\",\""+
+            dateConverter(document.forms[0].date_of_birth.value)+ "\",\""+
+            document.forms[0].email_address.value + "\",\""+
+            document.forms[0].home_phone_number.value + "\",\""+
+            document.forms[0].mobile_phone_number.value + "\",\""+
+            document.forms[0].registration.value + "\",\""+
+            document.forms[0].address_line_1.value + "\",\""+
+            document.forms[0].address_line_2.value + "\");";
+
+        $.ajax({
+            url: "/insert-customer",
+            type: "POST",
+            data: {"query": query},
+            success: function (err, rows) {
+                $.getElementById("greyOut").addClass("divDisabledBackground");
+            },
+            error: function (error)
+            {
+                console.log("Error inserting date into the database",error)
+            }        });
+
+
+
+        }
+    );
+
+    function dateConverter(date){               //convert input date into database suitable date
+        let d = date.substring(0, 2);
+        let m = date.substring(3,5);
+        let y = date.substring(6,10);
+        return(y +"-"+m+"-"+d);
+
+
+
+    }
+
+    $('#alertBoxBtn').click(function () {
+        window.location.href="/customer-overview";
+    });
 
 
     function getDataFromDB() {
@@ -12,13 +64,16 @@ $(document).ready(() => {
             type: "POST",
             success: function (dataP) {
                 customer = dataP;
-                customer = addressGenerator(customer);
+                console.log(customer);
+                // don´t needed anymore since addresses are in the customer table
+                // customer = addressGenerator(customer);
                 createTable();
             },
             error: function (error)
             {
                 console.log("Error receiving data from the database")
-            }        });
+            }
+        });
     }
 
     /**
@@ -39,6 +94,7 @@ $(document).ready(() => {
             "<th>Date of Birth</th>" +
             "<th>E-Mail</th>" +
             "<th>Address</th>" +
+            "<th>Registration</th>" +
             "<th>Home Phone</th>" +
             "<th>Mobile Phone</th>" +
             "</tr>" +
@@ -52,7 +108,8 @@ $(document).ready(() => {
             tBody += "<td>" + customer[i].last_name + "</td>";
             tBody += "<td>" + formatDate(customer[i].date_of_birth) + "</td>";
             tBody += "<td>" + customer[i].email_address + "</td>";
-            tBody += "<td>" + customer[i].address_line_1 + "</td>";
+            tBody += "<td>" + customer[i].address_line_1+"<br>" +customer[i].address_line_2+ "</td>";
+            tBody += "<td>" + customer[i].registration + "</td>";
             tBody += "<td>" + customer[i].home_phone_number + "</td>";
             tBody += "<td>" + customer[i].mobile_phone_number + "</td>";
             tBody += "</tr>";
@@ -131,6 +188,11 @@ $(document).ready(() => {
         }
         return returnObject;
     }
+
+
+
+
+
 });
 
 

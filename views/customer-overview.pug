@@ -1,12 +1,22 @@
 extends structure
 
+block append stylesheets
+    link(rel="stylesheet" href="css/customer.css")
+    link(rel="stylesheet" href="css/ui.css")
+
 block append body-content
     h2
         span.glyphicon.glyphicon-user
         |  Customer Overview
-    p
-        | Show a list of all customers
-    p   !{data}
+
+        p
+            .row
+                .col-md-2
+                    button.form-control.btn-info(type='button', onclick="location.href='/addcustomer'")
+                        span.glyphicon.glyphicon-add
+                        span Add Customer
+
+
 
 
     // Main Page Content
