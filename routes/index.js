@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('../db/mysql');
 
+/*************************************/
+/* --- Get Pages --------------------*/
+/*************************************/
+
 /* GET Home Page */
 router.get('/', function(req, res) {
     mysql.connection.query("SELECT * FROM bookings", (err, rows, fields) => {
@@ -30,40 +34,38 @@ router.get('/test', function(req, res) {
     res.render('test', {title: "Testing page"});
 });
 
-//POST DB Query of the Customer-Overview
-//Maybe need to create a common solution for such queries
-    router.post('/test-db', function(req, res) {
-        mysql.connection.query("SELECT  * FROM customers ORDER BY customer_id;", function(err, rows) {
-            console.log(err);
-            res.send(rows);
-        });
-});
-//POST DB Query of the Customer-Overview
-//Maybe need to create a common solution for such queries
-router.post('/insert-customer', function(req, res) {
-  //  let obj={};
-  //  obj=req.body;
-  //  console.log(obj.query);
-    console.log(req.body.query);
-    mysql.connection.query(req.body.query, function(err,rows){
-        res.send();
-        console.log(err);
-    });
-
-   // mysql.connection.query("", function(err, rows) {
-     //   res.send(rows);
-    //});
-});
-
-
 /*GET customer-overview */
 router.get('/customer-overview', function(req, res) {
-        res.render('customer-overview', {title: "Customer Overview"});
+    res.render('customer-overview', {title: "Customer Overview"});
 });
 
 /*GET customer-addform */
 router.get('/addcustomer', function(req, res) {
     res.render('addcustomer', {title: "Add Customer"});
+});
+
+/*************************************/
+/* --- Post DB Access ---------------*/
+/*************************************/
+
+//POST DB Query of the Customer-Overview
+router.post('/get-customers', function(req, res) {
+    mysql.connection.query("SELECT  * FROM customers ORDER BY customer_id;", function(err, rows) {
+        if(err){
+            console.log(err);
+        }else{
+            res.send(rows);
+        }
+    });
+});
+
+//POST DB Query of add customer
+router.post('/insert-customer', function(req, res) {
+    console.log(req.body.query);
+    mysql.connection.query(req.body.query, function(err,rows){
+        res.send();
+        console.log(err);
+    });
 });
 
 /* POST Test page */

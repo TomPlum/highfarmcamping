@@ -4,20 +4,27 @@ $(document).ready(() => {
      * TODO Problem: DB data is inserted at id 6**
      * TODO Comment the code
      * TODO Prevent SQL Injection and Escape the inputs
+     * TODO Security problems?
      */
 
-    // Global Variables
-    //***********************************************
+
+
+    // Global variables
+    //*********************************************************
     let customer = [];
 
+    //Hold the input errors
     let errors = [];
 
 
     // Add customer
     //***********************************************
 
+    // Listen on the "add customer" button
     $('#btnAddCustomer').click(function () {
+
         let valide = validityCheck();
+
         if(valide){
             let query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
                 document.forms[0].first_name.value + "\",\"" +
@@ -53,6 +60,7 @@ $(document).ready(() => {
         }
     });
 
+    // Listen on the "alert box" button
     $('#alertBoxBtn').click(function () {
         window.location.href="/customer-overview";
     });
@@ -65,10 +73,15 @@ $(document).ready(() => {
 
     }
 
+    /**
+     * Validate the form inputs
+     * @returns {boolean} true=inputs valid; false=inputs invalid;
+     */
     function validityCheck(){
-        let validity = true;
-        errors = [];
 
+        let validity = true;
+
+        //Validate inputs
         if(document.forms[0].first_name.value == ""){
             validity = false;
             $('input[name=first_name]').addClass("errorInput");
@@ -104,17 +117,15 @@ $(document).ready(() => {
             $('input[name=address_line_1]').removeClass("errorInput");
         }
 
-
-        /*
-        if(!validity){
-            errors.push("The red fields shouldn´t be empty!")
-        }
-        */
-
         return validity;
 
     };
 
+    /**
+     * Validate the date
+     * @param input date
+     * @returns {boolean} true=date is valid; false=date is invalid;
+     */
     function dateValidityCheck(date) {
 
         let validity = true;
@@ -146,6 +157,11 @@ $(document).ready(() => {
 
     }
 
+    /**
+     * Validate the email address
+     * @param email
+     * @returns {boolean} true=email is valid; false=email is invalid;
+     */
     function emailValidityCheck(email) {
 
         let validity = true;
@@ -180,7 +196,7 @@ $(document).ready(() => {
     function getDataFromDB() {
         //Ajax Call to the DB
         $.ajax({
-            url: "/test-db",
+            url: "/get-customers",
             type: "POST",
             success: function (dataP) {
                 customer = dataP;
