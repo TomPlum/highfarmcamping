@@ -16,8 +16,11 @@ block append body-content
                         span.glyphicon.glyphicon-add
                         span Add Customer
 
-
-
+                            //the jquery button for edit doesnt work yet
+                .col-md-2
+                    button.form-control.btn-info(type='button', id="Edit", onclick="location.href='/editcustomer'")
+                        span.glyphicon.glyphicon-add
+                        span Edit Customer
 
     // Main Page Content
     form(action='')

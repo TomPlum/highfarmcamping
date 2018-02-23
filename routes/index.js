@@ -44,6 +44,11 @@ router.get('/addcustomer', function(req, res) {
     res.render('addcustomer', {title: "Add Customer"});
 });
 
+/*GET customer-editform */
+router.get('/editcustomer', function(req, res) {
+    res.render('editcustomer', {title: "Edit Customer"});
+});
+
 /*************************************/
 /* --- Post DB Access ---------------*/
 /*************************************/

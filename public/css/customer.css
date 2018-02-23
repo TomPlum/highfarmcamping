@@ -30,3 +30,8 @@ input{
 .errorInput{
     border : 2px solid red;
 }
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}

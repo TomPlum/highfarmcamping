@@ -1,6 +1,8 @@
 $(document).ready(() => {
 
     /**
+     * TODO The UPDATE fuctionality somehow does not work yet!
+     *
      * TODO Problem: DB data is inserted at id 6**
      * TODO Comment the code
      * TODO Prevent SQL Injection and Escape the inputs
@@ -13,8 +15,18 @@ $(document).ready(() => {
     //*********************************************************
     let customer = [];
 
+
     //Hold the input errors
     let errors = [];
+
+    // Edit customer
+    //***********************************************
+    let edit_row_value;
+    if(localStorage.getItem("selectedRow")){
+        edit_row_value = localStorage.getItem("selectedRow");
+    }else{
+        localStorage.setItem("selectedRow","");
+    }
 
 
     // Add customer
@@ -60,6 +72,50 @@ $(document).ready(() => {
         }
     });
 
+    // Update customer
+    //***********************************************
+
+    // Listen on the "Update customer" button
+    $('#btnUpdateCustomer').click(function () {
+
+        let valide = validityCheck();
+
+        if(valide){
+            let query = "UPDATE customers SET first_name = \"" +
+                document.forms[0].first_name.value + "\",last_name = \""+
+                document.forms[0].last_name.value + "\",date_of_birth = \""+
+                dateConverter(document.forms[0].date_of_birth.value) + "\",email_address = \""+
+                document.forms[0].email_address.value + "\",home_phone_number = \""+
+                document.forms[0].home_phone_number.value + "\",mobile_phone_number = \""+
+                document.forms[0].mobile_phone_number.value + "\",registration = \""+
+                document.forms[0].registration.value + "\",address_line_1 = \""+
+                document.forms[0].address_line_1.value + "\",address_line_2 = \""+
+                document.forms[0].address_line_2.value + "\");";
+
+            $.ajax({
+                url: "/insert-customer",
+                type: "POST",
+                data: {"query": query},
+                success: function (err, rows) {
+
+                },
+                error: function (error) {
+                    console.log("Error inserting date into the database", error)
+                }
+            });
+
+            $("#addCustomerForm").css("visibility","hidden");
+            $("#alertBoxContainer").css("visibility","visible");
+        }else{
+            $('#error').text("");
+            for (let error of errors){
+                $('#error').append(error+"<br>");
+            }
+
+        }
+    });
+
+
     // Listen on the "alert box" button
     $('#alertBoxBtn').click(function () {
         window.location.href="/customer-overview";
@@ -71,6 +127,13 @@ $(document).ready(() => {
         let y = date.substring(6,10);
         return(y +"-"+m+"-"+d);
 
+    }
+
+    function dateConverter2Slashes(date){
+        let d = date.substring(8, 10);
+        let m = date.substring(5,7);
+        let y = date.substring(0,4);
+        return(d + "/" +m+ "/"+y);
     }
 
     /**
@@ -170,8 +233,7 @@ $(document).ready(() => {
         if (email.indexOf("@")==0 || email.indexOf("@")==-1 || email.indexOf(".",email.indexOf("@"))==-1 || email.indexOf(".")+1==email.length){
             validity = false;
         }else if(!(email.indexOf(("."),email.indexOf("@"))>email.indexOf("@")+1)){
-            console.log(email.indexOf(email.indexOf("@"),(".")));
-            console.log(email.indexOf("@")+1);
+
 
             validity = false;
         }
@@ -186,6 +248,33 @@ $(document).ready(() => {
 
     }
 
+    // Edit Customer
+    //***********************************************
+
+
+    function insertDataInFields(){
+        console.log(localStorage.getItem("selectedRow"));
+
+            //edit_row_value = parseInt(localStorage.getItem("selectedRow"));
+            //if edit_row_value = NULL
+            for (let customer1 of customer){
+                if (customer1.customer_id == parseInt(edit_row_value)){
+                    $('input[name=first_name]').val(customer1.first_name);
+                    $('input[name=last_name]').val(customer1.last_name);
+                    $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
+                    $('input[name=email_address]').val(customer1.email_address);
+                    $('input[name=address_line_1]').val(customer1.address_line_1);
+                    $('input[name=address_line_2]').val(customer1.address_line_2);
+                    $('input[name=registration]').val(customer1.registration);
+                    $('input[name=home_phone_number]').val(customer1.home_phone_number);
+                    $('input[name=mobile_phone_number]').val(customer1.mobile_phone_number);
+                }
+            }
+
+
+
+
+    }
 
 
     // Customer Overview
@@ -200,10 +289,12 @@ $(document).ready(() => {
             type: "POST",
             success: function (dataP) {
                 customer = dataP;
-                console.log(customer);
-                // don´t needed anymore since addresses are in the customer table
-                // customer = addressGenerator(customer);
                 createTable();
+                if(window.location.pathname.match("editcustomer")){
+
+                    insertDataInFields();
+                }
+
             },
             error: function (error)
             {
@@ -249,13 +340,31 @@ $(document).ready(() => {
             tBody += "<td>" + customer[i].home_phone_number + "</td>";
             tBody += "<td>" + customer[i].mobile_phone_number + "</td>";
             tBody += "</tr>";
-
         }
 
         tBody += "</tbody>";
 
 
         $(".customer-overview").html(oTable + headers + tBody + cTable);
+
+        /**
+         * We want send the data of a row clicked to the edit button*/
+
+        $(".customer-overview tr").click(function(){
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var value=$(this).find('td:first').html();
+        });
+
+        $('#Edit').on('click', function(){
+            edit_row_value = $(".customer-overview tr.selected td:first").html();
+            //alert(edit_row_value);
+            localStorage.setItem("selectedRow", edit_row_value);
+
+
+        });
+
+        /**
+         * End of "We want send the data of a row clicked to the edit button*/
 
     }
 
