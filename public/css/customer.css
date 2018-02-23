@@ -7,12 +7,26 @@
     text-align: center;
 }
 
-#divDisabledBackground {
-    z-index:2;
-    background: gray;
-    opacity: 0.5;           /* muss man ausprobieren! */
+#alertBoxContainer{
+    visibility: hidden;
 }
 
 .p{
     color: black;
+}
+
+label{
+    text-align: end;
+}
+
+input{
+    width: 75%;
+}
+
+#error{
+    color: red;
+}
+
+.errorInput{
+    border : 2px solid red;
 }
