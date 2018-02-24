@@ -1,12 +1,13 @@
 $(document).ready(() => {
 
     /**
-     * TODO The UPDATE fuctionality somehow does not work yet!
-     *
      * TODO Problem: DB data is inserted at id 6**
      * TODO Comment the code
      * TODO Prevent SQL Injection and Escape the inputs
      * TODO Security problems?
+     * TODO labels of buttons should be visible
+     * TODO Search text field design and engine optimization
+     * TODO Instead of UPDATe Customer edit customer?
      */
 
 
@@ -22,11 +23,13 @@ $(document).ready(() => {
     // Edit customer
     //***********************************************
     let edit_row_value;
+    //let delete_row_value;
     if(localStorage.getItem("selectedRow")){
         edit_row_value = localStorage.getItem("selectedRow");
     }else{
         localStorage.setItem("selectedRow","");
     }
+
 
 
     // Add customer
@@ -90,7 +93,7 @@ $(document).ready(() => {
                 document.forms[0].mobile_phone_number.value + "\",registration = \""+
                 document.forms[0].registration.value + "\",address_line_1 = \""+
                 document.forms[0].address_line_1.value + "\",address_line_2 = \""+
-                document.forms[0].address_line_2.value + "\");";
+                document.forms[0].address_line_2.value + "\" WHERE customer_id = \""+edit_row_value + "\";";
 
             $.ajax({
                 url: "/insert-customer",
@@ -100,7 +103,7 @@ $(document).ready(() => {
 
                 },
                 error: function (error) {
-                    console.log("Error inserting date into the database", error)
+                    console.log("Error inserting data into the database", error)
                 }
             });
 
@@ -115,6 +118,24 @@ $(document).ready(() => {
         }
     });
 
+    // Listen on the "Delete Customer" button
+
+    $('#btnDeleteCustomer').click(function () {
+            $.ajax({
+                url: "/delete-customer",
+                type: "POST",
+                data: {"ID": edit_row_value},
+                success: function (err, rows) {
+                    console.log("Deleting successful");
+                },
+                error: function (error) {
+                    console.log("Error deleting data from database", error)
+                }
+            });
+
+            $("#deleteCustomerSection").css("visibility","hidden");
+            $("#alertBoxContainer").css("visibility","visible");
+    });
 
     // Listen on the "alert box" button
     $('#alertBoxBtn').click(function () {
@@ -284,23 +305,38 @@ $(document).ready(() => {
 
     function getDataFromDB() {
         //Ajax Call to the DB
-        $.ajax({
-            url: "/get-customers",
-            type: "POST",
-            success: function (dataP) {
-                customer = dataP;
-                createTable();
-                if(window.location.pathname.match("editcustomer")){
+        // If page deletecustomer: we invoke Ajax call for getting a single customer
+        if(!window.location.pathname.match("deletecustomer")) {
+            $.ajax({
+                url: "/get-customers",
+                type: "POST",
+                success: function (dataP) {
+                    customer = dataP;
+                    createTable();
+                    if (window.location.pathname.match("editcustomer")) {
 
-                    insertDataInFields();
+                        insertDataInFields();
+                    }
+                },
+                error: function (error) {
+                    console.log("Error receiving data from the database")
                 }
-
-            },
-            error: function (error)
-            {
-                console.log("Error receiving data from the database")
-            }
-        });
+            });
+        }else
+        {
+            $.ajax({
+                url: "/get-customer",
+                type: "POST",
+                data: {"ID": edit_row_value},
+                success: function (dataP) {
+                    customer = dataP;
+                    createTable();
+                },
+                error: function (error) {
+                    console.log("Error receiving data from the database")
+                }
+            });
+        }
     }
 
     /**
@@ -357,10 +393,11 @@ $(document).ready(() => {
 
         $('#Edit').on('click', function(){
             edit_row_value = $(".customer-overview tr.selected td:first").html();
-            //alert(edit_row_value);
+            localStorage.setItem("selectedRow", edit_row_value);});
+
+        $('#Delete').on('click', function(){
+            edit_row_value = $(".customer-overview tr.selected td:first").html();
             localStorage.setItem("selectedRow", edit_row_value);
-
-
         });
 
         /**

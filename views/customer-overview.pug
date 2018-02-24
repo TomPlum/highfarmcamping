@@ -15,21 +15,47 @@ block append body-content
                     button.form-control.btn-info(type='button', onclick="location.href='/addcustomer'")
                         span.glyphicon.glyphicon-add
                         span Add Customer
-
                             //the jquery button for edit doesnt work yet
                 .col-md-2
                     button.form-control.btn-info(type='button', id="Edit", onclick="location.href='/editcustomer'")
                         span.glyphicon.glyphicon-add
                         span Edit Customer
-
+                .col-md-2
+                    button.form-control.btn-info(type='button', id="Delete", onclick="location.href='/deletecustomer'")
+                        span.glyphicon.glyphicon-add
+                        span Delete Customer
+                .col-md-2
+                    input(type='text', onkeyup='filterCustomersTable()', placeholder='Search customer by ID', id='customer_id')
     // Main Page Content
     form(action='')
         .container-fluid
             .row
-                .customer-overview
+                .customer-overview#customerTable
 
 block append scripts
     script(src="js/customer-overview.js")
+    script(type="text/javascript").
+
+        function filterCustomersTable() {
+            var id = document.getElementById("customer_id").value;
+            var table = document.getElementById("customerTable");
+            var tr = table.getElementsByTagName("tr");
+            var i=0;
+            var td;
+            // Go through all table rows and search for row with desired ID
+           for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if(td) {
+                    if(td.innerHTML.indexOf(id)> -1)
+                    {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
 
 
 

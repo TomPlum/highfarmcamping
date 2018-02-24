@@ -35,3 +35,16 @@ input{
     background-color: brown;
     color: #FFF;
 }
+
+#customer_id{
+    color: blue;
+    height: 30px;
+    width: 175px;
+    font-size: 15px;
+    border: 2px solid blue;
+    border-radius: 5px;
+}
+::placeholder {
+    color: blue;
+    font-size: 15px;
+}

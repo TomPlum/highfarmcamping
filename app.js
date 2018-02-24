@@ -25,18 +25,12 @@ app.use(express.static(path.join(__dirname, 'public'))); // For /
 app.use(rootRoutes, express.static(path.join(__dirname, 'public'))); //For /x
 
 
-const rootRoutesTwo = ["/manage-customer"];
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(rootRoutesTwo, express.static(path.join(__dirname, 'public')));
-
 //Page Routing
 const index = require('./routes/index');
 const manage_bookings = require('./routes/manage-bookings');
-const manage_customers = require('./routes/manage-customers');
 
 app.use('/', index);
 app.use('/manage-booking', manage_bookings);
-app.use('/manage-customer', manage_customers);
 
 //Handle 404
 app.use(function(req, res) {
