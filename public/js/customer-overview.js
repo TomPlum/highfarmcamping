@@ -18,14 +18,12 @@ $(document).ready(() => {
     //Hold the input errors
     let errors = [];
 
-    // Edit customer
+    // Edit and delete customer
     //***********************************************
-    let edit_row_value;
+    let selected_row_value;
 
-    // Delete customer
-    //***********************************************
     if(localStorage.getItem("selectedRow")){
-        edit_row_value = localStorage.getItem("selectedRow");
+        selected_row_value = localStorage.getItem("selectedRow");
     }else{
         localStorage.setItem("selectedRow","");
     }
@@ -95,7 +93,7 @@ $(document).ready(() => {
                 document.forms[0].mobile_phone_number.value + "\",registration = \""+
                 document.forms[0].registration.value + "\",address_line_1 = \""+
                 document.forms[0].address_line_1.value + "\",address_line_2 = \""+
-                document.forms[0].address_line_2.value + "\" WHERE customer_id = \""+edit_row_value + "\";";
+                document.forms[0].address_line_2.value + "\" WHERE customer_id = \""+selected_row_value + "\";";
 
             $.ajax({
                 url: "/insert-customer",
@@ -120,13 +118,13 @@ $(document).ready(() => {
         }
     });
 
-    // Listen on the "Delete Customer" button
+    // Listen on the "Delete Customer" button and invoke SQL delete statement when clicking
 
     $('#btnDeleteCustomer').click(function () {
             $.ajax({
                 url: "/delete-customer",
                 type: "POST",
-                data: {"ID": edit_row_value},
+                data: {"ID": selected_row_value},
                 success: function (err, rows) {
                     console.log("Deleting successful");
                 },
@@ -272,8 +270,8 @@ $(document).ready(() => {
     }
 
     function goToEditCustomer() {
-        console.log(edit_row_value);
-        if(edit_row_value!=undefined){
+        console.log(selected_row_value);
+        if(selected_row_value!=undefined){
             window.location = "/editcustomer";
         }
     }
@@ -281,10 +279,10 @@ $(document).ready(() => {
     function insertDataInFields(){
         console.log(localStorage.getItem("selectedRow"));
 
-        //edit_row_value = parseInt(localStorage.getItem("selectedRow"));
-        //if edit_row_value = NULL
+        //selected_row_value = parseInt(localStorage.getItem("selectedRow"));
+        //if selected_row_value = NULL
         for (let customer1 of customer){
-            if (customer1.customer_id == parseInt(edit_row_value)){
+            if (customer1.customer_id == parseInt(selected_row_value)){
                 $('input[name=first_name]').val(customer1.first_name);
                 $('input[name=last_name]').val(customer1.last_name);
                 $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
@@ -307,7 +305,7 @@ $(document).ready(() => {
     //***********************************************
     function goToDeleteCustomer(){
 
-        if(edit_row_value!=undefined){
+        if(selected_row_value!=undefined){
             window.location = "/deletecustomer";
         }
 
@@ -343,7 +341,7 @@ $(document).ready(() => {
             $.ajax({
                 url: "/get-customer",
                 type: "POST",
-                data: {"ID": edit_row_value},
+                data: {"ID": selected_row_value},
                 success: function (dataP) {
                     customer = dataP;
                     createTable();
@@ -431,16 +429,16 @@ $(document).ready(() => {
 
 
         $('#Edit').on('click', function(){
-            edit_row_value = $(".customer-overview tr.selected td:first").html();
-            localStorage.setItem("selectedRow", edit_row_value);
+            selected_row_value = $(".customer-overview tr.selected td:first").html();
+            localStorage.setItem("selectedRow", selected_row_value);
 
             goToEditCustomer();
 
         });
 
         $('#Delete').on('click', function(){
-            edit_row_value = $(".customer-overview tr.selected td:first").html();
-            localStorage.setItem("selectedRow", edit_row_value);
+            selected_row_value = $(".customer-overview tr.selected td:first").html();
+            localStorage.setItem("selectedRow", selected_row_value);
 
             goToDeleteCustomer();
 
@@ -516,6 +514,28 @@ $(document).ready(() => {
         }
         return returnObject;
     }
+
+    // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
+
+    $('#customer_id').keyup(function(){
+        var id = document.getElementById("customer_id").value;
+        var table = document.getElementById("customerTable");
+        var tr = table.getElementsByTagName("tr");
+        var i=0;
+        var td;
+        // Go through all table rows and search for row with desired ID
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if(td) {
+                if(td.innerHTML.indexOf(id)> -1)
+                {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
 
 });
 
