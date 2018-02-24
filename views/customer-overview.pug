@@ -27,7 +27,7 @@ block append body-content
             .row
                 .col-md-12
                     br
-                    input.form-control.input(type='text', onkeyup='filterCustomersTable()', placeholder='Search customer by ID', id='customer_id')
+                    input.form-control.input(type='text', placeholder='Search customer by ID', id='customer_id')
     // Main Page Content
     form(action='')
         .container-fluid
@@ -36,27 +36,7 @@ block append body-content
 
 block append scripts
     script(src="js/customer-overview.js")
-    script(type="text/javascript").
 
-        function filterCustomersTable() {
-            var id = document.getElementById("customer_id").value;
-            var table = document.getElementById("customerTable");
-            var tr = table.getElementsByTagName("tr");
-            var i=0;
-            var td;
-            // Go through all table rows and search for row with desired ID
-           for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if(td) {
-                    if(td.innerHTML.indexOf(id)> -1)
-                    {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
 
 
 
