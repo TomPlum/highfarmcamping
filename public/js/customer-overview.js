@@ -1,12 +1,11 @@
 $(document).ready(() => {
 
     /**
-     * TODO Problem: DB data is inserted at id 6**
-     * TODO Comment the code
      * TODO Prevent SQL Injection and Escape the inputs
      * TODO Security problems?
      * TODO Search text: maybe not just the id
      * TODO Instead of UPDATe Customer edit customer?
+     * TODO Improve row selecting
      */
 
 
@@ -400,13 +399,36 @@ $(document).ready(() => {
 
         $(".customer-overview").html(oTable + headers + tBody + cTable);
 
+
+        /*
+        *************************************
+        DO NOT DELETE! Flos code ...
+
+
+        var rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        for (i = 0; i < rows.length; i++) {
+            rows[i].addEventListener('click', function() {
+
+                edit_row_value = console.log(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML);
+
+                for (i = 0; i < rows.length; i++) {
+                    this.classList.remove('selected');
+                }
+                //this.classList.toggle('selected');
+            });
+        }
+        */
+
         /**
          * We want send the data of a row clicked to the edit button*/
+
+
 
         $(".customer-overview tr").click(function(){
             $(this).addClass('selected').siblings().removeClass('selected');
             var value=$(this).find('td:first').html();
         });
+
 
         $('#Edit').on('click', function(){
             edit_row_value = $(".customer-overview tr.selected td:first").html();
