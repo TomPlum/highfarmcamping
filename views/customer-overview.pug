@@ -11,21 +11,23 @@ block append body-content
 
         p
             .row
-                .col-md-2
+                .col-md-3
                     button.form-control.btn-info(type='button', onclick="location.href='/addcustomer'")
                         span.glyphicon.glyphicon-add
                         span Add Customer
                             //the jquery button for edit doesnt work yet
-                .col-md-2
-                    button.form-control.btn-info(type='button', id="Edit", onclick="location.href='/editcustomer'")
+                .col-md-3
+                    button.form-control.btn-info(type='button', id="Edit")
                         span.glyphicon.glyphicon-add
                         span Edit Customer
-                .col-md-2
-                    button.form-control.btn-info(type='button', id="Delete", onclick="location.href='/deletecustomer'")
+                .col-md-3
+                    button.form-control.btn-info(type='button', id="Delete")
                         span.glyphicon.glyphicon-add
                         span Delete Customer
-                .col-md-2
-                    input(type='text', onkeyup='filterCustomersTable()', placeholder='Search customer by ID', id='customer_id')
+            .row
+                .col-md-12
+                    br
+                    input.form-control.input(type='text', onkeyup='filterCustomersTable()', placeholder='Search customer by ID', id='customer_id')
     // Main Page Content
     form(action='')
         .container-fluid

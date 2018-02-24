@@ -54,15 +54,11 @@ html
                                         i.glyphicon.glyphicon-minus
                                         | Delete Booking
                         li
-                            a(href='#manage-customer', data-toggle='collapse', aria-expanded='false')
+                            a(href='/customer-overview', aria-expanded='false')
                                 // <i class="fa fa-fw fa-address-book"></i>
                                 i.glyphicon.glyphicon-user
                                 | Manage Customers
-                            ul#manage-customer.collapse.list-unstyled
-                                li
-                                    a(href='/customer-overview')
-                                        i.glyphicon.glyphicon-align-justify
-                                        | Customer Overview
+
                         li
                             a(href='#manage-pitch', data-toggle='collapse', aria-expanded='false')
                                 // <i class="fa fa-fw fa-map-signs"></i>

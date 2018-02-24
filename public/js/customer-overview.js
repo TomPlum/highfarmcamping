@@ -5,8 +5,7 @@ $(document).ready(() => {
      * TODO Comment the code
      * TODO Prevent SQL Injection and Escape the inputs
      * TODO Security problems?
-     * TODO labels of buttons should be visible
-     * TODO Search text field design and engine optimization
+     * TODO Search text: maybe not just the id
      * TODO Instead of UPDATe Customer edit customer?
      */
 
@@ -23,7 +22,9 @@ $(document).ready(() => {
     // Edit customer
     //***********************************************
     let edit_row_value;
-    //let delete_row_value;
+
+    // Delete customer
+    //***********************************************
     if(localStorage.getItem("selectedRow")){
         edit_row_value = localStorage.getItem("selectedRow");
     }else{
@@ -74,6 +75,8 @@ $(document).ready(() => {
 
         }
     });
+
+
 
     // Update customer
     //***********************************************
@@ -269,31 +272,45 @@ $(document).ready(() => {
 
     }
 
-    // Edit Customer
-    //***********************************************
-
+    function goToEditCustomer() {
+        console.log(edit_row_value);
+        if(edit_row_value!=undefined){
+            window.location = "/editcustomer";
+        }
+    }
 
     function insertDataInFields(){
         console.log(localStorage.getItem("selectedRow"));
 
-            //edit_row_value = parseInt(localStorage.getItem("selectedRow"));
-            //if edit_row_value = NULL
-            for (let customer1 of customer){
-                if (customer1.customer_id == parseInt(edit_row_value)){
-                    $('input[name=first_name]').val(customer1.first_name);
-                    $('input[name=last_name]').val(customer1.last_name);
-                    $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
-                    $('input[name=email_address]').val(customer1.email_address);
-                    $('input[name=address_line_1]').val(customer1.address_line_1);
-                    $('input[name=address_line_2]').val(customer1.address_line_2);
-                    $('input[name=registration]').val(customer1.registration);
-                    $('input[name=home_phone_number]').val(customer1.home_phone_number);
-                    $('input[name=mobile_phone_number]').val(customer1.mobile_phone_number);
-                }
+        //edit_row_value = parseInt(localStorage.getItem("selectedRow"));
+        //if edit_row_value = NULL
+        for (let customer1 of customer){
+            if (customer1.customer_id == parseInt(edit_row_value)){
+                $('input[name=first_name]').val(customer1.first_name);
+                $('input[name=last_name]').val(customer1.last_name);
+                $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
+                $('input[name=email_address]').val(customer1.email_address);
+                $('input[name=address_line_1]').val(customer1.address_line_1);
+                $('input[name=address_line_2]').val(customer1.address_line_2);
+                $('input[name=registration]').val(customer1.registration);
+                $('input[name=home_phone_number]').val(customer1.home_phone_number);
+                $('input[name=mobile_phone_number]').val(customer1.mobile_phone_number);
             }
+        }
 
 
 
+
+    }
+
+
+    // Delete Customer
+    //***********************************************
+    function goToDeleteCustomer(){
+
+        if(edit_row_value!=undefined){
+            window.location = "/deletecustomer";
+        }
 
     }
 
@@ -393,11 +410,18 @@ $(document).ready(() => {
 
         $('#Edit').on('click', function(){
             edit_row_value = $(".customer-overview tr.selected td:first").html();
-            localStorage.setItem("selectedRow", edit_row_value);});
+            localStorage.setItem("selectedRow", edit_row_value);
+
+            goToEditCustomer();
+
+        });
 
         $('#Delete').on('click', function(){
             edit_row_value = $(".customer-overview tr.selected td:first").html();
             localStorage.setItem("selectedRow", edit_row_value);
+
+            goToDeleteCustomer();
+
         });
 
         /**
