@@ -8,14 +8,6 @@ const mysql = require('../db/mysql');
 
 /* GET Home Page */
 router.get('/', function(req, res) {
-    mysql.connection.query("SELECT * FROM bookings", (err, rows, fields) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(rows);
-        console.log(fields);
-
-    });
     res.render('dashboard', {title: 'Dashboard'});
 });
 
@@ -29,23 +21,18 @@ router.get('/help', function(req, res) {
     res.render('help', {title: 'Information'});
 });
 
-/*GET Test Page*/
-router.get('/test', function(req, res) {
-    res.render('test', {title: "Testing page"});
-});
-
-/*GET customer-overview */
+/*GET Customer Overview Page */
 router.get('/customer-overview', function(req, res) {
     res.render('customer-overview', {title: "Customer Overview"});
 });
 
-/*GET customer-addform */
-router.get('/addcustomer', function(req, res) {
+/*GET Add Customer Page  */
+router.get('/add-customer', function(req, res) {
     res.render('addcustomer', {title: "Add Customer"});
 });
 
-/*GET customer-editform */
-router.get('/editcustomer', function(req, res) {
+/*GET Edit Customer Page */
+router.get('/edit-customer', function(req, res) {
     res.render('editcustomer', {title: "Edit Customer"});
 });
 
@@ -71,24 +58,6 @@ router.post('/insert-customer', function(req, res) {
         res.send();
         console.log(err);
     });
-});
-
-/* POST Test page */
-router.post('/send-to-database', function(req, res) {
-   let test_field = req.body.test_field;
-   let values = [
-       ['Tom'],
-       ['Vincent'],
-       ['Flo'],
-       ['Jack']
-   ];
-   mysql.connection.query("INSERT INTO test (test_field) VALUES ?", [values], function(err, result) {
-       if (err) {
-           console.log(err);
-       } else {
-           console.log("Affected " + result.affectedRows + " rows.");
-       }
-   });
 });
 
 function createSqlString(dbname, columns, data) {
