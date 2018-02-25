@@ -1,12 +1,11 @@
 $(document).ready(() => {
 
     /**
-     * TODO The UPDATE fuctionality somehow does not work yet!
-     *
-     * TODO Problem: DB data is inserted at id 6**
-     * TODO Comment the code
      * TODO Prevent SQL Injection and Escape the inputs
      * TODO Security problems?
+     * TODO Search text: maybe not just the id
+     * TODO Instead of UPDATe Customer edit customer?
+     * TODO Improve row selecting
      */
 
 
@@ -19,14 +18,16 @@ $(document).ready(() => {
     //Hold the input errors
     let errors = [];
 
-    // Edit customer
+    // Edit and delete customer
     //***********************************************
-    let edit_row_value;
+    let selected_row_value;
+
     if(localStorage.getItem("selectedRow")){
-        edit_row_value = localStorage.getItem("selectedRow");
+        selected_row_value = localStorage.getItem("selectedRow");
     }else{
         localStorage.setItem("selectedRow","");
     }
+
 
 
     // Add customer
@@ -72,6 +73,8 @@ $(document).ready(() => {
         }
     });
 
+
+
     // Update customer
     //***********************************************
 
@@ -90,7 +93,7 @@ $(document).ready(() => {
                 document.forms[0].mobile_phone_number.value + "\",registration = \""+
                 document.forms[0].registration.value + "\",address_line_1 = \""+
                 document.forms[0].address_line_1.value + "\",address_line_2 = \""+
-                document.forms[0].address_line_2.value + "\");";
+                document.forms[0].address_line_2.value + "\" WHERE customer_id = \""+selected_row_value + "\";";
 
             $.ajax({
                 url: "/insert-customer",
@@ -100,7 +103,7 @@ $(document).ready(() => {
 
                 },
                 error: function (error) {
-                    console.log("Error inserting date into the database", error)
+                    console.log("Error inserting data into the database", error)
                 }
             });
 
@@ -115,6 +118,24 @@ $(document).ready(() => {
         }
     });
 
+    // Listen on the "Delete Customer" button and invoke SQL delete statement when clicking
+
+    $('#btnDeleteCustomer').click(function () {
+            $.ajax({
+                url: "/delete-customer",
+                type: "POST",
+                data: {"ID": selected_row_value},
+                success: function (err, rows) {
+                    console.log("Deleting successful");
+                },
+                error: function (error) {
+                    console.log("Error deleting data from database", error)
+                }
+            });
+
+            $("#deleteCustomerSection").css("visibility","hidden");
+            $("#alertBoxContainer").css("visibility","visible");
+    });
 
     // Listen on the "alert box" button
     $('#alertBoxBtn').click(function () {
@@ -248,31 +269,45 @@ $(document).ready(() => {
 
     }
 
-    // Edit Customer
-    //***********************************************
-
+    function goToEditCustomer() {
+        console.log(selected_row_value);
+        if(selected_row_value!=undefined){
+            window.location = "/editcustomer";
+        }
+    }
 
     function insertDataInFields(){
         console.log(localStorage.getItem("selectedRow"));
 
-            //edit_row_value = parseInt(localStorage.getItem("selectedRow"));
-            //if edit_row_value = NULL
-            for (let customer1 of customer){
-                if (customer1.customer_id == parseInt(edit_row_value)){
-                    $('input[name=first_name]').val(customer1.first_name);
-                    $('input[name=last_name]').val(customer1.last_name);
-                    $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
-                    $('input[name=email_address]').val(customer1.email_address);
-                    $('input[name=address_line_1]').val(customer1.address_line_1);
-                    $('input[name=address_line_2]').val(customer1.address_line_2);
-                    $('input[name=registration]').val(customer1.registration);
-                    $('input[name=home_phone_number]').val(customer1.home_phone_number);
-                    $('input[name=mobile_phone_number]').val(customer1.mobile_phone_number);
-                }
+        //selected_row_value = parseInt(localStorage.getItem("selectedRow"));
+        //if selected_row_value = NULL
+        for (let customer1 of customer){
+            if (customer1.customer_id == parseInt(selected_row_value)){
+                $('input[name=first_name]').val(customer1.first_name);
+                $('input[name=last_name]').val(customer1.last_name);
+                $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
+                $('input[name=email_address]').val(customer1.email_address);
+                $('input[name=address_line_1]').val(customer1.address_line_1);
+                $('input[name=address_line_2]').val(customer1.address_line_2);
+                $('input[name=registration]').val(customer1.registration);
+                $('input[name=home_phone_number]').val(customer1.home_phone_number);
+                $('input[name=mobile_phone_number]').val(customer1.mobile_phone_number);
             }
+        }
 
 
 
+
+    }
+
+
+    // Delete Customer
+    //***********************************************
+    function goToDeleteCustomer(){
+
+        if(selected_row_value!=undefined){
+            window.location = "/deletecustomer";
+        }
 
     }
 
@@ -284,23 +319,38 @@ $(document).ready(() => {
 
     function getDataFromDB() {
         //Ajax Call to the DB
-        $.ajax({
-            url: "/get-customers",
-            type: "POST",
-            success: function (dataP) {
-                customer = dataP;
-                createTable();
-                if(window.location.pathname.match("editcustomer")){
+        // If page deletecustomer: we invoke Ajax call for getting a single customer
+        if(!window.location.pathname.match("deletecustomer")) {
+            $.ajax({
+                url: "/get-customers",
+                type: "POST",
+                success: function (dataP) {
+                    customer = dataP;
+                    createTable();
+                    if (window.location.pathname.match("editcustomer")) {
 
-                    insertDataInFields();
+                        insertDataInFields();
+                    }
+                },
+                error: function (error) {
+                    console.log("Error receiving data from the database")
                 }
-
-            },
-            error: function (error)
-            {
-                console.log("Error receiving data from the database")
-            }
-        });
+            });
+        }else
+        {
+            $.ajax({
+                url: "/get-customer",
+                type: "POST",
+                data: {"ID": selected_row_value},
+                success: function (dataP) {
+                    customer = dataP;
+                    createTable();
+                },
+                error: function (error) {
+                    console.log("Error receiving data from the database")
+                }
+            });
+        }
     }
 
     /**
@@ -347,19 +397,50 @@ $(document).ready(() => {
 
         $(".customer-overview").html(oTable + headers + tBody + cTable);
 
+
+        /*
+        *************************************
+        DO NOT DELETE! Flos code ...
+
+
+        var rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        for (i = 0; i < rows.length; i++) {
+            rows[i].addEventListener('click', function() {
+
+                edit_row_value = console.log(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML);
+
+                for (i = 0; i < rows.length; i++) {
+                    this.classList.remove('selected');
+                }
+                //this.classList.toggle('selected');
+            });
+        }
+        */
+
         /**
          * We want send the data of a row clicked to the edit button*/
+
+
 
         $(".customer-overview tr").click(function(){
             $(this).addClass('selected').siblings().removeClass('selected');
             var value=$(this).find('td:first').html();
         });
 
-        $('#Edit').on('click', function(){
-            edit_row_value = $(".customer-overview tr.selected td:first").html();
-            //alert(edit_row_value);
-            localStorage.setItem("selectedRow", edit_row_value);
 
+        $('#Edit').on('click', function(){
+            selected_row_value = $(".customer-overview tr.selected td:first").html();
+            localStorage.setItem("selectedRow", selected_row_value);
+
+            goToEditCustomer();
+
+        });
+
+        $('#Delete').on('click', function(){
+            selected_row_value = $(".customer-overview tr.selected td:first").html();
+            localStorage.setItem("selectedRow", selected_row_value);
+
+            goToDeleteCustomer();
 
         });
 
@@ -433,6 +514,28 @@ $(document).ready(() => {
         }
         return returnObject;
     }
+
+    // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
+
+    $('#customer_id').keyup(function(){
+        var id = document.getElementById("customer_id").value;
+        var table = document.getElementById("customerTable");
+        var tr = table.getElementsByTagName("tr");
+        var i=0;
+        var td;
+        // Go through all table rows and search for row with desired ID
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if(td) {
+                if(td.innerHTML.indexOf(id)> -1)
+                {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
 
 });
 

@@ -31,7 +31,14 @@ input{
     border : 2px solid red;
 }
 
-.selected {
-    background-color: brown;
+tr.selected {
+    background-color: brown !important;
     color: #FFF;
+}
+
+
+
+::placeholder {
+    color: blue;
+    font-size: 15px;
 }

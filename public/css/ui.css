@@ -156,6 +156,13 @@ i, span {
     border-radius: 6px;
 }
 
+.input, .input:active {
+    background-color: white !important;
+    border: 2px solid #2f8fd5 !important;
+    border-radius: 6px;
+    transition: all ease 0.5s;
+}
+
 
 
 a[data-toggle="collapse"] {
