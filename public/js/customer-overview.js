@@ -398,56 +398,45 @@ $(document).ready(() => {
         $(".customer-overview").html(oTable + headers + tBody + cTable);
 
 
-        /*
-        *************************************
-        DO NOT DELETE! Flos code ...
 
+        //Make the rows selectable but only if you enter the customer-overview page
+        if(window.location.pathname.match("customer-overview") ){
+            let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-        var rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-        for (i = 0; i < rows.length; i++) {
-            rows[i].addEventListener('click', function() {
+            for (i = 0; i < rows.length; i++) {
+                rows[i].addEventListener('click', function() {
 
-                edit_row_value = console.log(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML);
+                    if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML != selected_row_value){
+                        selected_row_value = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML;
 
-                for (i = 0; i < rows.length; i++) {
-                    this.classList.remove('selected');
-                }
-                //this.classList.toggle('selected');
-            });
+                        let rows2 = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                        for (x = 0; x < rows2.length; x++) {
+                            rows2[x].classList.remove('selected');
+                        }
+                        this.classList.add('selected');
+                    }else{
+
+                        this.classList.remove('selected');
+                        selected_row_value = undefined;
+                    }
+
+                });
+            }
         }
-        */
-
-        /**
-         * We want send the data of a row clicked to the edit button*/
 
 
-
-        $(".customer-overview tr").click(function(){
-            $(this).addClass('selected').siblings().removeClass('selected');
-            var value=$(this).find('td:first').html();
-        });
-
-
-        $('#Edit').on('click', function(){
-            selected_row_value = $(".customer-overview tr.selected td:first").html();
-            localStorage.setItem("selectedRow", selected_row_value);
-
-            goToEditCustomer();
-
-        });
-
-        $('#Delete').on('click', function(){
-            selected_row_value = $(".customer-overview tr.selected td:first").html();
-            localStorage.setItem("selectedRow", selected_row_value);
-
-            goToDeleteCustomer();
-
-        });
-
-        /**
-         * End of "We want send the data of a row clicked to the edit button*/
 
     }
+
+    $('#Edit').on('click', function(){
+        localStorage.setItem("selectedRow", selected_row_value);
+        goToEditCustomer();
+    });
+
+    $('#Delete').on('click', function(){
+        localStorage.setItem("selectedRow", selected_row_value);
+        goToDeleteCustomer();
+    });
 
     /**
      * Format the Date
