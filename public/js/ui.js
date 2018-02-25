@@ -1,3 +1,11 @@
+$(document).ready(() => {
+    //Instantiate Date and Time on Navbar
+    $('#today').html(getToday());
+
+    //Update the time every second (1000ms)
+    setInterval(updateTime, 1000);
+});
+
 function getToday() {
     const today = new Date();
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -56,10 +64,10 @@ function updateTime() {
     $('#current-time').html(HH + ":" + MM + ":" + SS);
 }
 
-$(document).ready(() => {
-    //Instantiate Date and Time on Navbar
-    $('#today').html(getToday());
+function startLoadingAnimation() {
+    $("#loading").html("<i class='fa fa-fw fa-3x fa-spinner fa-pulse'></i> <p class='loading-text'>Loading...</p>");
+}
 
-    //Update the time every second (1000ms)
-    setInterval(updateTime, 1000);
-});
+function stopLoadingAnimation() {
+    $("#loading").html("");
+}

@@ -28,13 +28,12 @@ router.get('/customer-overview', function(req, res) {
 
 /*GET Add Customer Page  */
 router.get('/add-customer', function(req, res) {
-/*GET customer-searchform */
+    res.render('addcustomer', {title: "Add Customer"});
+});
+
+/*GET Customer-searchform */
 router.get('/searchcustomer', function(req, res) {
     res.render('searchcustomer', {title: "Search Customer"});
-});
-/*GET customer-addform */
-router.get('/addcustomer', function(req, res) {
-    res.render('addcustomer', {title: "Add Customer"});
 });
 
 /*GET Edit Customer Page */
@@ -61,6 +60,7 @@ router.post('/get-customers', function(req, res) {
         }
     });
 });
+
 // POST DB Query for getting single customer for delete customer
 router.post('/get-customer', function(req, res) {
     //+req.data.ID+
@@ -71,31 +71,24 @@ router.post('/get-customer', function(req, res) {
         res.send(rows);
     });
 });
+
 // POST DB Query for deleting customer
-router.post('/delete-customer', function(req, res) {
+router.post('/delete-customer', function(req) {
     //+req.data.ID+
     let id = JSON.stringify(req.body["ID"]);
     //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
-    let sql_statement = "DELETE FROM customers WHERE customer_id="+id+";";
-    mysql.connection.query(sql_statement, function(err, rows) {
-        res.send();
+    let sql_statement = "DELETE FROM customers WHERE customer_id=" + id + ";";
+    mysql.connection.query(sql_statement, function(err) {
         console.log(err);
     });
 });
 
 //POST DB Query of add / edit customer
-router.post('/insert-customer', function(req, res) {
+router.post('/insert-customer', function(req) {
     console.log(req.body.query);
-    mysql.connection.query(req.body.query, function(err,rows){
-        res.send();
+    mysql.connection.query(req.body.query, function(err){
         console.log(err);
     });
 });
-
-function createSqlString(dbname, columns, data) {
-    return mysql.connection.query("INSERT INTO ? (?) VALUES ?", [dbname, columns, data], function(err, result) {
-
-    });
-}
 
 module.exports = router;
