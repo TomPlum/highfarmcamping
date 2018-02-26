@@ -6,6 +6,7 @@
 
 # Directories to Ignore #
 .idea/
+oldhtml/
 
 # OS generated files #
 ######################
