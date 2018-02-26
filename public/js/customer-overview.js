@@ -272,7 +272,7 @@ $(document).ready(() => {
     function goToEditCustomer() {
         console.log(selected_row_value);
         if(selected_row_value !== undefined){
-            window.location = "/editcustomer";
+            window.location = "/edit-customer";
         }
     }
 
