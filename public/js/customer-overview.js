@@ -134,7 +134,7 @@ $(document).ready(() => {
             });
         $("#deleteCustomerSection").css("visibility","hidden");
         let idString = selected_row_value.toString()
-        if (idString.startsWith(6))
+        if (idString.startsWith(6) && idString != 6)
         {$("#alertBoxContainer").css("visibility","visible");}
         else
         {
