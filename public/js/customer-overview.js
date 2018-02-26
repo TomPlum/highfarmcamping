@@ -398,42 +398,15 @@ $(document).ready(() => {
         $(".customer-overview").html(oTable + headers + tBody + cTable);
 
 
-
         //Make the rows selectable but only if you enter the customer-overview page
         if(window.location.pathname.match("customer-overview") ){
             let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-<<<<<<< HEAD
             for (i = 0; i < rows.length; i++) {
                 rows[i].addEventListener('click', function() {
 
-                    if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML != selected_row_value){
+                    if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML !== selected_row_value){
                         selected_row_value = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML;
-=======
-        let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-        for (i = 0; i < rows.length; i++) {
-            rows[i].addEventListener('click', function() {
-
-                edit_row_value = console.log(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML);
-
-                for (i = 0; i < rows.length; i++) {
-                    this.classList.remove('selected');
-                }
-                //this.classList.toggle('selected');
-            });
-        }
-        */
-
-        /**
-         * We want send the data of a row clicked to the edit button*/
-
-
-
-        $(".customer-overview tr").click(function(){
-            $(this).addClass('selected').siblings().removeClass('selected');
-            let value = $(this).find('td:first').html();
-        });
->>>>>>> c8b2d8569f5552a510e7fed8d18d8f622acb3a52
 
                         let rows2 = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
                         for (x = 0; x < rows2.length; x++) {
@@ -449,9 +422,6 @@ $(document).ready(() => {
                 });
             }
         }
-
-
-
     }
 
     $('#Edit').on('click', function(){
