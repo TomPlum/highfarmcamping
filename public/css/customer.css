@@ -10,7 +10,9 @@
 #alertBoxContainer{
     visibility: hidden;
 }
-
+#alertBoxContainer2{
+    visibility: hidden;
+}
 .p{
     color: black;
 }

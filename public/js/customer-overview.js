@@ -119,7 +119,6 @@ $(document).ready(() => {
     });
 
     // Listen on the "Delete Customer" button and invoke SQL delete statement when clicking
-
     $('#btnDeleteCustomer').click(function () {
             $.ajax({
                 url: "/delete-customer",
@@ -127,18 +126,27 @@ $(document).ready(() => {
                 data: {"ID": selected_row_value},
                 success: function (err, rows) {
                     console.log("Deleting successful");
+                    //alert("THIS IS "+ err);
                 },
                 error: function (error) {
-                    console.log("Error deleting data from database", error)
+                    console.log("Error deleting data from database", error);
                 }
             });
-
-            $("#deleteCustomerSection").css("visibility","hidden");
-            $("#alertBoxContainer").css("visibility","visible");
+        $("#deleteCustomerSection").css("visibility","hidden");
+        let idString = selected_row_value.toString()
+        if (idString.startsWith(6))
+        {$("#alertBoxContainer").css("visibility","visible");}
+        else
+        {
+            {$("#alertBoxContainer2").css("visibility","visible");}
+        }
     });
 
     // Listen on the "alert box" button
     $('#alertBoxBtn').click(function () {
+        window.location.href="/customer-overview";
+    });
+    $('#alertBoxBtn2').click(function () {
         window.location.href="/customer-overview";
     });
 
