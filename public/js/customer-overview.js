@@ -65,9 +65,9 @@ $(document).ready(() => {
             $("#addCustomerForm").css("visibility","hidden");
             $("#alertBoxContainer").css("visibility","visible");
         }else{
-            $('#error').text("");
+            $('.error').text("");
             for (let error of errors){
-                $('#error').append(error+"<br>");
+                $('.error').append(error+"<br>");
             }
 
         }
