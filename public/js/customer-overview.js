@@ -327,7 +327,7 @@ $(document).ready(() => {
                 success: function (dataP) {
                     customer = dataP;
                     createTable();
-                    if (window.location.pathname.match("editcustomer")) {
+                    if (window.location.pathname.match("edit-customer")) {
 
                         insertDataInFields();
                     }
