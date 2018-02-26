@@ -73,13 +73,14 @@ router.post('/get-customer', function(req, res) {
 });
 
 // POST DB Query for deleting customer
-router.post('/delete-customer', function(req) {
+router.post('/delete-customer', function(req,res) {
     //+req.data.ID+
     let id = JSON.stringify(req.body["ID"]);
     //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
     let sql_statement = "DELETE FROM customers WHERE customer_id=" + id + ";";
     mysql.connection.query(sql_statement, function(err) {
         console.log(err);
+        //res.send(rows);
     });
 });
 

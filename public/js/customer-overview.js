@@ -124,22 +124,26 @@ $(document).ready(() => {
                 url: "/delete-customer",
                 type: "POST",
                 data: {"ID": selected_row_value},
-                success: function (err, rows) {
-                    console.log("Deleting successful");
-                    //alert("THIS IS "+ err);
-                },
+                success: function (err) {
+                    console.log("Ajax Request successful");
+                   
+                    if(JSON.stringify(err)==="\"\"")
+                    {
+                        $("#alertBoxContainer").css("visibility","visible");
+                    }
+                    else
+                    {
+                        $("#alertBoxContainer2").css("visibility", "visible");
+                    }
+
+                    $("#deleteCustomerSection").css("visibility","hidden");
+                    },
                 error: function (error) {
-                    console.log("Error deleting data from database", error);
+                    console.log("Ajax request error : "+ error);
+                    alert("I am sorry. There is an error with the database");
+
                 }
             });
-        $("#deleteCustomerSection").css("visibility","hidden");
-        let idString = selected_row_value.toString()
-        if (idString.startsWith(6) && idString != 6)
-        {$("#alertBoxContainer").css("visibility","visible");}
-        else
-        {
-            {$("#alertBoxContainer2").css("visibility","visible");}
-        }
     });
 
     // Listen on the "alert box" button
