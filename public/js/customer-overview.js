@@ -368,7 +368,7 @@ $(document).ready(() => {
             "<th>ID</th>" +
             "<th>First Name</th>" +
             "<th>Surname</th>" +
-            "<th>Date of Birth</th>" +
+            "<th>DOB</th>" +
             "<th>E-Mail</th>" +
             "<th>Address</th>" +
             "<th>Registration</th>" +
