@@ -166,35 +166,35 @@ $(document).ready(() => {
         let validity = true;
 
         //Validate inputs
-        if(document.forms[0].first_name.value == ""){
+        if(document.forms[0].first_name.value === ""){
             validity = false;
             $('input[name=first_name]').addClass("errorInput");
         }else{
             $('input[name=first_name]').removeClass("errorInput");
         }
 
-        if(document.forms[0].last_name.value == ""){
+        if(document.forms[0].last_name.value === ""){
             validity = false;
             $('input[name=last_name]').addClass("errorInput");
         }else{
             $('input[name=last_name]').removeClass("errorInput");
         }
 
-        if(document.forms[0].date_of_birth.value=="" || !dateValidityCheck(document.forms[0].date_of_birth.value)){
+        if(document.forms[0].date_of_birth.value === "" || !dateValidityCheck(document.forms[0].date_of_birth.value)){
             validity = false;
             $('input[name=date_of_birth]').addClass("errorInput");
         }else{
             $('input[name=date_of_birth]').removeClass("errorInput");
 
         }
-        if(document.forms[0].email_address.value == "" || !emailValidityCheck(document.forms[0].email_address.value)){
+        if(document.forms[0].email_address.value === "" || !emailValidityCheck(document.forms[0].email_address.value)){
             validity = false;
             $('input[name=email_address]').addClass("errorInput");
         }else{
             $('input[name=email_address]').removeClass("errorInput");
         }
 
-        if(document.forms[0].address_line_1.value == ""){
+        if(document.forms[0].address_line_1.value === ""){
             validity = false;
             $('input[name=address_line_1]').addClass("errorInput");
         }else{
@@ -203,7 +203,7 @@ $(document).ready(() => {
 
         return validity;
 
-    };
+    }
 
     /**
      * Validate the date
@@ -215,14 +215,14 @@ $(document).ready(() => {
         let validity = true;
         date +="";
 
-        if(date.indexOf("/")!=2 && date.indexOf("/",date.indexOf("/"))!= 5 && date.indexOf("/",date.indexOf(date.indexOf("/"),"/"))==-1 ){
+        if(date.indexOf("/")!==2 && date.indexOf("/",date.indexOf("/"))!== 5 && date.indexOf("/",date.indexOf(date.indexOf("/"),"/")) === -1 ){
             validity = false;
         }else{
             let d = date.substring(0, 2);
             let m = date.substring(3,5);
             let y = date.substring(6);
 
-            if(d.length!=2 || m.length!=2 || y.length!=4){
+            if(d.length !== 2 || m.length !== 2 || y.length !== 4){
                 validity=false;
             }else{
                 if(parseInt(d)>31 || parseInt(m)>12){
@@ -233,7 +233,7 @@ $(document).ready(() => {
         }
 
         if(!validity){
-            errors.push("Invalid date format!")
+            errors.push("Invalid date format!");
             return false;
         }else {
             return true;
@@ -251,7 +251,7 @@ $(document).ready(() => {
         let validity = true;
         email +="";
 
-        if (email.indexOf("@")==0 || email.indexOf("@")==-1 || email.indexOf(".",email.indexOf("@"))==-1 || email.indexOf(".")+1==email.length){
+        if (email.indexOf("@") === 0 || email.indexOf("@") === -1 || email.indexOf(".",email.indexOf("@")) === -1 || email.indexOf(".") + 1 === email.length){
             validity = false;
         }else if(!(email.indexOf(("."),email.indexOf("@"))>email.indexOf("@")+1)){
 
@@ -261,7 +261,7 @@ $(document).ready(() => {
 
 
         if(!validity){
-            errors.push("Invalid email address!")
+            errors.push("Invalid email address!");
             return false;
         }else {
             return true;
@@ -271,7 +271,7 @@ $(document).ready(() => {
 
     function goToEditCustomer() {
         console.log(selected_row_value);
-        if(selected_row_value!=undefined){
+        if(selected_row_value !== undefined){
             window.location = "/editcustomer";
         }
     }
@@ -282,7 +282,7 @@ $(document).ready(() => {
         //selected_row_value = parseInt(localStorage.getItem("selectedRow"));
         //if selected_row_value = NULL
         for (let customer1 of customer){
-            if (customer1.customer_id == parseInt(selected_row_value)){
+            if (customer1.customer_id === parseInt(selected_row_value)){
                 $('input[name=first_name]').val(customer1.first_name);
                 $('input[name=last_name]').val(customer1.last_name);
                 $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
@@ -305,7 +305,7 @@ $(document).ready(() => {
     //***********************************************
     function goToDeleteCustomer(){
 
-        if(selected_row_value!=undefined){
+        if(selected_row_value !== undefined){
             window.location = "/deletecustomer";
         }
 
@@ -403,11 +403,37 @@ $(document).ready(() => {
         if(window.location.pathname.match("customer-overview") ){
             let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
+<<<<<<< HEAD
             for (i = 0; i < rows.length; i++) {
                 rows[i].addEventListener('click', function() {
 
                     if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML != selected_row_value){
                         selected_row_value = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML;
+=======
+        let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        for (i = 0; i < rows.length; i++) {
+            rows[i].addEventListener('click', function() {
+
+                edit_row_value = console.log(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML);
+
+                for (i = 0; i < rows.length; i++) {
+                    this.classList.remove('selected');
+                }
+                //this.classList.toggle('selected');
+            });
+        }
+        */
+
+        /**
+         * We want send the data of a row clicked to the edit button*/
+
+
+
+        $(".customer-overview tr").click(function(){
+            $(this).addClass('selected').siblings().removeClass('selected');
+            let value = $(this).find('td:first').html();
+        });
+>>>>>>> c8b2d8569f5552a510e7fed8d18d8f622acb3a52
 
                         let rows2 = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
                         for (x = 0; x < rows2.length; x++) {
@@ -471,9 +497,9 @@ $(document).ready(() => {
 
         for (let i = 0; i < customers.length; i++) {
 
-            if (i != customers.length - 1) {
+            if (i !== customers.length - 1) {
 
-                if (customers[i].customer_id != customers[i + 1].customer_id) {
+                if (customers[i].customer_id !== customers[i + 1].customer_id) {
                     y = 0;
                     returnAddress += customers[i].address_line_1 + "<br>" + customers[i].address_line_2 + "<br><br>";
                     customers[i].address_line_1 = "";
@@ -482,7 +508,7 @@ $(document).ready(() => {
                     returnObject.push(customers[i]);
                 } else {
                     y = 0;
-                    while (customers[i].customer_id == customers[i + y].customer_id) {
+                    while (customers[i].customer_id === customers[i + y].customer_id) {
                         returnAddress += customers[i + y].address_line_1 + "<br>" + customers[i + y].address_line_2 + "<br><br>";
                         y++;
                     }
@@ -507,11 +533,11 @@ $(document).ready(() => {
     // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
     $('#customer_id').keyup(function(){
-        var id = document.getElementById("customer_id").value;
-        var table = document.getElementById("customerTable");
-        var tr = table.getElementsByTagName("tr");
-        var i=0;
-        var td;
+        let id = document.getElementById("customer_id").value;
+        let table = document.getElementById("customerTable");
+        let tr = table.getElementsByTagName("tr");
+        let i=0;
+        let td;
         // Go through all table rows and search for row with desired ID
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
@@ -527,5 +553,3 @@ $(document).ready(() => {
     });
 
 });
-
-

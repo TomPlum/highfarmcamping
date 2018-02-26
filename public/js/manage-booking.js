@@ -1,88 +1,41 @@
 $(document).ready(() => {
+    startLoadingAnimation();
+
+    $.ajax({
+        url: "/manage-booking/get-booking-overview",
+        type: "POST",
+        success: (data) => {
+            stopLoadingAnimation();
+            renderTable(data);
+        },
+        error: (err) => {
+            console.log(err);
+        }
+    });
+
+});
+
+function renderTable(data) {
     const oTable = "<table class='table table-hover table-striped table-condensed'>";
     const cTable = "</table>";
     let tBody = "<tbody>";
 
     let headers = "<thead>" +
-                      "<tr>" +
-                        "<th>Pitch Details</th>" +
-                        "<th>Customer Name</th>" +
-                        "<th>Paid?</th>" +
-                        "<th>Booking Duration</th>" +
-                      "</tr>" +
-                  "</thead>";
-
-    let data = [];
-
-    //Populate Tents
-    for (let i = 1; i <= 20; i++) {
-        const today = new Date();
-        const todayFuture = today.addDays(getRandomInt(0, 50));
-        console.log(today);
-        console.log(todayFuture);
-        const startDate = getRandomDate(new Date(), todayFuture);
-        const endDate = startDate.addDays(getRandomInt(1, 14));
-
-        data.push({
-            pitch_id: i,
-            pitch_type: "Tent",
-            customer_name: getName(),
-            electrical: false,
-            all_weather: false,
-            paid: getRandomInt(0, 1) === 0,
-            start_date: startDate,
-            end_date: endDate
-        });
-    }
-
-    //Populate Caravans
-    for (let i = 1; i <= 12; i++) {
-        const today = new Date();
-        const todayFuture = today.addDays(getRandomInt(0, 50));
-        console.log(today);
-        console.log(todayFuture);
-        const startDate = getRandomDate(new Date(), todayFuture);
-        const endDate = startDate.addDays(getRandomInt(1, 14));
-
-        data.push({
-            pitch_id: i + 20,
-            pitch_type: "Caravan",
-            customer_name: getName(),
-            electrical: false,
-            all_weather: true,
-            paid: getRandomInt(0, 1) === 0,
-            start_date: startDate,
-            end_date: endDate
-        });
-    }
-
-    //Populate Electrical (Suitable for Tents, Caravans and Motorhomes)
-    for (let i = 1; i <= 6; i++) {
-        const today = new Date();
-        const todayFuture = today.addDays(getRandomInt(0, 50));
-        console.log(today);
-        console.log(todayFuture);
-        const startDate = getRandomDate(new Date(), todayFuture);
-        const endDate = startDate.addDays(getRandomInt(1, 14));
-
-        data.push({
-            pitch_id: i + 32,
-            pitch_type: "Electrical",
-            customer_name: getName(),
-            electrical: true,
-            paid: getRandomInt(0, 1) === 0,
-            start_date: startDate,
-            end_date: endDate
-        });
-    }
+        "<tr>" +
+        "<th>Pitch Details</th>" +
+        "<th>Customer Name</th>" +
+        "<th>Paid?</th>" +
+        "<th>Booking Duration</th>" +
+        "</tr>" +
+        "</thead>";
 
     //Create Table Body
     for (let i = 0; i < data.length; i++) {
         tBody += "<tr>";
-        tBody += "<td> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].pitch_type) + "</td>";
-        tBody += "<td>" + data[i].customer_name + "</td>";
+        tBody += "<td> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].type) + "</td>";
+        tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
         tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
-        tBody += "<td>" + formatDate(data[i].start_date) + " - " + formatDate(data[i].end_date) + "</td>";
+        tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
         tBody += "</tr>";
     }
 
@@ -90,7 +43,7 @@ $(document).ready(() => {
 
 
     $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);
-});
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -114,15 +67,12 @@ function getIcon(type) {
     const electrical = "<span class='fa fa-lightbulb'></span>";
 
     switch(type) {
-        case "Tent":
+        case "Tents":
             return tent;
-            break;
-        case "Caravan":
+        case "caravan":
             return caravan  + " " + all_weather;
-            break;
-        case "Electrical":
+        case "all":
             return tent + " " + caravan + " " + motorhome + " " + electrical;
-            break;
         default:
             return "N/A";
     }
@@ -134,6 +84,7 @@ function getName() {
 
 
 function formatDate(date) {
+    date = new Date(date);
     let DD = date.getDate();
     if (DD < 10) {
         DD = "0" + DD;
@@ -147,7 +98,7 @@ function formatDate(date) {
 }
 
 function formatPaid(paid) {
-    if (paid) {
+    if (paid === 1) {
         return "Yes";
     }
     return "No";

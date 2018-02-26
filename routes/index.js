@@ -8,14 +8,6 @@ const mysql = require('../db/mysql');
 
 /* GET Home Page */
 router.get('/', function(req, res) {
-    mysql.connection.query("SELECT * FROM bookings", (err, rows, fields) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(rows);
-        console.log(fields);
-
-    });
     res.render('dashboard', {title: 'Dashboard'});
 });
 
@@ -29,26 +21,23 @@ router.get('/help', function(req, res) {
     res.render('help', {title: 'Information'});
 });
 
-/*GET Test Page*/
-router.get('/test', function(req, res) {
-    res.render('test', {title: "Testing page"});
-});
-
-/*GET customer-overview */
+/*GET Customer Overview Page */
 router.get('/customer-overview', function(req, res) {
     res.render('customer-overview', {title: "Customer Overview"});
 });
-/*GET customer-searchform */
-router.get('/searchcustomer', function(req, res) {
-    res.render('searchcustomer', {title: "Search Customer"});
-});
-/*GET customer-addform */
-router.get('/addcustomer', function(req, res) {
+
+/*GET Add Customer Page  */
+router.get('/add-customer', function(req, res) {
     res.render('addcustomer', {title: "Add Customer"});
 });
 
-/*GET customer-editform */
-router.get('/editcustomer', function(req, res) {
+/*GET Customer-searchform */
+router.get('/searchcustomer', function(req, res) {
+    res.render('searchcustomer', {title: "Search Customer"});
+});
+
+/*GET Edit Customer Page */
+router.get('/edit-customer', function(req, res) {
     res.render('editcustomer', {title: "Edit Customer"});
 });
 
@@ -71,6 +60,7 @@ router.post('/get-customers', function(req, res) {
         }
     });
 });
+
 // POST DB Query for getting single customer for delete customer
 router.post('/get-customer', function(req, res) {
     //+req.data.ID+
@@ -81,49 +71,24 @@ router.post('/get-customer', function(req, res) {
         res.send(rows);
     });
 });
+
 // POST DB Query for deleting customer
-router.post('/delete-customer', function(req, res) {
+router.post('/delete-customer', function(req) {
     //+req.data.ID+
     let id = JSON.stringify(req.body["ID"]);
     //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
-    let sql_statement = "DELETE FROM customers WHERE customer_id="+id+";";
-    mysql.connection.query(sql_statement, function(err, rows) {
-        res.send();
+    let sql_statement = "DELETE FROM customers WHERE customer_id=" + id + ";";
+    mysql.connection.query(sql_statement, function(err) {
         console.log(err);
     });
 });
 
 //POST DB Query of add / edit customer
-router.post('/insert-customer', function(req, res) {
+router.post('/insert-customer', function(req) {
     console.log(req.body.query);
-    mysql.connection.query(req.body.query, function(err,rows){
-        res.send();
+    mysql.connection.query(req.body.query, function(err){
         console.log(err);
     });
 });
-
-/* POST Test page */
-router.post('/send-to-database', function(req, res) {
-   let test_field = req.body.test_field;
-   let values = [
-       ['Tom'],
-       ['Vincent'],
-       ['Flo'],
-       ['Jack']
-   ];
-   mysql.connection.query("INSERT INTO test (test_field) VALUES ?", [values], function(err, result) {
-       if (err) {
-           console.log(err);
-       } else {
-           console.log("Affected " + result.affectedRows + " rows.");
-       }
-   });
-});
-
-function createSqlString(dbname, columns, data) {
-    return mysql.connection.query("INSERT INTO ? (?) VALUES ?", [dbname, columns, data], function(err, result) {
-
-    });
-}
 
 module.exports = router;
