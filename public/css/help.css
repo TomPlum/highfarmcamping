@@ -5,3 +5,14 @@
 .active-hotkey {
     color: #2f8fd5;
 }
+
+.icon-key {
+    list-style-type: none;
+    font-size: 1.4em;
+    padding: 0;
+}
+
+.icon-key li i{
+    width: 1.25em;
+    text-align: center;
+}
