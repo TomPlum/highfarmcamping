@@ -17,6 +17,11 @@ router.get('/delete', function(req, res) {
     res.render("delete-booking", {title: "Delete a Booking"});
 });
 
+/* GET Booking History Page */
+router.get('/booking-history', function(req, res) {
+   res.render('booking-history', {title: "Booking History"});
+});
+
 /* POST Booking Overview */
 router.post('/get-booking-overview', function(req, res) {
     mysql.connection.query(

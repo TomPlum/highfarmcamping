@@ -54,6 +54,10 @@ i, span {
     font-weight: 500;
 }
 
+.btn-info {
+    max-width: 250px;
+}
+
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
