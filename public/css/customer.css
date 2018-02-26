@@ -32,13 +32,6 @@ input{
 }
 
 tr.selected {
-    background-color: brown !important;
+    background-color: #2f8fd5 !important;
     color: #FFF;
-}
-
-
-
-::placeholder {
-    color: blue;
-    font-size: 15px;
 }
