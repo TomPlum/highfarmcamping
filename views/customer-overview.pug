@@ -9,29 +9,30 @@ block append body-content
         span.glyphicon.glyphicon-user
         |  Customer Management
 
-        p
-            .row
-                .col-md-3
-                    button.form-control.btn-info(type='button', onclick="location.href='/add-customer'")
-                        span.fa.fa-fw.fa-plus-circle
-                        |  Add Customer
-                        //the jquery button for edit doesnt work yet
-                .col-md-3
-                    button.form-control.btn-info(type='button', id="Edit")
-                        span.fa.fa-fw.fa-edit
-                        |  Edit Customer
-                .col-md-3
-                    button.form-control.btn-info(type='button', id="Delete")
-                        span.fa.fa-fw.fa-minus-circle
-                        |  Delete Customer
-            .row
-                .col-md-12
-                    br
-                    input.form-control.input(type='text', placeholder='Search customer by ID', id='customer_id')
+    p
+        .row
+            .col-md-3
+                button.form-control.btn-info(type='button', onclick="location.href='/add-customer'")
+                    span.fa.fa-fw.fa-plus-circle
+                    |  Add Customer
+                    //the jquery button for edit doesnt work yet
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Edit")
+                    span.fa.fa-fw.fa-edit
+                    |  Edit Customer
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Delete")
+                    span.fa.fa-fw.fa-minus-circle
+                    |  Delete Customer
+        .row
+            .col-md-12
+                br
+                input.form-control.input(type='text', placeholder='Search customer by ID', id='customer_id')
     // Main Page Content
     form(action='')
         .container-fluid
             .row
+                #loading
                 .customer-overview#customerTable
 
 block append scripts

@@ -326,6 +326,7 @@ $(document).ready(() => {
     getDataFromDB();
 
     function getDataFromDB() {
+        startLoadingAnimation();
         //Ajax Call to the DB
         // If page deletecustomer: we invoke Ajax call for getting a single customer
         if(!window.location.pathname.match("deletecustomer")) {
@@ -333,6 +334,7 @@ $(document).ready(() => {
                 url: "/get-customers",
                 type: "POST",
                 success: function (dataP) {
+                    stopLoadingAnimation();
                     customer = dataP;
                     createTable();
                     if (window.location.pathname.match("edit-customer")) {
