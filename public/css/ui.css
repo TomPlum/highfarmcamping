@@ -21,11 +21,11 @@ a, a:hover, a:focus {
 }
 
 .navbar {
-    padding: 15px 10px;
+    padding: 10px 10px;
     background: #fff;
-    border: none;
+    border: 1px solid #2f8fd5;
     border-radius: 0;
-    margin-bottom: 40px;
+    margin-bottom: 12px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -56,6 +56,16 @@ i, span {
 
 .btn-info {
     max-width: 250px;
+}
+
+.page-title {
+    display: inline-block;
+    margin: 0 auto 0 15px;
+    color: #000;
+    font-weight: 500;
+    font-size: 1.4em;
+    line-height: 36px;
+    vertical-align: middle;
 }
 
 
@@ -226,6 +236,12 @@ a.article, a.article:hover {
     padding: 0;
     margin: auto 0;
     float: right;
+    line-height: 52px;
+    vertical-align: middle;
+}
+
+#current-time {
+    float: left;
 }
 
 .active-nav {
