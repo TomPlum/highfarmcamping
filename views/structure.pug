@@ -24,6 +24,14 @@ html
                     .sidebar-header
                         h3 High Farm Camping System
                         strong HF
+
+                        .navbar-header
+                            button#sidebarCollapse.btn.btn-info.navbar-btn(type='button')
+                                i#chevron.fa.fa-fw.fa-chevron-left
+                                h6 Menu
+                                strong
+                    .row
+
                     ul.list-unstyled.components
                         li
                             a(href='/')
@@ -87,20 +95,16 @@ html
                                 | Help
                 // Page Content Holder
                 #content
+
                     nav.navbar.navbar-default
                         .container-fluid
-                            .row
-                                .col-md-6
-                                    .navbar-header
-                                        button#sidebarCollapse.btn.btn-info.navbar-btn(type='button')
-                                            i#chevron.fa.fa-fw.fa-chevron-left
-                                            span Menu
-                                .col-md-6
-                                    .row
-                                        p#today
-                                    .row
-                                        p#current-time
-                                            span.fa.fa-fw.fa-spinner.fa-pulse
+                            .col-md-5
+                                block top-content
+                            .col-md-6
+                                p#today
+                            .col-md-1
+                                p#current-time
+                                    span.fa.fa-fw.fa-spinner.fa-pulse
                     block body-content
     block scripts
         // jQuery CDN

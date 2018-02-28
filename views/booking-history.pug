@@ -3,10 +3,12 @@ extends structure
 block append stylesheets
     link(rel="stylesheet" href="css/booking-history.css")
 
-block append body-content
-    h2
+block append top-content
+    h4
         span.fa.fa-fw.fa-lg.fa-history
         | Booking History
+block append body-content
+
     p
         | An archive of every booking ever made on the system.
 

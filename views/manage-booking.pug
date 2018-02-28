@@ -3,10 +3,11 @@ extends structure
 block append stylesheets
     link(rel="stylesheet" href="css/manage-booking.css")
 
-block append body-content
-    h2
+block append top-content
+    h4
         span.glyphicon.glyphicon-align-justify
         |  Booking Management
+block append body-content
     p
         | Here you can see an overview of all bookings and their payment status.
     // Main Page Content

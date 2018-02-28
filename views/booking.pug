@@ -4,10 +4,12 @@ block append stylesheets
     link(rel="stylesheet" href="css/daterangepicker.css")
     link(rel="stylesheet" href="css/booking.css")
 
-block append body-content
-    h2
+block append top-content
+    h4
         span.glyphicon.glyphicon-book
-        |  Create a New Booking
+        |  Create a Booking
+block append body-content
+
     p
         | Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.
     // Form Wraps Whole Container - Encapsulates Filter & Date Range

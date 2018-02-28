@@ -3,10 +3,11 @@ extends structure
 block append stylesheets
     link(rel="stylesheet" href="css/help.css")
 
-block append body-content
-    h2
+block append top-content
+    h4
         span.glyphicon.glyphicon-info-sign.g-fw
         | Helpful Information
+block append body-content
     p
         | How to use the site.
 

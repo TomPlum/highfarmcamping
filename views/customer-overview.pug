@@ -4,13 +4,16 @@ block append stylesheets
     link(rel="stylesheet" href="css/customer.css")
     link(rel="stylesheet" href="css/ui.css")
 
-block append body-content
-    h2
+block append top-content
+    h4
         span.glyphicon.glyphicon-user
         |  Customer Management
 
+block append body-content
     p
         .row
+            .col-md-3
+                input.form-control.input(type='text', placeholder='Search customer by ID', id='customer_id')
             .col-md-3
                 button.form-control.btn-info(type='button', onclick="location.href='/add-customer'")
                     span.fa.fa-fw.fa-plus-circle
@@ -24,10 +27,6 @@ block append body-content
                 button.form-control.btn-info(type='button', id="Delete")
                     span.fa.fa-fw.fa-minus-circle
                     |  Delete Customer
-        .row
-            .col-md-12
-                br
-                input.form-control.input(type='text', placeholder='Search customer by ID', id='customer_id')
     // Main Page Content
     form(action='')
         .container-fluid
