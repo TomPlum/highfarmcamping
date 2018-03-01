@@ -54,9 +54,6 @@ i, span {
     font-weight: 500;
 }
 
-.btn-info {
-    max-width: 250px;
-}
 
 .page-title {
     display: inline-block;
@@ -163,11 +160,12 @@ i, span {
 }
 
 .btn-info, .btn-info:active {
-    background-color: #2f8fd5 !important;
-    border: 2px solid white !important;
-    border-radius: 6px;
-    transition: all ease 0.5s;
-}
+     background-color: #2f8fd5 !important;
+     border: 2px solid white !important;
+     border-radius: 6px;
+     transition: all ease 0.5s;
+     max-width: 250px;
+ }
 
 .btn-info:hover {
     background-color: white !important;
@@ -183,6 +181,35 @@ i, span {
     transition: all ease 0.5s;
 }
 
+.btn-svenja, .btn-svenja:active {
+    background-color: #2f8fd5 !important;
+    border: 2px solid white !important;
+    color: white;
+    border-radius: 6px;
+    transition: all ease 0.5s;
+}
+
+.btn-svenja:hover {
+    background-color: white !important;
+    color: #2f8fd5;
+    border: 2px solid #2f8fd5 !important;
+    border-radius: 6px;
+}
+
+.btn-next, .btn-next:active {
+    background-color: #2f8fd5 !important;
+    border: 2px solid white !important;
+    color: white;
+    border-radius: 6px;
+    transition: all ease 0.5s;
+}
+
+.btn-next:hover {
+    background-color: white !important;
+    color: #2f8fd5;
+    border: 2px solid #2f8fd5 !important;
+    border-radius: 6px;
+}
 
 
 a[data-toggle="collapse"] {
