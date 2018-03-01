@@ -83,13 +83,77 @@ block append body-content
                     p
                         .row
                             .col-md-4
-                                input.form-control.input(type='text', placeholder='Search existing customer by ID', id='customer_id')
+                                input.form-control.input(type='text', placeholder='Search existing customer by ID', id='customer_id',name ="customer_ID")
+                            .col-md-4
+                                button.form-control.btn-svenja(type='button',id='addcustomerbooking')
+                                    span.fa.fa-fw.fa-plus-circle
+                                    |  Add New Customer
+                div(id="addCustomerBookingForm")
+                    form#customerBookingForm
+                        .row
+                            p
+                            .col-md-2
+                                label First Name
+                            .col-md-3
+                                input(type='text', name='first_name')
+                            .col-md-2
+                                label Last Name
+                            .col-md-3
+                                input(type='text', name='last_name')
+                        br
+                        .row
+                            .col-md-2
+                                label Address Line 1
+                            .col-md-3
+                                input(type='text', name='address_line_1')
+                            .col-md-2
+                                label Address Line 2
+                            .col-md-3
+                                input(type='text', name='address_line_2')
+                        br
+                        .row
+                            .col-md-2
+                                label Registration
+                            .col-md-3
+                                input(type='text', name='registration')
+                        br
+                        .row
+                            .col-md-2
+                                label Date of Birth
+                            .col-md-3
+                                input(type='text', name='date_of_birth',placeholder=" DD/MM/YYYY")
+                            .col-md-2
+                                label Email Address *
+                            .col-md-3
+                                input(type='text', name='email_address')
+                        br
+                        .row
+                            .col-md-2
+                                label Home Phone Number
+                            .col-md-3
+                                input(type='text', name='home_phone_number')
+                            .col-md-2
+                                label Mobile Phone Number
+                            .col-md-3
+                                input(type='text', name='mobile_phone_number')
+                        br
+                        .row
+                            .col-md-2
+                                label Amount of Dogs
+                            .col-md-3
+                                input(type='text', name='amount_of_dogs')
+                        br
+                        .row
+                            .col-md-4
+                                button.form-control.btn-next(type='button', id='next', name='next')
+                                    |  Next
 
 
 
 block append scripts
     script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js")
     script(src="js/booking.js")
+    script(src="js/booking-customer.js")
     script(src="js/daterangepicker.js")
     script(type="text/javascript").
         $(function() {
