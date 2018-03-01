@@ -1,4 +1,10 @@
 $(document).ready(function() {
+
+        //Call DB for Pitches & relation
+        getPitches();
+        getPitchBookings();
+
+
         $("input:checkbox").on('click', function() {
         // in the handler, 'this' refers to the box clicked on
         let $box = $(this);
@@ -16,22 +22,21 @@ $(document).ready(function() {
     });
 });
 
-function getDatesInRange(start, end) {
-    let startDate = new Date(start);
-    let endDate = new Date(end);
-    let dates = [];
+/*************************************/
+/* --- Global Variables -------------*/
+/*************************************/
+let pitches = [];
+let pitchBookings = [];
 
-    while(true) {
-        dates.push(new Date(startDate));
-        if (Date.parse(dates[dates.length - 1]) === Date.parse(endDate)) {
-            break;
-        }
-        startDate.setDate(startDate.getDate() + 1);
-    }
-    return dates;
-}
+
+
+
+/*************************************/
+/* --- Global Variables -------------*/
+/*************************************/
 
 function populatePitchSelection() {
+    console.log(pitches);
     let filter = $("input:checked").val();
     console.log("Filtering Pitches by " + filter + "...");
 
@@ -54,40 +59,107 @@ function populatePitchSelection() {
     const tentIcon = "<span class='glyphicon glyphicon-tent'></span>";
     const mhomeIcon = "<span class='fa fa-truck'></span>";
     const caravanIcon = "<span class='fa fa-car'></span>";
+    const all = "<span class='glyphicon glyphicon-ok'></span>";
 
     let body = "";
-    for (let i = 0; i < 10; i++) {
-        body += "<tr>";
-        for (let j = 0; j < allDates.length + 1; j++) {
-            //First Column (Pitch Details)
-            if (j === 0) {
-                let icon;
-                switch(filter) {
-                    case "tent":
-                        icon = tentIcon;
-                        break;
-                    case "motorhome":
-                        icon = mhomeIcon;
-                        break;
-                    case "caravan":
-                        icon = caravanIcon;
-                        break;
-                    default:
-                        icon = tentIcon;
-                }
-
-                body += "<td class='pitch-details'>Pitch " + (i + 1) + "<br>" + icon + "</td>";
-            } else {
-                let available = Math.floor(Math.random() * 2);
-                if (available === 0) {
-                    body += "<td class='available-pitch'>1</td>";
+    for (let i = 0; i < pitches.length; i++) {
+        if(pitches[i].type == filter || pitches[i].type=="all"){
+            body += "<tr>";
+            for (let j = 0; j < allDates.length + 1; j++) {
+                //First Column (Pitch Details)
+                if (j === 0) {
+                    let icon;
+                    switch(pitches[i].type) {
+                        case "tent":
+                            icon = tentIcon;
+                            break;
+                        case "motorhome":
+                            icon = mhomeIcon;
+                            break;
+                        case "caravan":
+                            icon = caravanIcon;
+                            break;
+                        default:
+                            icon = all;
+                    }
+                    body += "<td class='pitch-details'>Pitch " + pitches[i].pitch_id + "<br>" + icon + "</td>";
                 } else {
-                    body += "<td class='not-available-pitch'>1</td>";
+                    let available = checkAvailability(pitches[i], allDates[j-1]);
+                    if (available === true ){
+                        body += "<td class='available-pitch'>1</td>";
+                    } else {
+                        body += "<td class='not-available-pitch'>1</td>";
+                    }
                 }
             }
+            body += "</tr>";
         }
-        body += "</tr>";
+
     }
 
     $(".pitch-selection").html(oTable + headers + body + cTable);
+}
+
+function getDatesInRange(start, end) {
+    let startDate = new Date(start);
+    let endDate = new Date(end);
+    let dates = [];
+
+    while(true) {
+        dates.push(new Date(startDate));
+        if (Date.parse(dates[dates.length - 1]) === Date.parse(endDate)) {
+            break;
+        }
+        startDate.setDate(startDate.getDate() + 1);
+    }
+    return dates;
+}
+
+function checkAvailability(pitch, date) {
+    for(let pitchBooking of pitchBookings){
+        if(pitchBooking.pitch_id == pitch.pitch_id){
+
+            if(date >= convertDate(pitchBooking.stay_start_date) && date <= convertDate(pitchBooking.stay_end_date) ){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function convertDate(date) {
+    return new Date(date);
+}
+
+
+/*************************************/
+/* --- DB Calls ----- ---------------*/
+/*************************************/
+
+//Inner join of bookings and pitches
+function getPitchBookings() {
+    $.ajax({
+        url: "/get-PitchBookings",
+        type: "POST",
+        success: function (rows) {
+            pitchBookings = rows;
+        },
+        error: function (error) {
+            console.log("Error getting pitches", error)
+        }
+    });
+};
+
+function getPitches() {
+    $.ajax({
+        url: "/get-pitches",
+        type: "POST",
+        success: function (rows) {
+            pitches = rows;
+            console.log(pitches);
+        },
+        error: function (error) {
+            console.log("Error getting pitches", error)
+        }
+    });
 }
