@@ -91,7 +91,7 @@ function formatDate(date) {
     if (DD < 10) {
         DD = "0" + DD;
     }
-    let MM = date.getMonth();
+    let MM = date.getMonth() + 1;
     if (MM < 10) {
         MM = "0" + MM;
     }
