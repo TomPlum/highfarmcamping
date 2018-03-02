@@ -66,11 +66,13 @@ function getIcon(type) {
     const motorhome = "<span class='fa fa-truck'></span>";
     const electrical = "<span class='fa fa-lightbulb'></span>";
 
-    switch(type) {
-        case "Tents":
+    switch (type) {
+        case "tent":
             return tent;
         case "caravan":
-            return caravan  + " " + all_weather;
+            return caravan + " " + all_weather;
+        case "motorhome":
+            return motorhome + " " + all_weather + electrical;
         case "all":
             return tent + " " + caravan + " " + motorhome + " " + electrical;
         default:

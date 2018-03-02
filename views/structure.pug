@@ -22,8 +22,9 @@ html
                 // Sidebar Holder
                 nav#sidebar
                     .sidebar-header
-                        h3 High Farm Camping System
-                        strong HF
+                        a(href='/')
+                            h3 High Farm Camping System
+                            strong HF
                     ul.list-unstyled.components
                         li
                             a(href='/')
@@ -57,6 +58,9 @@ html
                                     a(href="/manage-booking/booking-history")
                                         i.glyphicon.glyphicon-time
                                         | Booking History
+                                li
+                                    a(href="/manage-booking/booking-search")
+                                        | Search Booking 
                         li
                             a(href='/customer-overview', aria-expanded='false')
                                 // <i class="fa fa-fw fa-address-book"></i>

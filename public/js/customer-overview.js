@@ -126,7 +126,7 @@ $(document).ready(() => {
                 data: {"ID": selected_row_value},
                 success: function (err) {
                     console.log("Ajax Request successful");
-                   
+
                     if(JSON.stringify(err)==="\"\"")
                     {
                         $("#alertBoxContainer").css("visibility","visible");

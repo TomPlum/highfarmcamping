@@ -22,6 +22,28 @@ router.get('/booking-history', function(req, res) {
    res.render('booking-history', {title: "Booking History"});
 });
 
+// GET Booking Search Page
+router.get('/booking-search', function(req, res) {
+   res.render('booking-search', {title: "Booking Search"});
+});
+
+// POST search for booking
+router.post('/get-booking', function(req, res) {
+    let id = JSON.stringify(req.body["ID"]);
+    queryString = "SELECT pitches.pitch_id, pitches.type, customers.customer_id, customers.first_name, customers.last_name, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.booking_id, bookings.payment_total FROM pitch_bookings" +
+        " INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id" +
+        " INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id" +
+        " INNER JOIN customers ON bookings.customer_id = customers.customer_id" +
+        " WHERE bookings.booking_id ="+id+";";
+    mysql.connection.query(
+        queryString, (err, rows) => {
+            if (err) {
+                console.log(err);
+            }
+            res.send(rows);
+        });
+});
+
 /* POST Booking Overview */
 router.post('/get-booking-overview', function(req, res) {
     mysql.connection.query(
