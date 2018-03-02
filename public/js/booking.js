@@ -63,7 +63,7 @@ function populatePitchSelection() {
 
     let body = "";
     for (let i = 0; i < pitches.length; i++) {
-        if(pitches[i].type == filter || pitches[i].type=="all"){
+        if(pitches[i].type == filter || pitches[i].type=="all" || filter==undefined){
             body += "<tr>";
             for (let j = 0; j < allDates.length + 1; j++) {
                 //First Column (Pitch Details)
