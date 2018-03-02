@@ -61,6 +61,41 @@ router.post('/get-customers', function(req, res) {
     });
 });
 
+//POST DB Query of the Customer-Overview
+router.post('/get-PitchBookings', function(req, res) {
+    mysql.connection.query("select pitch_bookings.*, bookings.* from bookings INNER JOIN pitch_bookings on bookings.booking_id = pitch_bookings.booking_id;", function(err, rows) {
+        if(err){
+            console.log(err);
+        }else{
+            res.send(rows);
+        }
+    });
+});
+
+//POST DB Query of the Customer-Overview
+router.post('/get-pitches', function(req, res) {
+    mysql.connection.query("SELECT * FROM pitches ", function(err, rows) {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(rows);
+            res.send(rows);
+        }
+    });
+});
+
+//POST DB Query to get all Bookings
+router.post('/get-bookings', function(req, res) {
+    mysql.connection.query("SELECT * FROM bookings ", function(err, rows) {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(rows);
+            res.send(rows);
+        }
+    });
+});
+
 // POST DB Query for getting single customer for delete customer
 router.post('/get-customer', function(req, res) {
     //+req.data.ID+

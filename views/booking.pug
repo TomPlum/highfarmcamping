@@ -58,6 +58,7 @@ block append body-content
                                                 label.btn.btn-default.active(for='motorhome', class='[ ]')
                                                     span.fa.fa-fw.fa-truck
                                                     |                                             Motorhome
+
                                 .col-md-6
                                     .row
                                         label(for='date-range') Select Date Range
@@ -66,8 +67,10 @@ block append body-content
                                         button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
                                             span.glyphicon.glyphicon-tent
                                             |  Find Pitch
-                    // Available Pitches Output Here
-                    .row.pitch-selection
+                            // Available Pitches Output Here
+                            .row
+                                .row.pitch-selection
+
         .card
             #headingTwo.card-header
                 h5.mb-0
