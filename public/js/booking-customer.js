@@ -40,6 +40,16 @@ function insertDataInFields() {
 }
 
 $('#addcustomerbooking').click(function () {
+    IDused=false;
+    $('input[name=first_name]').val("");
+    $('input[name=last_name]').val("");
+    $('input[name=date_of_birth]').val("");
+    $('input[name=email_address]').val("");
+    $('input[name=address_line_1]').val("");
+    $('input[name=address_line_2]').val("");
+    $('input[name=registration]').val("");
+    $('input[name=home_phone_number]').val("");
+    $('input[name=mobile_phone_number]').val("");
     $("#customerBookingForm").css("visibility","visible");
 });
 
@@ -81,6 +91,7 @@ $('#next').click(function() {
 
 
         })
+        alert("Customer has been updatet. --> NOW: Booking Summary!");
     }
     else {
         let query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
@@ -104,6 +115,7 @@ $('#next').click(function() {
                 console.log("Error inserting date into the database", error)
             }
         });
+        alert("Customer has been added. --> NOW: Booking Summary!");
     }
-    alert("Customer has been added/updated. --> NOW: Booking Summary!");
+
 });
