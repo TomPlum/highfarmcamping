@@ -120,7 +120,7 @@ block append body-content
                             .col-md-3
                                 input(type='text', name='date_of_birth',placeholder=" DD/MM/YYYY")
                             .col-md-2
-                                label Email Address *
+                                label Email Address
                             .col-md-3
                                 input(type='text', name='email_address')
                         br
@@ -138,7 +138,24 @@ block append body-content
                             .col-md-2
                                 label Amount of Dogs
                             .col-md-3
-                                input(type='text', name='amount_of_dogs')
+                                select.selectpicker
+                                    optgroup()
+                                        option 0
+                                        option 1
+                                        option 2
+                        br
+                        .row
+                            .col-md-2
+                                label Payment Method
+                            .col-md-3
+                                select.selectpicker
+                                    optgroup()
+                                        option Cash
+                                        option Cheque
+                            .col-md-2
+                                label Already paid?
+                            .col-md-3
+                                input(type='checkbox', name='already_paid')
                         br
                         .row
                             .col-md-4
