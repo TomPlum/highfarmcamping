@@ -1,33 +1,34 @@
 extends structure
 
-block append body-content
-    h2
-        span.glyphicon.glyphicon-remove-circle
-        |  Search booking
-    p
-        | Search for an existing booking.
-    br
+block append top-content
+    p.page-title
+        i.glyphicon.glyphicon-search
+        |  Search Booking
 
+block append body-content
     #booking
-        form#bookingForm(onsubmit='test()')
-            label Booking ID:
-            br
-            input(type='text', name='bookingId', value='1')
-            br
-            br
-            | Or
-            br
-            br
-            label First name:
-            br
-            input(type='text', name='firstname')
-            br
-            label Last name:
-            br
-            input(type='text', name='lastname')
-            br
-            br
-            input(type='submit', value='Submit')
+    .container
+        .row
+            .col-md-6
+                form#bookingForm(onsubmit='test()')
+                    label Booking ID:
+                    br
+                    input.form-control(type='text', name='bookingId', value='1')
+                    br
+                    br
+                    | Or
+                    br
+                    br
+                    label First name:
+                    br
+                    input.form-control(type='text', name='firstname')
+                    br
+                    label Last name:
+                    br
+                    input.form-control(type='text', name='lastname')
+                    br
+                    br
+                    input.btn-info(type='submit', value='Search')
 
 block append scripts
     script(type="text/javascript").
