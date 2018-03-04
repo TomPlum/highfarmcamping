@@ -15,34 +15,61 @@ $(document).ready(() => {
 
 });
 
+const errorNotification = "I am sorry. We have an error. Please contact your IT Support";
 function renderTable(data) {
-    const oTable = "<table class='table table-hover table-striped table-condensed'>";
-    const cTable = "</table>";
-    let tBody = "<tbody>";
 
-    let headers = "<thead>" +
+    try {
+        const oTable = "<table class='table table-hover table-striped table-condensed'>";
+        const cTable = "</table>";
+        let tBody = "<tbody>";
+
+        let headers = "<thead>" +
         "<tr>" +
-        "<th>Pitch Details</th>" +
+        "<th>Booking ID</th>" +
         "<th>Customer Name</th>" +
+        "<th>Payment Total in £</th>"+
         "<th>Paid?</th>" +
         "<th>Booking Duration</th>" +
+        "<th>Booked Pitches</th>"+
         "</tr>" +
         "</thead>";
 
-    //Create Table Body
-    for (let i = 0; i < data.length; i++) {
-        tBody += "<tr>";
-        tBody += "<td> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].type) + "</td>";
-        tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
-        tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
-        tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
-        tBody += "</tr>";
+        //Create Table Body
+        for (let i = 0; i < data.length; i++) {
+        // if clause to prevent multiple row creating for same booking:
+            if(i==0 || data[i].booking_id != data[i-1].booking_id) {
+                tBody += "<tr>";
+                tBody += "<td>" + data[i].booking_id + "</td>";
+                tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
+                tBody += "<td>" + data[i].payment_total.toFixed(2) + "</td>";
+                tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
+                tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
+                tBody += "<td> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].type);
+                // For the case: several pitches per booking:
+                for (let o = i + 1; o <= (i + 3); o++) {
+                    if (o < data.length - 1) {
+                        if (data[o].booking_id === data[i].booking_id) {
+                            tBody += "<br> Pitch " + data[o].pitch_id + "<br>" + getIcon(data[i].type);
+                        }
+                        else break;
+                    }
+                    else break;
+                }
+                tBody += "</td>";
+                tBody += "</tr>";
+            }
+        }
+
+        tBody += "</tbody>";
+
+
+        $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);
     }
-
-    tBody += "</tbody>";
-
-
-    $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);
+    catch(err)
+    {
+        console.log("Error in renderTable function of manage-booking.js: " + err.toString());
+        alert(errorNotification);
+    }
 }
 
 function getRandomInt(min, max) {
@@ -105,3 +132,25 @@ function formatPaid(paid) {
     }
     return "No";
 }
+
+// filter Table through ID when inserting values into "search customer through ID" field through JQuery:
+
+$('#booking_id').keyup(function(){
+    let id = document.getElementById("booking_id").value;
+    let table = document.getElementById("bookingTable");
+    let tr = table.getElementsByTagName("tr");
+    let i=0;
+    let td;
+    // Go through all table rows and search for row with desired ID
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if(td) {
+            if(td.innerHTML.indexOf(id)> -1)
+            {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+});

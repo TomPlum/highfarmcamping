@@ -7,28 +7,25 @@ block append top-content
 
 block append body-content
     #booking
-    .container
-        .row
-            .col-md-6
-                form#bookingForm(onsubmit='test()')
-                    label Booking ID:
-                    br
-                    input.form-control(type='text', name='bookingId', value='1')
-                    br
-                    br
-                    | Or
-                    br
-                    br
-                    label First name:
-                    br
-                    input.form-control(type='text', name='firstname')
-                    br
-                    label Last name:
-                    br
-                    input.form-control(type='text', name='lastname')
-                    br
-                    br
-                    input.btn-info(type='submit', value='Search')
+        form#bookingForm(onsubmit='test()')
+            label Booking ID:
+            br
+            input(type='text', name='bookingId', value='1')
+            br
+            br
+            | Or
+            br
+            br
+            label First name:
+            br
+            input(type='text', name='firstname')
+            br
+            label Last name:
+            br
+            input(type='text', name='lastname')
+            br
+            br
+            input(type='submit', value='Submit')
 
 block append scripts
     script(type="text/javascript").
@@ -57,102 +54,146 @@ block append scripts
                 }
             });
         }
-        // creates booking summary:
+        // creates booking summary (customer details included)
         function createTable(data) {
-            const oTable = "<table class='table table-hover table-striped table-condensed'>";
-            const cTable = "</table>";
-            let tBody = "<tbody>";
+            try {
+                const summaryLabel = "<p> Booking confirmation: </p><br>";
+                //const customerLabel = "<p> Customer details related to the booking:</p>";
+                const oTable = "<table class='table table-hover table-striped table-condensed'>";
+                const cTable = "</table>";
+                let tBody = "<tbody>";
 
-            //Create Table Header
-            let headers = "<thead>" +
+                //Create Table Header
+                let headers = "<thead>" +
                 "<tr>" +
-                "<th>Booking ID</th>" +
-                "<th>Customer ID</th>" +
-                "<th>Customer Name</th>" +
-                "<th>Booking Duration</th>" +
-                "<th>Payment Total in £</th>" +
-                "<th>Booked Pitches</th>" +
-                "<th>Number of dogs</th>"
-            "</tr>" +
-            "</thead>";
+                    "<th>Booking ID</th>" +
+                    "<th>Booking Duration</th>" +
+                    "<th>Payment Total in £</th>" +
+                    "<th>Payment Type</th>" +
+                    "<th>Booked Pitches</th>" +
+                    "<th>Number of dogs</th>" +
+                    "<th>Paid?</th>"
+                "</tr>" +
+                "</thead>";
 
-            //Create Table Body
-            tBody += "<tr>";
-            tBody += "<td>" + data[0].booking_id +"</td>";
-            tBody += "<td>" + data[0].customer_id +"</td>";
-            tBody += "<td>" + data[0].first_name + " " + data[0].last_name + "</td>";
-            tBody += "<td>" + formatDate(data[0].stay_start_date) + " - " + formatDate(data[0].stay_end_date) + "</td>";
-            tBody += "<td>" + data[0].payment_total + "</td>";
-            tBody += "<td> Pitch " + data[0].pitch_id + "<br>" + getIcon(data[0].type);
-            // in case when one booking has several pitches:
-            if (data.length > 1) {
-                for (let i = 1; i < data.length; i++) {
-                    tBody += "<br> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].type);
+                //Create Table Body
+                tBody += "<tr>";
+                tBody += "<td>" + data[0].booking_id + "</td>";
+                tBody += "<td>" + formatDate(data[0].stay_start_date) + " - " + formatDate(data[0].stay_end_date) + "</td>";
+                tBody += "<td>" + (data[0].payment_total).toFixed(2) + "</td>";
+                tBody += "<td>" + ucFirst(data[0].payment_type) + "</td>";
+                tBody += "<td> Pitch " + data[0].pitch_id + "<br>" + getIcon(data[0].type);
+                // in case when one booking has several pitches:
+                if (data.length > 1) {
+                    for (let i = 1; i < data.length; i++) {
+                        tBody += "<br> Pitch " + data[0].pitch_id + "<br>" + getIcon(data[i].type);
+                    }
+                }
+                tBody += "</td>";
+                tBody += "<td>" + data[0].count_dogs + "</td>";
+                tBody += "<td>" + formatPaid(data[0].paid) + "</td>";
+                tBody += "</tr>";
+
+                // To create a line to enclose booking summary:
+                tBody += "<tr>";
+                tBody += "<td></td>";
+                tBody += "<td></td>";
+                tBody += "<td></td>";
+                tBody += "<td></td>";
+                tBody += "<td></td>";
+                tBody += "<td></td>";
+                tBody += "<td></td>";
+                tBody += "</tr>";
+
+                tBody += "</tbody>";
+
+                const oTable2 = "<table class='table table-hover table-striped table-condensed'>";
+                const cTable2 = "</table>";
+                let tBody2 = "<tbody>";
+
+                //Create Table Header
+                let headers2 = "<thead>" +
+                    "<tr>" +
+                    "<th>Customer ID</th>" +
+                    "<th>First Name</th>" +
+                    "<th>Surname</th>" +
+                    "<th>DOB</th>" +
+                    "<th>E-Mail</th>" +
+                    "<th>Address</th>" +
+                    "<th>Home Phone</th>" +
+                    "<th>Mobile Phone</th>" +
+                    "<th>Registration</th>" +
+                    "</tr>" +
+                    "</thead>";
+
+                //Create Table Body
+
+                tBody2 += "<tr>";
+                tBody2 += "<td>" + data[0].customer_id + "</td>";
+                tBody2 += "<td>" + data[0].first_name + "</td>";
+                tBody2 += "<td>" + data[0].last_name + "</td>";
+                tBody2 += "<td>" + formatDate(data[0].date_of_birth) + "</td>";
+                tBody2 += "<td>" + data[0].email_address + "</td>";
+                tBody2 += "<td>" + data[0].address_line_1 + "<br>" + data[0].address_line_2 + "</td>";
+                tBody2 += "<td>" + data[0].home_phone_number + "</td>";
+                tBody2 += "<td>" + data[0].mobile_phone_number + "</td>";
+                tBody2 += "<td>" + data[0].registration + "</td>";
+                tBody2 += "</tr>";
+
+                tBody2 += "</tbody>";
+
+
+                document.getElementById('booking').innerHTML = summaryLabel + oTable + headers + tBody + cTable  + oTable2 + headers2 + tBody2 + cTable2;
+            }
+            catch (err)
+            {
+                console.log("Error in create table function of booking-confirmation.js: " + err.toString());
+                alert("I am sorry. We have an error. Please contact your IT Support");
+            }
+        }
+        // To make the payment type in first letter lowercased:
+        function ucFirst(string) {
+            return string.substring(0, 1).toUpperCase() + string.substring(1);
+        }
+        // Following functions from manage-booking.js:
+
+            function getIcon(type) {
+                const all_weather = "<span class='fa fa-cloud'></span>";
+                const tent = "<span class='glyphicon glyphicon-tent'></span>";
+                const caravan = "<span class='fa fa-car'></span>";
+                const motorhome = "<span class='fa fa-truck'></span>";
+                const electrical = "<span class='fa fa-lightbulb'></span>";
+
+                switch (type) {
+                    case "tent":
+                        return tent;
+                    case "caravan":
+                        return caravan + " " + all_weather;
+                    case "motorhome":
+                        return motorhome + " " + all_weather + electrical;
+                    case "all":
+                        return tent + " " + caravan + " " + motorhome + " " + electrical;
+                    default:
+                        return "N/A";
                 }
             }
-            tBody+="</td>";
-            tBody += "<td>" + data[0].count_dogs + "</td>";
-            tBody += "</tr>";
-
-            // To create a line to enclose booking summary:
-            tBody += "<tr>";
-            tBody += "<td></td>";
-            tBody += "<td></td>";
-            tBody += "<td></td>";
-            tBody += "<td></td>";
-            tBody += "<td></td>";
-            tBody += "<td></td>";
-            tBody += "<td></td>";
-            tBody += "</tr>";
-
-            /*if(data.length>1) {
-                for (let i = 1; i < data.length; i++) {
-                    tBody += "<tr>";
-                    tBody += "<td></td>";
-                    tBody += "<td></td>";
-                    tBody += "<td></td>";
-                    tBody += "<td></td>";
-                    tBody += "<td></td>";
-                    tBody += "<td> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].type) + "</td>";
-                    tBody += "</tr>";
+            function formatDate(date) {
+                date = new Date(date);
+                let DD = date.getDate();
+                if (DD < 10) {
+                    DD = "0" + DD;
                 }
-            }*/
-
-            tBody += "</tbody>";
-            document.getElementById('booking').innerHTML=oTable + headers + tBody + cTable;
-        }
-
-        function getIcon(type) {
-            const all_weather = "<span class='fa fa-cloud'></span>";
-            const tent = "<span class='glyphicon glyphicon-tent'></span>";
-            const caravan = "<span class='fa fa-car'></span>";
-            const motorhome = "<span class='fa fa-truck'></span>";
-            const electrical = "<span class='fa fa-lightbulb'></span>";
-
-            switch (type) {
-                case "tent":
-                    return tent;
-                case "caravan":
-                    return caravan + " " + all_weather;
-                case "motorhome":
-                    return motorhome + " " + all_weather + electrical;
-                case "all":
-                    return tent + " " + caravan + " " + motorhome + " " + electrical;
-                default:
-                    return "N/A";
+                let MM = date.getMonth() +1;
+                if (MM < 10) {
+                    MM = "0" + MM;
+                }
+                const YYYY = date.getFullYear();
+                return DD + "/" + MM + "/" + YYYY;
             }
-        }
-        function formatDate(date) {
-            date = new Date(date);
-            let DD = date.getDate();
-            if (DD < 10) {
-                DD = "0" + DD;
+            function formatPaid(paid) {
+                if (paid === 1) {
+                    return "Yes";
+                }
+                return "No";
             }
-            let MM = date.getMonth() +1;
-            if (MM < 10) {
-                MM = "0" + MM;
-            }
-            const YYYY = date.getFullYear();
-            return DD + "/" + MM + "/" + YYYY;
-        }
 

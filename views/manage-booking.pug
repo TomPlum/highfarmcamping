@@ -10,11 +10,28 @@ block append top-content
 block append body-content
     p
         | Here you can see an overview of all bookings and their payment status.
+    p
+        .row
+        .row
+            .col-md-3
+                input.form-control.input(type='text', placeholder='Search booking by ID', id='booking_id')
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Show")
+                    span.glyphicon.glyphicon-list-alt
+                    |  Show booking confirmation
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Edit")
+                    span.fa.fa-fw.fa-edit
+                    |  Edit Booking
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Delete")
+                    span.fa.fa-fw.fa-minus-circle
+                    |  Delete Booking
     // Main Page Content
     form(action='')
         .container-fluid
             .row
-                .pitch-booking-overview
+                .pitch-booking-overview#bookingTable
     //Loading
     #loading
     // Available Pitches Output Here
