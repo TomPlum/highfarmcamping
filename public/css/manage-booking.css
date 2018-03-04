@@ -1,6 +1,10 @@
 .pitch-booking-overview table {
     width: 100%;
 }
+tr.selected {
+    background-color: #2f8fd5 !important;
+    color: #FFF;
+}
 /*
 .pitch-booking-overview table th {
     padding: 2px 5px;

@@ -20,10 +20,10 @@ $(document).ready(() => {
 
     // Edit and delete customer
     //***********************************************
-    let selected_row_value;
+    let selectedRowValue;
 
     if(localStorage.getItem("selectedRow")){
-        selected_row_value = localStorage.getItem("selectedRow");
+        selectedRowValue = localStorage.getItem("selectedRow");
     }else{
         localStorage.setItem("selectedRow","");
     }
@@ -93,7 +93,7 @@ $(document).ready(() => {
                 document.forms[0].mobile_phone_number.value + "\",registration = \""+
                 document.forms[0].registration.value + "\",address_line_1 = \""+
                 document.forms[0].address_line_1.value + "\",address_line_2 = \""+
-                document.forms[0].address_line_2.value + "\" WHERE customer_id = \""+selected_row_value + "\";";
+                document.forms[0].address_line_2.value + "\" WHERE customer_id = \""+selectedRowValue + "\";";
 
             $.ajax({
                 url: "/insert-customer",
@@ -123,7 +123,7 @@ $(document).ready(() => {
             $.ajax({
                 url: "/delete-customer",
                 type: "POST",
-                data: {"ID": selected_row_value},
+                data: {"ID": selectedRowValue},
                 success: function (err) {
                     console.log("Ajax Request successful");
 
@@ -282,8 +282,8 @@ $(document).ready(() => {
     }
 
     function goToEditCustomer() {
-        console.log(selected_row_value);
-        if(selected_row_value !== undefined){
+        console.log(selectedRowValue);
+        if(selectedRowValue !== undefined){
             window.location = "/edit-customer";
         }
     }
@@ -291,10 +291,10 @@ $(document).ready(() => {
     function insertDataInFields(){
         console.log(localStorage.getItem("selectedRow"));
 
-        //selected_row_value = parseInt(localStorage.getItem("selectedRow"));
-        //if selected_row_value = NULL
+        //selectedRowValue = parseInt(localStorage.getItem("selectedRow"));
+        //if selectedRowValue = NULL
         for (let customer1 of customer){
-            if (customer1.customer_id === parseInt(selected_row_value)){
+            if (customer1.customer_id === parseInt(selectedRowValue)){
                 $('input[name=first_name]').val(customer1.first_name);
                 $('input[name=last_name]').val(customer1.last_name);
                 $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
@@ -317,7 +317,7 @@ $(document).ready(() => {
     //***********************************************
     function goToDeleteCustomer(){
 
-        if(selected_row_value !== undefined){
+        if(selectedRowValue !== undefined){
             window.location = "/deletecustomer";
         }
 
@@ -355,7 +355,7 @@ $(document).ready(() => {
             $.ajax({
                 url: "/get-customer",
                 type: "POST",
-                data: {"ID": selected_row_value},
+                data: {"ID": selectedRowValue},
                 success: function (dataP) {
                     customer = dataP;
                     createTable();
@@ -415,12 +415,10 @@ $(document).ready(() => {
         //Make the rows selectable but only if you enter the customer-overview page
         if(window.location.pathname.match("customer-overview") ){
             let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
             for (i = 0; i < rows.length; i++) {
                 rows[i].addEventListener('click', function() {
-
-                    if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML !== selected_row_value){
-                        selected_row_value = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML;
+                    if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML !== selectedRowValue){
+                        selectedRowValue = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML;
 
                         let rows2 = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
                         for (x = 0; x < rows2.length; x++) {
@@ -430,7 +428,7 @@ $(document).ready(() => {
                     }else{
 
                         this.classList.remove('selected');
-                        selected_row_value = undefined;
+                        selectedRowValue = undefined;
                     }
 
                 });
@@ -439,12 +437,12 @@ $(document).ready(() => {
     }
 
     $('#Edit').on('click', function(){
-        localStorage.setItem("selectedRow", selected_row_value);
+        localStorage.setItem("selectedRow", selectedRowValue);
         goToEditCustomer();
     });
 
     $('#Delete').on('click', function(){
-        localStorage.setItem("selectedRow", selected_row_value);
+        localStorage.setItem("selectedRow", selectedRowValue);
         goToDeleteCustomer();
     });
 

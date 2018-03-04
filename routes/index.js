@@ -21,29 +21,35 @@ router.get('/help', function(req, res) {
     res.render('help', {title: 'Information'});
 });
 
-/*GET Customer Overview Page */
+/* GET Customer Overview Page */
 router.get('/customer-overview', function(req, res) {
     res.render('customer-overview', {title: "Customer Overview"});
 });
 
-/*GET Add Customer Page  */
+/* GET Add Customer Page  */
 router.get('/add-customer', function(req, res) {
     res.render('addcustomer', {title: "Add Customer"});
 });
 
-/*GET Customer-searchform */
+/* GET Search Customer Page */
 router.get('/searchcustomer', function(req, res) {
     res.render('searchcustomer', {title: "Search Customer"});
 });
 
-/*GET Edit Customer Page */
+/* GET Edit Customer Page */
 router.get('/edit-customer', function(req, res) {
     res.render('editcustomer', {title: "Edit Customer"});
 });
 
-/* GET customer-deleteform */
+/* GET Delete Customer Page */
 router.get('/deletecustomer', function(req, res) {
     res.render('deletecustomer', {title: "Delete a Customer"});
+});
+
+/* POST Redirect */
+router.post('/redirect', function(req, res) {
+    console.log(req.body.uri);
+    res.status(302).redirect(req.body.uri);
 });
 
 /*************************************/

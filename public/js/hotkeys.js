@@ -10,6 +10,7 @@
     window.onkeydown = e => {
         if (e.ctrlKey && e.altKey && e.keyCode === 68) {
             $(".hotkeys").find(".ctrl-d").toggleClass("active-hotkey");
+            redirect("/");
             setTimeout(function() {
                 $(".hotkeys").find(".ctrl-d").toggleClass("active-hotkey");
             }, 2000);
@@ -25,5 +26,13 @@
                 $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
             }, 2000);
         }
+    };
+
+    function redirect(uri) {
+        $.ajax({
+            url: '/redirect',
+            type: "POST",
+            data: {uri: uri}
+        });
     }
 })(jQuery);

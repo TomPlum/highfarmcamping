@@ -7,6 +7,11 @@ block append stylesheets
 block append scripts
     script(src="js/customer-overview.js")
 
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-edit
+        |  Edit Customer
+
 block append body-content
     h2
     div(id='alertBoxContainer')
