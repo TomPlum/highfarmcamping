@@ -1,6 +1,15 @@
 $(document).ready(() => {
     startLoadingAnimation();
 
+
+    let selectedRowValue;
+
+    if(localStorage.getItem("selectedRow")){
+        selectedRowValue = localStorage.getItem("selectedRow");
+    }else{
+        localStorage.setItem("selectedRow","");
+    }
+
     $.ajax({
         url: "/manage-booking/get-booking-overview",
         type: "POST",
@@ -13,9 +22,9 @@ $(document).ready(() => {
         }
     });
 
-});
-
 const errorNotification = "I am sorry. We have an error. Please contact your IT Support";
+
+
 function renderTable(data) {
 
     try {
@@ -61,9 +70,28 @@ function renderTable(data) {
         }
 
         tBody += "</tbody>";
-
-
         $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);
+
+        // Make booking rows selectable:
+        let rows = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        for (i = 0; i < rows.length; i++) {
+            rows[i].addEventListener('click', function() {
+
+                if (document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex - 1].getElementsByTagName('td')[0].innerHTML !== selectedRowValue) {
+                    selectedRowValue = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex - 1].getElementsByTagName('td')[0].innerHTML;
+
+                    let rows2 = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                    for (x = 0; x < rows2.length; x++) {
+                        rows2[x].classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                } else {
+
+                    this.classList.remove('selected');
+                    selectedRowValue = undefined;
+                }
+            });
+            }
     }
     catch(err)
     {
@@ -133,6 +161,21 @@ function formatPaid(paid) {
     return "No";
 }
 
+// Goes to show booking confirmation when clicking show booking confirmation:
+
+    $('#Show').on('click', function(){
+        localStorage.setItem("selectedRow", selectedRowValue);
+        goToShowBookingConfirmation();
+    });
+
+    function goToShowBookingConfirmation(){
+
+        if(selectedRowValue !== undefined){
+            window.location = "/manage-booking/show-booking";
+        }
+
+    }
+
 // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
 $('#booking_id').keyup(function(){
@@ -153,4 +196,5 @@ $('#booking_id').keyup(function(){
             }
         }
     }
+});
 });

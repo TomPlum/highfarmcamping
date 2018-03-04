@@ -415,10 +415,8 @@ $(document).ready(() => {
         //Make the rows selectable but only if you enter the customer-overview page
         if(window.location.pathname.match("customer-overview") ){
             let rows = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
             for (i = 0; i < rows.length; i++) {
                 rows[i].addEventListener('click', function() {
-
                     if(document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML !== selectedRowValue){
                         selectedRowValue = document.getElementById('customerTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex-1].getElementsByTagName('td')[0].innerHTML;
 
