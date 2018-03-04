@@ -28,11 +28,37 @@ $(document).ready(function() {
 let pitches = [];
 let pitchBookings = [];
 
+//should contain max. 3 currentBooking, each one has a pitch id, stard-date and end-date example:
+/*
+[
+    [pitch_id,start-date,end-date],
+    [pitch_id,start-date,end-date],
+    [pitch_id,start-date,end-date],
+]
+*/
+let allBookings = [
+    {
+        pitchID:"",
+        startDate:"",
+        endDate:"",
+    },
+    {
+        pitchID:"",
+        startDate:"",
+        endDate:"",
+    },
+    {
+        pitchID:"",
+        startDate:"",
+        endDate:"",
+    },
+];
+
 
 
 
 /*************************************/
-/* --- Global Variables -------------*/
+/* --- Book a pitch -----------------*/
 /*************************************/
 
 function populatePitchSelection() {
@@ -86,9 +112,9 @@ function populatePitchSelection() {
                 } else {
                     let available = checkAvailability(pitches[i], allDates[j-1]);
                     if (available === true ){
-                        body += "<td class='available-pitch'>1</td>";
+                        body += "<td class='available-pitch'></td>";
                     } else {
-                        body += "<td class='not-available-pitch'>1</td>";
+                        body += "<td class='not-available-pitch'></td>";
                     }
                 }
             }
@@ -98,6 +124,41 @@ function populatePitchSelection() {
     }
 
     $(".pitch-selection").html(oTable + headers + body + cTable);
+
+    //Make fields selectable
+    let rows = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    //iterate through rows
+    for (i = 0; i < rows.length; i++) {
+
+        let columsPerRow = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[i].getElementsByTagName("td");
+
+        //iterate through the colums of a row
+        //iterate through the colums of a row
+        //x=1 because first row should not be selectable
+        for (x = 1; x < columsPerRow.length; x++) {
+
+            //check if this date is available
+            if(columsPerRow[x].classList.contains("available-pitch")){
+                columsPerRow[x].addEventListener('click', function() {
+
+                    //get DAte of selected Cell
+                    console.log(allDates[this.cellIndex-1]);
+
+                    //get Pitch ID of selected Cell
+                    console.log(rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0,rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<")));
+
+                    if(this.classList.contains("selected")){
+                        this.classList.remove("selected");
+                    }else {
+                        this.classList.add("selected");
+
+                    };
+
+                });
+            }
+        }
+    }
 }
 
 function getDatesInRange(start, end) {

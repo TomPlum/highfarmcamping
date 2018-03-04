@@ -61,3 +61,8 @@
 .not-available-pitch {
     background-color: #ff5547;
 }
+
+td.selected {
+    background-color: #2f8fd5 !important;
+    color: #2f8fd5;
+}
