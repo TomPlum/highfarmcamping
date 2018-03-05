@@ -23,8 +23,8 @@ router.get('/booking-history', function(req, res) {
 });
 
 // GET Booking Search Page
-router.get('/booking-search', function(req, res) {
-   res.render('booking-search', {title: "Booking Search"});
+router.get('/show-booking', function(req, res) {
+   res.render('show-booking', {title: "Show Booking Confirmation"});
 });
 
 // POST search for booking

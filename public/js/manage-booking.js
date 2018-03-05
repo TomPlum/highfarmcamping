@@ -2,13 +2,8 @@ $(document).ready(() => {
     startLoadingAnimation();
 
 
-    let selectedRowValue;
-
-    if(localStorage.getItem("selectedRow")){
-        selectedRowValue = localStorage.getItem("selectedRow");
-    }else{
-        localStorage.setItem("selectedRow","");
-    }
+    let selectedRowValue="";
+    const errorNotification = "I am sorry. We have an error. Please contact your IT Support";
 
     $.ajax({
         url: "/manage-booking/get-booking-overview",
@@ -21,9 +16,6 @@ $(document).ready(() => {
             console.log(err);
         }
     });
-
-const errorNotification = "I am sorry. We have an error. Please contact your IT Support";
-
 
 function renderTable(data) {
 
@@ -45,60 +37,85 @@ function renderTable(data) {
 
         //Create Table Body
         for (let i = 0; i < data.length; i++) {
-        // if clause to prevent multiple row creating for same booking:
-            if(i==0 || data[i].booking_id != data[i-1].booking_id) {
+            // if clause to prevent multiple row creating for same booking:
+            if (i === 0 || data[i].booking_id !== data[i - 1].booking_id) {
                 tBody += "<tr>";
                 tBody += "<td>" + data[i].booking_id + "</td>";
                 tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
                 tBody += "<td>" + data[i].payment_total.toFixed(2) + "</td>";
                 tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
                 tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
-                tBody += "<td> Pitch " + data[i].pitch_id + "<br>" + getIcon(data[i].type);
+                tBody += "<td>" + getIcon(data[i].type) + " &nbsp; Pitch " + data[i].pitch_id + "&nbsp; &nbsp;";
                 // For the case: several pitches per booking:
                 for (let o = i + 1; o <= (i + 3); o++) {
                     if (o < data.length - 1) {
                         if (data[o].booking_id === data[i].booking_id) {
-                            tBody += "<br> Pitch " + data[o].pitch_id + "<br>" + getIcon(data[i].type);
+                            tBody += getIcon(data[o].type) + " &nbsp; Pitch " + data[o].pitch_id + "<br>";
                         }
                         else break;
                     }
                     else break;
                 }
                 tBody += "</td>";
+                /*if (i+1 < data.length -1) {
+                    if (data[i].booking_id === data[i + 1].booking_id) {
+                        tBody += "<td><button type='button' class='btn-info'>" +
+                            " <span class='glyphicon glyphicon-menu-down' aria-hidden='true'></span>" +
+                            "</button></td>";
+                    }
+                }
                 tBody += "</tr>";
+                for (let o = i + 1; o <= (i + 3); o++) {
+                    if (o < data.length - 1) {
+                        if (data[o].booking_id === data[i].booking_id) {
+                            tBody += "<tr class=multiplePitchesRow>";//class=multiplePitchesRow
+                            tBody += "<td></td>";
+                            tBody += "<td></td>";
+                            tBody += "<td></td>";
+                            tBody += "<td></td>";
+                            tBody += "<td></td>";
+                            tBody += "<td>" + getIcon(data[o].type)+ " &nbsp; Pitch " + data[o].pitch_id + "</td>";
+                            tBody += "</tr>";
+                        }
+                        else break;
+                    }
+                    else break;
+                }
+            }*/
             }
         }
 
-        tBody += "</tbody>";
-        $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);
+            tBody += "</tbody>";
+            $(".pitch-booking-overview").html(oTable + headers + tBody + cTable);
 
-        // Make booking rows selectable:
-        let rows = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-        for (i = 0; i < rows.length; i++) {
-            rows[i].addEventListener('click', function() {
+            // Make booking rows selectable:
+            let rows = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (i = 0; i < rows.length; i++) {
+                rows[i].addEventListener('click', function () {
 
-                if (document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex - 1].getElementsByTagName('td')[0].innerHTML !== selectedRowValue) {
-                    selectedRowValue = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex - 1].getElementsByTagName('td')[0].innerHTML;
+                    if (document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex - 1].getElementsByTagName('td')[0].innerHTML !== selectedRowValue) {
+                        selectedRowValue = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[this.rowIndex - 1].getElementsByTagName('td')[0].innerHTML;
 
-                    let rows2 = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-                    for (x = 0; x < rows2.length; x++) {
-                        rows2[x].classList.remove('selected');
+                        let rows2 = document.getElementById('bookingTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                        for (x = 0; x < rows2.length; x++) {
+                            rows2[x].classList.remove('selected');
+                        }
+                        this.classList.add('selected');
+                    } else {
+
+                        this.classList.remove('selected');
+                        selectedRowValue = undefined;
                     }
-                    this.classList.add('selected');
-                } else {
-
-                    this.classList.remove('selected');
-                    selectedRowValue = undefined;
-                }
-            });
+                });
             }
-    }
+        }
     catch(err)
     {
         console.log("Error in renderTable function of manage-booking.js: " + err.toString());
         alert(errorNotification);
     }
 }
+
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -170,9 +187,11 @@ function formatPaid(paid) {
 
     function goToShowBookingConfirmation(){
 
-        if(selectedRowValue !== undefined){
-            window.location = "/manage-booking/show-booking";
+        if(selectedRowValue !== ""){
+            console.log("This is the selectedRowValue :" + selectedRowValue);
+            window.location = "/manage-booking/show-booking?id="+selectedRowValue;
         }
+        else alert("To continue, please select a booking and click the button again.");
 
     }
 
