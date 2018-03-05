@@ -42,8 +42,8 @@ router.get('/edit-customer', function(req, res) {
 });
 
 /* GET Delete Customer Page */
-router.get('/deletecustomer', function(req, res) {
-    res.render('deletecustomer', {title: "Delete a Customer"});
+router.get('/delete-customer', function(req, res) {
+    res.render('delete-customer', {title: "Delete a Customer"});
 });
 
 /* POST Redirect */
@@ -114,15 +114,16 @@ router.post('/get-customer', function(req, res) {
 });
 
 // POST DB Query for deleting customer
-router.post('/delete-customer', function(req,res) {
+router.post('/delete-single-customer', function(req, res) {
     //+req.data.ID+
     let id = JSON.stringify(req.body["ID"]);
     //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
-    let sql_statement = "DELETE FROM customers WHERE customer_id=" + id + ";";
-    mysql.connection.query(sql_statement, function(err) {
-        console.log(err);
-        //res.send(rows);
-    });
+    let sqlStatement = "DELETE FROM customers WHERE customer_id=" + id + ";";
+
+        mysql.connection.query(sqlStatement, function (err) {
+            console.log("THIS IS OUR" + err);
+            res.send(err);
+        });
 });
 
 //POST DB Query of add / edit customer

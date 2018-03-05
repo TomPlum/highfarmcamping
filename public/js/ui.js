@@ -71,3 +71,4 @@ function startLoadingAnimation() {
 function stopLoadingAnimation() {
     $("#loading").html("");
 }
+

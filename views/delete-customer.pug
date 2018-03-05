@@ -1,8 +1,8 @@
 extends structure
 
 block append stylesheets
-    link(rel="stylesheet" href="css/ui.css")
     link(rel="stylesheet" href="css/customer.css")
+    link(rel="stylesheet" href="css/ui.css")
 
 block append body-content
     h2
@@ -47,7 +47,7 @@ block append body-content
         form(action='')
             .container-fluid
                 .row
-                    .customer-overview
+                    .customer-to-be-deleted
         .row
             .col-md-2
             .col-md-8
@@ -67,4 +67,5 @@ block append body-content
         div(class="error")
 
 block append scripts
-    script(src="js/customer-overview.js")
+    script(src="js/delete-customer.js")
+

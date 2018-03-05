@@ -1,28 +1,30 @@
+// file is for creating a booking confirmation from data of the database
 $(document).ready(() => {
-    console.log("THIS IS URL " + window.location.search.substring(4));
-    //console.log("THIS IS ID: " + URLSearchParams.get(window.location));
+
+// Start Loading and stop Loading Animation for display a loading sign for the user before table is displayed
+    startLoadingAnimation();
 
     getBookingFromDB();
-    //Ajax call to the DB to get customer to be deleted
+    //Ajax call to the DB to get data for booking confirmation:
     function getBookingFromDB() {
         $.ajax({
             type: 'POST',
             async: false,
             url: '/manage-booking/get-booking',
             data: {
-                'ID': window.location.search.substring(4)
+                'ID': window.location.search.substring(12)
             },
             success: function (data) {
-                //customer_to_be_deleted = JSON.stringify(data);
-                //document.getElementById('customer').innerHTML = "THIS IS :" + customer_to_be_deleted;
+                stopLoadingAnimation();
                 createTable(data);
             },
             error: function () {
-                alert("I am sorry. Booking data cannot be accessed right now. Please contact IT support.");
+                console.log("We have an error in AJAX request for booking confirmation: " + err);
+                alert(errorNotification);
             }
         });
     }
-    // creates booking summary (customer details included)
+    // creates booking summary (=booking confirmation, customer details included)
     function createTable(data) {
         try {
             const bookingDetailsLabel = "<p> Booking details: </p>";
@@ -35,40 +37,45 @@ $(document).ready(() => {
             let headers = "<thead>" +
                 "<tr>" +
                 "<th>Booking ID</th>" +
+                "<th>Booking Date</th>" +
                 "<th>Booking Duration</th>" +
                 "<th>Payment Total in £</th>" +
                 "<th>Payment Type</th>" +
+                "<th>Paid?</th>" +
                 "<th>Booked Pitches</th>" +
-                "<th>Number of dogs</th>" +
-                "<th>Paid?</th>"
+                "<th>Dogs?</th>" +
             "</tr>" +
             "</thead>";
 
             //Create Table Body
             tBody += "<tr>";
             tBody += "<td>" + data[0].booking_id + "</td>";
+            tBody += "<td>" + formatDate(data[0].booking_id) + "</td>";
             tBody += "<td>" + formatDate(data[0].stay_start_date) + " - " + formatDate(data[0].stay_end_date) + "</td>";
             tBody += "<td>" + (data[0].payment_total).toFixed(2) + "</td>";
             tBody += "<td>" + ucFirst(data[0].payment_type) + "</td>";
+            tBody += "<td>" + formatPaid(data[0].paid) + "</td>";
             tBody += "<td>";
             // in case when one booking has several pitches:
             if (data.length > 1) {
                 console.log(data.length);
+                // one booking has two pitches:
                 if(data.length===2)
                 {
-                    tBody += "Pitch " + data[0].pitch_id + " " +  getIcon(data[0].type) + " Pitch " + data[1].pitch_id + " " + getIcon(data[1].type);
+                    tBody += getIcon(data[0].type) + " Pitch " + data[0].pitch_id + " &nbsp &nbsp" +  getIcon(data[1].type) + " Pitch " + data[1].pitch_id;
                 }
                 else
+                    // one booking has three pitches:
                 {
                     tBody += getIcon(data[0].type) + " Pitch " + data[0].pitch_id + "&nbsp &nbsp" +  getIcon(data[1].type) + " Pitch " + data[1].pitch_id + "<br>" + getIcon(data[2].type) + " Pitch " + data[2].pitch_id;
                 }//tBody += "Pitch " + data[0].pitch_id + "<br>" + getIcon(data[i].type);
             }
+            // one booking has one pitch:
             else {
-                tBody += "Pitch " + data[0].pitch_id + "<br>" + getIcon(data[0].type);
+                tBody += getIcon(data[0].type) + " Pitch " + data[0].pitch_id;
             }
             tBody += "</td>";
-            tBody += "<td>" + data[0].count_dogs + "</td>";
-            tBody += "<td>" + formatPaid(data[0].paid) + "</td>";
+            tBody += "<td>" + displayDogInformation(data[0].count_dogs) + "</td>";
             tBody += "</tr>";
             tBody += "</tbody>";
 
@@ -126,68 +133,23 @@ $(document).ready(() => {
             tBody3 += "<td>" + data[0].mobile_phone_number + "</td>";
             tBody3 += "</tr>";
 
-            // To create a line to enclose booking confirmation:
-           /* tBody3 += "<tr>";
-            tBody3 += "<td></td>";
-            tBody3 += "<td></td>";
-            tBody3 += "<td></td>";
-            tBody3 += "<td></td>";
-            tBody3 += "</tbody>"; */
-
-
-            document.getElementById('booking').innerHTML = bookingDetailsLabel + oTable + headers + tBody + cTable  + customerDetailsLabel + oTable + headers2 + tBody2 + cTable + customerContactDataLabel + oTable + headers3 + tBody3 + cTable;
+            // Now display the created table in webpage:
+            $("#booking").html(bookingDetailsLabel + oTable + headers + tBody + cTable  + customerDetailsLabel + oTable + headers2 + tBody2 + cTable + customerContactDataLabel + oTable + headers3 + tBody3 + cTable);
         }
         catch (err)
         {
             console.log("Error in create table function of booking-confirmation.js: " + err.toString());
-            alert("I am sorry. We have an error. Please contact your IT Support");
+            alert(errorNotification);
         }
     }
-    // To make the payment type in first letter lowercased:
-    function ucFirst(string) {
-        return string.substring(0, 1).toUpperCase() + string.substring(1);
-    }
-    // Following functions from manage-booking.js:
-
-    function getIcon(type) {
-        const all_weather = "<span class='fa fa-cloud'></span>";
-        const tent = "<span class='glyphicon glyphicon-tent'></span>";
-        const caravan = "<span class='fa fa-car'></span>";
-        const motorhome = "<span class='fa fa-truck'></span>";
-        const electrical = "<span class='fa fa-lightbulb'></span>";
-
-        switch (type) {
-            case "tent":
-                return tent;
-            case "caravan":
-                return caravan + " " + all_weather;
-            case "motorhome":
-                return motorhome + " " + all_weather + electrical;
-            case "all":
-                return tent + " " + caravan + " " + motorhome + " " + electrical;
-            default:
-                return "N/A";
-        }
-    }
-    function formatDate(date) {
-        date = new Date(date);
-        let DD = date.getDate();
-        if (DD < 10) {
-            DD = "0" + DD;
-        }
-        let MM = date.getMonth() +1;
-        if (MM < 10) {
-            MM = "0" + MM;
-        }
-        const YYYY = date.getFullYear();
-        return DD + "/" + MM + "/" + YYYY;
-    }
-    function formatPaid(paid) {
-        if (paid === 1) {
-            return "Yes";
-        }
+});
+// Gives No when no dog; when dog is also booked, number of dogs will be returned
+function displayDogInformation(data)
+{
+    if (data === 0)
+    {
         return "No";
     }
+    else return "Yes: " + data;
 
-
-});
+}

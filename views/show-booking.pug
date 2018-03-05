@@ -1,34 +1,26 @@
 extends structure
 
+block append stylesheets
+    link(rel="stylesheet" href="css/manage-booking.css")
+
 block append top-content
     p.page-title
         span.glyphicon.glyphicon-list-alt
         |  Booking Confirmation
 
 block append body-content
-    #booking
-        form#bookingForm(onsubmit='test()')
-            label Booking ID:
-            br
-            input(type='text', name='bookingId', value='1')
-            br
-            br
-            | Or
-            br
-            br
-            label First name:
-            br
-            input(type='text', name='firstname')
-            br
-            label Last name:
-            br
-            input(type='text', name='lastname')
-            br
-            br
-            input(type='submit', value='Submit')
+    // show-booking.js inserts confirmation by ID booking
+    // Main Page Content:
+    form(action='')
+        .container-fluid
+            .row
+                #loading
+                .booking-confirmation#booking
+
 
 block append scripts
     script(src="js/show-booking.js")
+
 
 
 

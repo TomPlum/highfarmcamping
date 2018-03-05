@@ -1,9 +1,10 @@
+// this file loads the booking overview of all bookings to the webpage
+
 $(document).ready(() => {
     startLoadingAnimation();
 
-
+    // selectedRowValue is the stored booking id when clicking on a specific row:
     let selectedRowValue="";
-    const errorNotification = "I am sorry. We have an error. Please contact your IT Support";
 
     $.ajax({
         url: "/manage-booking/get-booking-overview",
@@ -14,6 +15,7 @@ $(document).ready(() => {
         },
         error: (err) => {
             console.log(err);
+            alert(errorNotification);
         }
     });
 
@@ -27,6 +29,7 @@ function renderTable(data) {
         let headers = "<thead>" +
         "<tr>" +
         "<th>Booking ID</th>" +
+        "<th>Booking Date</th>"+
         "<th>Customer Name</th>" +
         "<th>Payment Total in £</th>"+
         "<th>Paid?</th>" +
@@ -41,22 +44,24 @@ function renderTable(data) {
             if (i === 0 || data[i].booking_id !== data[i - 1].booking_id) {
                 tBody += "<tr>";
                 tBody += "<td>" + data[i].booking_id + "</td>";
+                tBody += "<td>" + formatDate(data[i].booking_date) + "</td>";
                 tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
                 tBody += "<td>" + data[i].payment_total.toFixed(2) + "</td>";
                 tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
                 tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
-                tBody += "<td>" + getIcon(data[i].type) + " &nbsp; Pitch " + data[i].pitch_id + "&nbsp; &nbsp;";
-                // For the case: several pitches per booking:
+                tBody += "<td>" + getIcon(data[i].type) + " Pitch " + data[i].pitch_id + "&nbsp; &nbsp;";
+                // For the case: several pitches per booking we use the for loop to fill several pitches into the Booked Pitches column:
                 for (let o = i + 1; o <= (i + 3); o++) {
                     if (o < data.length - 1) {
                         if (data[o].booking_id === data[i].booking_id) {
-                            tBody += getIcon(data[o].type) + " &nbsp; Pitch " + data[o].pitch_id + "<br>";
+                            tBody += getIcon(data[o].type) + " Pitch " + data[o].pitch_id + "<br>";
                         }
                         else break;
                     }
                     else break;
                 }
                 tBody += "</td>";
+
                 /*if (i+1 < data.length -1) {
                     if (data[i].booking_id === data[i + 1].booking_id) {
                         tBody += "<td><button type='button' class='btn-info'>" +
@@ -116,7 +121,7 @@ function renderTable(data) {
     }
 }
 
-
+/*
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -131,57 +136,16 @@ Date.prototype.addDays = function(days) {
     return dat;
 };
 
-function getIcon(type) {
-    const all_weather = "<span class='fa fa-cloud'></span>";
-    const tent = "<span class='glyphicon glyphicon-tent'></span>";
-    const caravan = "<span class='fa fa-car'></span>";
-    const motorhome = "<span class='fa fa-truck'></span>";
-    const electrical = "<span class='fa fa-lightbulb'></span>";
 
-    switch (type) {
-        case "tent":
-            return tent;
-        case "caravan":
-            return caravan + " " + all_weather;
-        case "motorhome":
-            return motorhome + " " + all_weather + electrical;
-        case "all":
-            return tent + " " + caravan + " " + motorhome + " " + electrical;
-        default:
-            return "N/A";
-    }
-}
 
 function getName() {
     return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
-}
+} */
 
-
-function formatDate(date) {
-    date = new Date(date);
-    let DD = date.getDate();
-    if (DD < 10) {
-        DD = "0" + DD;
-    }
-    let MM = date.getMonth() + 1;
-    if (MM < 10) {
-        MM = "0" + MM;
-    }
-    const YYYY = date.getFullYear();
-    return DD + "/" + MM + "/" + YYYY;
-}
-
-function formatPaid(paid) {
-    if (paid === 1) {
-        return "Yes";
-    }
-    return "No";
-}
 
 // Goes to show booking confirmation when clicking show booking confirmation:
 
     $('#Show').on('click', function(){
-        localStorage.setItem("selectedRow", selectedRowValue);
         goToShowBookingConfirmation();
     });
 
@@ -189,8 +153,9 @@ function formatPaid(paid) {
 
         if(selectedRowValue !== ""){
             console.log("This is the selectedRowValue :" + selectedRowValue);
-            window.location = "/manage-booking/show-booking?id="+selectedRowValue;
+            window.location = "/manage-booking/show-booking?booking_id="+selectedRowValue;
         }
+        // You have to select a row before you can get the booking confirmation:
         else alert("To continue, please select a booking and click the button again.");
 
     }

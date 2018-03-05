@@ -18,9 +18,9 @@ $(document).ready(() => {
     //Hold the input errors
     let errors = [];
 
-    // Edit and delete customer
+    // Edit customer
     //***********************************************
-    let selectedRowValue;
+    let selectedRowValue="";
 
     if(localStorage.getItem("selectedRow")){
         selectedRowValue = localStorage.getItem("selectedRow");
@@ -116,34 +116,6 @@ $(document).ready(() => {
             }
 
         }
-    });
-
-    // Listen on the "Delete Customer" button and invoke SQL delete statement when clicking
-    $('#btnDeleteCustomer').click(function () {
-            $.ajax({
-                url: "/delete-customer",
-                type: "POST",
-                data: {"ID": selectedRowValue},
-                success: function (err) {
-                    console.log("Ajax Request successful");
-
-                    if(JSON.stringify(err)==="\"\"")
-                    {
-                        $("#alertBoxContainer").css("visibility","visible");
-                    }
-                    else
-                    {
-                        $("#alertBoxContainer2").css("visibility", "visible");
-                    }
-
-                    $("#deleteCustomerSection").css("visibility","hidden");
-                    },
-                error: function (error) {
-                    console.log("Ajax request error : "+ error);
-                    alert("I am sorry. There is an error with the database");
-
-                }
-            });
     });
 
     // Listen on the "alert box" button
@@ -286,6 +258,11 @@ $(document).ready(() => {
         if(selectedRowValue !== undefined){
             window.location = "/edit-customer";
         }
+        else
+        {
+            alert("To continue, please select a customer and click the button again.");
+        }
+
     }
 
     function insertDataInFields(){
@@ -318,7 +295,11 @@ $(document).ready(() => {
     function goToDeleteCustomer(){
 
         if(selectedRowValue !== undefined){
-            window.location = "/deletecustomer";
+            window.location = "/delete-customer?customer_id="+selectedRowValue;
+        }
+        else
+        {
+            alert("To continue, please select a customer and click the button again.")
         }
 
     }
@@ -332,6 +313,7 @@ $(document).ready(() => {
     function getDataFromDB() {
         startLoadingAnimation();
         //Ajax Call to the DB
+
         // If page deletecustomer: we invoke Ajax call for getting a single customer
         if(!window.location.pathname.match("deletecustomer")) {
             $.ajax({
@@ -347,23 +329,13 @@ $(document).ready(() => {
                     }
                 },
                 error: function (error) {
-                    console.log("Error receiving data from the database")
+                    console.log("Error receiving data from the database");
+                    alert(errorNotification);
                 }
             });
         }else
         {
-            $.ajax({
-                url: "/get-customer",
-                type: "POST",
-                data: {"ID": selectedRowValue},
-                success: function (dataP) {
-                    customer = dataP;
-                    createTable();
-                },
-                error: function (error) {
-                    console.log("Error receiving data from the database")
-                }
-            });
+
         }
     }
 
@@ -442,7 +414,6 @@ $(document).ready(() => {
     });
 
     $('#Delete').on('click', function(){
-        localStorage.setItem("selectedRow", selectedRowValue);
         goToDeleteCustomer();
     });
 
