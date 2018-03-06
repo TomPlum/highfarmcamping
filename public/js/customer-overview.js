@@ -352,8 +352,7 @@ $(document).ready(() => {
         let headers = "<thead>" +
             "<tr>" +
             "<th>ID</th>" +
-            "<th>First Name</th>" +
-            "<th>Surname</th>" +
+            "<th>Customer Name</th>" +
             "<th>DOB</th>" +
             "<th>E-Mail</th>" +
             "<th>Address</th>" +
@@ -367,8 +366,7 @@ $(document).ready(() => {
         for (let i = 0; i < customer.length; i++) {
             tBody += "<tr>";
             tBody += "<td>" + customer[i].customer_id + "</td>";
-            tBody += "<td>" + customer[i].first_name + "</td>";
-            tBody += "<td>" + customer[i].last_name + "</td>";
+            tBody += "<td>" + customer[i].first_name + " " + customer[i].last_name + "</td>";
             tBody += "<td>" + formatDate(customer[i].date_of_birth) + "</td>";
             tBody += "<td>" + customer[i].email_address + "</td>";
             tBody += "<td>" + customer[i].address_line_1+"<br>" +customer[i].address_line_2+ "</td>";
@@ -497,34 +495,17 @@ $(document).ready(() => {
             // If inputValue starts with digit, filter ID, if not filter customer name
             if (inputValue.match(/^\d/)) {
                 td = tr[i].getElementsByTagName("td")[0];
-                if(td) {
-                    if(td.innerHTML.indexOf(inputValue)> -1)
-                    {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
             }
             else {
-                // td AND td2 because when searching for customer`s name you have to go through customer first name and last name columns
                 td = tr[i].getElementsByTagName("td")[1];
-                td2 = tr[i].getElementsByTagName("td")[2];
-                if(td) {
-                    if(td.innerHTML.indexOf(inputValue)> -1)
-                    {
-                        tr[i].style.display = "";
-                    } else {
-                            if(td2.innerHTML.indexOf(inputValue)>-1)
-                                {
-                                    tr[i].style.display = "";
-                                }
-                             else {
-                            tr[i].style.display = "none";
-                             }
-                    }
+            }
+            if(td) {
+                if(td.innerHTML.indexOf(inputValue)> -1)
+                {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
-
             }
 
         }

@@ -29,8 +29,8 @@ function renderTable(data) {
         let headers = "<thead>" +
         "<tr>" +
         "<th>Booking ID</th>" +
-        "<th>Booking Date</th>"+
         "<th>Customer Name</th>" +
+        "<th>Booking Date</th>"+
         "<th>Payment Total in £</th>"+
         "<th>Paid?</th>" +
         "<th>Booking Duration</th>" +
@@ -44,8 +44,8 @@ function renderTable(data) {
             if (i === 0 || data[i].booking_id !== data[i - 1].booking_id) {
                 tBody += "<tr>";
                 tBody += "<td>" + data[i].booking_id + "</td>";
-                tBody += "<td>" + formatDate(data[i].booking_date) + "</td>";
                 tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
+                tBody += "<td>" + formatDate(data[i].booking_date) + "</td>";
                 tBody += "<td>" + data[i].payment_total.toFixed(2) + "</td>";
                 tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
                 tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
@@ -176,7 +176,7 @@ $('#booking_id').keyup(function(){
             td = tr[i].getElementsByTagName("td")[0];
             }
         else {
-          td = tr[i].getElementsByTagName("td")[2];
+          td = tr[i].getElementsByTagName("td")[1];
         }
         if(td) {
             if(td.innerHTML.indexOf(inputValue)> -1)
