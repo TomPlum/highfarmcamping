@@ -1,10 +1,71 @@
 extends structure
 
-block append top-content
-    p.page-title
-        span.glyphicon.glyphicon-remove-circle
-        |  Delete Booking
+block append stylesheets
+    link(rel="stylesheet" href="css/booking.css")
+    link(rel="stylesheet" href="css/ui.css")
+
 block append body-content
+    h2
+    div(id='alertBoxContainer')
+        .row
+            .col-md-2
+            .col-md-8
+                div.form-control.alertBox
+                    br
+                    | The booking has been deleted
+                    br
+                    .col-md-2
+                    .col-md-8
+                        button.form-control.btn-info(type='button', id="alertBoxBtn", onclick="location.href='/manage-booking'")
+                            span OK
+                    .col-md-2
+
+            .col-md-2
+    div(id='alertBoxContainer2')
+        .row
+            .col-md-2
+            .col-md-8
+                div.form-control.alertBox
+                    br
+                    | The booking could not be deleted because of still existing customers related to the booking
+                    br
+                    .col-md-2
+                    .col-md-8
+                        button.form-control.btn-info(type='button', id="alertBoxBtn2", onclick="location.href='/manage-booking'")
+                            span OK
+                    .col-md-2
+
+            .col-md-2
+
+    h2
+        span.glyphicon.glyphicon-remove-circle
+        |  Delete booking
     p
-        | Delete an existing booking from the system.
+        | Do you really want to delete this booking?
+    br
+    div(id="deleteBookingSection")
+        form(action='')
+            .container-fluid
+                .row
+                    .booking-to-be-deleted
+        .row
+            .col-md-2
+            .col-md-8
+            p
+                |
+            br
+            .row
+                .col-md-3
+                    button.form-control.btn-info(type='button' id="btnDeleteBooking")
+                        span.fa.fa-fw.fa-trash-alt
+                        |  Delete Booking
+                .col-md-2
+                    button.form-control.btn-info(type='button', onclick="location.href='/manage-booking'")
+                        span.fa.fa-fw.fa-times
+                        |  Cancel
+
+        div(class="error")
+
+block append scripts
+    script(src="js/delete-booking.js")
 
