@@ -486,22 +486,47 @@ $(document).ready(() => {
     // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
     $('#customer_id').keyup(function(){
-        let id = document.getElementById("customer_id").value;
+        let inputValue = document.getElementById("customer_id").value;
         let table = document.getElementById("customerTable");
         let tr = table.getElementsByTagName("tr");
         let i=0;
         let td;
+
         // Go through all table rows and search for row with desired ID
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if(td) {
-                if(td.innerHTML.indexOf(id)> -1)
-                {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
+            // If inputValue starts with digit, filter ID, if not filter customer name
+            if (inputValue.match(/^\d/)) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if(td) {
+                    if(td.innerHTML.indexOf(inputValue)> -1)
+                    {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
+            else {
+                // td AND td2 because when searching for customer`s name you have to go through customer first name and last name columns
+                td = tr[i].getElementsByTagName("td")[1];
+                td2 = tr[i].getElementsByTagName("td")[2];
+                if(td) {
+                    if(td.innerHTML.indexOf(inputValue)> -1)
+                    {
+                        tr[i].style.display = "";
+                    } else {
+                            if(td2.innerHTML.indexOf(inputValue)>-1)
+                                {
+                                    tr[i].style.display = "";
+                                }
+                             else {
+                            tr[i].style.display = "none";
+                             }
+                    }
+                }
+
+            }
+
         }
     });
 

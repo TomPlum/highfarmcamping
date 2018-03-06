@@ -1,4 +1,4 @@
-// this file loads the booking overview of all bookings to the webpage
+// this file loads the booking overview of all bookings to the web page
 
 $(document).ready(() => {
     startLoadingAnimation();
@@ -143,7 +143,7 @@ function getName() {
 } */
 
 
-// Goes to show booking confirmation when clicking show booking confirmation:
+// Goes to booking confirmation of selected booking when clicking show booking confirmation:
 
     $('#Show').on('click', function(){
         goToShowBookingConfirmation();
@@ -163,16 +163,23 @@ function getName() {
 // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
 $('#booking_id').keyup(function(){
-    let id = document.getElementById("booking_id").value;
+    let inputValue = document.getElementById("booking_id").value;
     let table = document.getElementById("bookingTable");
     let tr = table.getElementsByTagName("tr");
     let i=0;
     let td;
+
     // Go through all table rows and search for row with desired ID
     for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
+        // If inputValue starts with digit, filter ID, if not filter customer name
+        if (inputValue.match(/^\d/)) {
+            td = tr[i].getElementsByTagName("td")[0];
+            }
+        else {
+          td = tr[i].getElementsByTagName("td")[2];
+        }
         if(td) {
-            if(td.innerHTML.indexOf(id)> -1)
+            if(td.innerHTML.indexOf(inputValue)> -1)
             {
                 tr[i].style.display = "";
             } else {
