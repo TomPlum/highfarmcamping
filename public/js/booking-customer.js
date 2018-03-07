@@ -102,7 +102,7 @@ $('#next').click(function() {
                 $('#error').append(error+"<br>");
             }
         }
-        alert("Customer has been updatet. --> NOW: Booking Summary!");
+        alert("Customer has been updated. --> NOW: Booking Summary!");
     }
     else {
         let valide = validityCheck();

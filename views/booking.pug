@@ -15,13 +15,15 @@ block append body-content
     #accordion
         .card
             #headingOne.card-header
-                h5.mb-0
-                    button.btn.btn-link.collapsed(data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
-                        | Book Pitch
+                    button.form-control.btn-info(type='button', id="Edit" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
+                        |  Book Pitch
+                    h5.mb-0
             #collapseOne.collapse(aria-labelledby='headingOne', data-parent='#accordion')
                 .card-body
                     p
                         | Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.
+                    p
+                        .row
                     // Form Wraps Whole Container - Encapsulates Filter & Date Range
                     form(action='')
                         .container-fluid
@@ -74,7 +76,7 @@ block append body-content
         .card
             #headingTwo.card-header
                 h5.mb-0
-                    button.btn.btn-link.collapsed(data-toggle='collapse', data-target='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo')
+                    button.form-control.btn-info(type='button', id="Edit2" data-toggle='collapse', data-target='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo')
                         | Allocate Customer
             #collapseTwo.collapse(aria-labelledby='headingTwo', data-parent='#accordion')
                 .card-body

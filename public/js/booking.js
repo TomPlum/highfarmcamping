@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-        //Call DB for Pitches & relation
-        getPitches();
-        getPitchBookings();
+    //Call DB for Pitches & relation
+    getPitches();
+    getPitchBookings();
 
 
-        $("input:checkbox").on('click', function() {
+    $("input:checkbox").on('click', function () {
         // in the handler, 'this' refers to the box clicked on
         let $box = $(this);
         if ($box.is(":checked")) {
@@ -38,27 +38,26 @@ let pitchBookings = [];
 */
 let allBookings = [
     {
-        pitchID:"",
-        startDate:"",
-        endDate:"",
+        pitchID: "",
+        startDate: "",
+        endDate: "",
     },
     {
-        pitchID:"",
-        startDate:"",
-        endDate:"",
+        pitchID: "",
+        startDate: "",
+        endDate: "",
     },
     {
-        pitchID:"",
-        startDate:"",
-        endDate:"",
+        pitchID: "",
+        startDate: "",
+        endDate: "",
     },
 ];
 
 
-
-
 /*************************************/
 /* --- Book a pitch -----------------*/
+
 /*************************************/
 
 function populatePitchSelection() {
@@ -78,7 +77,7 @@ function populatePitchSelection() {
     const allDates = getDatesInRange(dateFrom, dateTo);
 
     for (let i = 0; i < allDates.length; i++) {
-        headers += "<th>" + months[allDates[i].getMonth()] + " "  + allDates[i].getDate() + "<sup>" + getDateSuffix(allDates[i].getDate()) + "</sup></th>";
+        headers += "<th>" + months[allDates[i].getMonth()] + " " + allDates[i].getDate() + "<sup>" + getDateSuffix(allDates[i].getDate()) + "</sup></th>";
     }
     headers += "</tr>";
 
@@ -89,13 +88,13 @@ function populatePitchSelection() {
 
     let body = "";
     for (let i = 0; i < pitches.length; i++) {
-        if(pitches[i].type == filter || pitches[i].type=="all" || filter==undefined){
+        if (pitches[i].type == filter || pitches[i].type == "all" || filter == undefined) {
             body += "<tr>";
             for (let j = 0; j < allDates.length + 1; j++) {
                 //First Column (Pitch Details)
                 if (j === 0) {
                     let icon;
-                    switch(pitches[i].type) {
+                    switch (pitches[i].type) {
                         case "tent":
                             icon = tentIcon;
                             break;
@@ -110,8 +109,8 @@ function populatePitchSelection() {
                     }
                     body += "<td class='pitch-details'>Pitch " + pitches[i].pitch_id + "<br>" + icon + "</td>";
                 } else {
-                    let available = checkAvailability(pitches[i], allDates[j-1]);
-                    if (available === true ){
+                    let available = checkAvailability(pitches[i], allDates[j - 1]);
+                    if (available === true) {
                         body += "<td class='available-pitch'></td>";
                     } else {
                         body += "<td class='not-available-pitch'></td>";
@@ -139,21 +138,22 @@ function populatePitchSelection() {
         for (x = 1; x < columsPerRow.length; x++) {
 
             //check if this date is available
-            if(columsPerRow[x].classList.contains("available-pitch")){
-                columsPerRow[x].addEventListener('click', function() {
+            if (columsPerRow[x].classList.contains("available-pitch")) {
+                columsPerRow[x].addEventListener('click', function () {
 
                     //get DAte of selected Cell
-                    console.log(allDates[this.cellIndex-1]);
+                    console.log(allDates[this.cellIndex - 1]);
 
                     //get Pitch ID of selected Cell
-                    console.log(rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0,rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<")));
+                    console.log(rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0, rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<")));
 
-                    if(this.classList.contains("selected")){
+                    if (this.classList.contains("selected")) {
                         this.classList.remove("selected");
-                    }else {
+                    } else {
                         this.classList.add("selected");
 
-                    };
+                    }
+                    ;
 
                 });
             }
@@ -166,7 +166,7 @@ function getDatesInRange(start, end) {
     let endDate = new Date(end);
     let dates = [];
 
-    while(true) {
+    while (true) {
         dates.push(new Date(startDate));
         if (Date.parse(dates[dates.length - 1]) === Date.parse(endDate)) {
             break;
@@ -177,10 +177,10 @@ function getDatesInRange(start, end) {
 }
 
 function checkAvailability(pitch, date) {
-    for(let pitchBooking of pitchBookings){
-        if(pitchBooking.pitch_id == pitch.pitch_id){
+    for (let pitchBooking of pitchBookings) {
+        if (pitchBooking.pitch_id == pitch.pitch_id) {
 
-            if(date >= convertDate(pitchBooking.stay_start_date) && date <= convertDate(pitchBooking.stay_end_date) ){
+            if (date >= convertDate(pitchBooking.stay_start_date) && date <= convertDate(pitchBooking.stay_end_date)) {
                 return false;
             }
         }
