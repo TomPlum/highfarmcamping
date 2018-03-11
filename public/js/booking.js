@@ -88,7 +88,7 @@ function populatePitchSelection() {
 
     let body = "";
     for (let i = 0; i < pitches.length; i++) {
-        if (pitches[i].type == filter || pitches[i].type == "all" || filter == undefined) {
+        if (pitches[i].type === filter || pitches[i].type === "all" || filter === undefined) {
             body += "<tr>";
             for (let j = 0; j < allDates.length + 1; j++) {
                 //First Column (Pitch Details)
@@ -128,14 +128,14 @@ function populatePitchSelection() {
     let rows = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
     //iterate through rows
-    for (i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
 
         let columsPerRow = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[i].getElementsByTagName("td");
 
         //iterate through the colums of a row
         //iterate through the colums of a row
         //x=1 because first row should not be selectable
-        for (x = 1; x < columsPerRow.length; x++) {
+        for (let x = 1; x < columsPerRow.length; x++) {
 
             //check if this date is available
             if (columsPerRow[x].classList.contains("available-pitch")) {
@@ -153,8 +153,6 @@ function populatePitchSelection() {
                         this.classList.add("selected");
 
                     }
-                    ;
-
                 });
             }
         }
@@ -178,7 +176,7 @@ function getDatesInRange(start, end) {
 
 function checkAvailability(pitch, date) {
     for (let pitchBooking of pitchBookings) {
-        if (pitchBooking.pitch_id == pitch.pitch_id) {
+        if (pitchBooking.pitch_id === pitch.pitch_id) {
 
             if (date >= convertDate(pitchBooking.stay_start_date) && date <= convertDate(pitchBooking.stay_end_date)) {
                 return false;
@@ -209,7 +207,7 @@ function getPitchBookings() {
             console.log("Error getting pitches", error)
         }
     });
-};
+}
 
 function getPitches() {
     $.ajax({

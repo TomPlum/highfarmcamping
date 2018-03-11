@@ -8,7 +8,13 @@ block append top-content
         span.fa.fa-fw.fa-lg.fa-history
         | Booking History
 block append body-content
-
     p
         | An archive of every booking ever made on the system.
+    .container.history
+        .row
+            .col-sm-12
+                #loading
+                #booking-history
 
+block append scripts
+    script(src="js/booking-history.js")
