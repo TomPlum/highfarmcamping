@@ -222,3 +222,33 @@ function getPitches() {
         }
     });
 }
+
+function insertBooking() {
+    try {
+        // generating booking date:
+        let date = formatDateFromMiliseconds(new Date());
+        date = dateConverter(date);
+        let query = "INSERT bookings (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (4,2,\"2018-01-08\",\"2018-01-09\", \"cash\", 50.00, 0,\"phone-booking\",\"" + date + "\");";
+        // executing insert a booking
+        $.ajax({
+            url: "/db-query",
+            type: "POST",
+            data: {"query": query},
+            success: function (err) {
+                console.log("Ajax Request successful");
+                if (JSON.stringify(err) === "\"\"") {
+                    console.log("db-query successful");
+                    alert("SUCCESS");
+                }
+            },
+            error: function (error) {
+                console.log("Ajax request error : " + error);
+                alert(errorNotification);
+            }
+        })
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+}

@@ -134,4 +134,13 @@ router.post('/insert-customer', function(req) {
     });
 });
 
+// GENERAL DB QUERY / HTTP POST Request. CAN BE USED FOR ALL KIND OF SQL Statements!
+    router.post('/db-query', function(req, res) {
+        console.log(req.body.query);
+        mysql.connection.query(req.body.query, function(err){
+            //console.log("GENERAL DB-QUERY ERROR: " + err);
+            res.send(err);
+        });
+    });
+
 module.exports = router;
