@@ -6,6 +6,13 @@ tr.selected {
     color: #FFF;
 }
 
+#alertBoxContainer{
+    visibility: hidden;
+}
+#alertBoxContainer2{
+    visibility: hidden;
+}
+
 /*
 .pitch-booking-overview table th {
     padding: 2px 5px;

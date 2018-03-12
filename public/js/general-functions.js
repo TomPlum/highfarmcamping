@@ -25,7 +25,7 @@ function getIcon(type) {
             return "N/A";
     }
 }
-//for displaying date in a table:
+//for displaying date of SQL query in a table:
 function formatDate(date) {
     date = new Date(date);
     let DD = date.getDate();
@@ -50,3 +50,25 @@ function formatPaid(paid) {
 function ucFirst(string) {
     return string.substring(0, 1).toUpperCase() + string.substring(1);
 }
+
+//convert input date DD/MM/YYYY into database suitable date
+function dateConverter(date){
+    let d = date.substring(0, 2);
+    let m = date.substring(3,5);
+    let y = date.substring(6,10);
+    return(y +"-"+m+"-"+d);
+}
+
+// To format milliseconds into format DD/MM/YYYY:
+function formatDateFromMilliseconds(date) {
+    let month = String(date.getMonth() + 1);
+    let day = String(date.getDate());
+    const year = String(date.getFullYear());
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return `${day}/${month}/${year}`;
+}
+
+let sqlStatement;

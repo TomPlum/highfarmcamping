@@ -41,7 +41,7 @@ $(document).ready(() => {
             alert(errorNotification);
         }
     });
-//Ajax call for getting a single customer
+//Ajax call for getting a single booking
 
     function getBookingFromDB() {
         try {
