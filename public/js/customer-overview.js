@@ -999,7 +999,7 @@ $(document).ready(() => {
                 }
                 if (td) {
                     let searchInput = td.innerHTML.toLowerCase();
-                    if (searchInput.indexOf(inputValue.toLowerCase()) > -1) {
+                    if (searchInput.indexOf(inputValue) > -1) {
                         tr[i].style.display = "";
                     } else {
                         tr[i].style.display = "none";
