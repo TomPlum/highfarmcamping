@@ -62,6 +62,14 @@
     background-color: #ff5547;
 }
 
+.error{
+    color: red;
+}
+
+.errorInput{
+    border : 2px solid red;
+}
+
 
 tr.selected {
     background-color: #2f8fd5 !important;

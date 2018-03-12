@@ -2,9 +2,17 @@ $(document).ready(() => {
 
 });
 
+// Global variables
+//*********************************************************
+
+//Hold the input errors
+let errors = [];
+
 let IDused = false;
 let insertedID;
 let customer=[];
+
+
 function getCustomerFromDB(){
     $.ajax({
         url: "/get-customer",
@@ -101,6 +109,7 @@ $('#next').click(function() {
             for (let error of errors){
                 $('#error').append(error+"<br>");
             }
+            console.log(errors);
         }
         alert("Customer has been updated. --> NOW: Booking Summary!");
     }
@@ -219,8 +228,7 @@ function dateValidityCheck(date) {
     }else {
         return true;
     }
-
-;
+}
 
 /**
  * Validate the email address
@@ -248,4 +256,4 @@ function emailValidityCheck(email) {
         return true;
     }
 
-}};
+}
