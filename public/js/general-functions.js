@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // This file is for all functions which are used in several files to prevent redundancy:
 
 // This string can be used for displaying the user an error:
