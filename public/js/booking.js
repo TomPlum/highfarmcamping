@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     //Call DB for Pitches & relation
     getPitches();
     getPitchBookings();
@@ -100,7 +101,7 @@ function populatePitchSelection() {
     const tentIcon = "<span class='glyphicon glyphicon-tent'></span>";
     const mhomeIcon = "<span class='fa fa-truck'></span>";
     const caravanIcon = "<span class='fa fa-car'></span>";
-    const all = "<span class='glyphicon glyphicon-ok'></span>";
+    const all = "<span class='glyphicon glyphicon-tent'></span> " + " <span class='fa fa-truck'></span> " + " <span class='fa fa-car'></span>";
 
     let body = "";
     for (let i = 0; i < pitches.length; i++) {
@@ -139,129 +140,122 @@ function populatePitchSelection() {
     }
 
     $(".pitch-selection").html(oTable + headers + body + cTable);
-    $("#selectPitches").css("visibility","visible");
+    $("#selectPitches").css("visibility", "visible");
     $("#selectPitches").val($("#date-range").val());
-
-
 
 
     //Make fields selectable
     let rows = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-        for (i = 0; i < rows.length; i++) {
-            rows[i].addEventListener('click', function() {
+    for (i = 0; i < rows.length; i++) {
+        rows[i].addEventListener('click', function () {
 
-                let selectedPitch = this.getElementsByTagName("td")[0].innerHTML.substring(0, this.getElementsByTagName("td")[0].innerHTML.indexOf("<"));
+            let selectedPitch = this.getElementsByTagName("td")[0].innerHTML.substring(0, this.getElementsByTagName("td")[0].innerHTML.indexOf("<"));
 
-                if(!selectedPitches.includes(selectedPitch) && selectedPitches.length === 3){
-                    alert("Your are not allowed to select more than 3 pitches");
-                }else {
+            if (!selectedPitches.includes(selectedPitch) && selectedPitches.length === 3) {
+                alert("Your are not allowed to select more than 3 pitches");
+            } else {
+                if (this.classList.contains("selected")) {
+                    this.classList.remove("selected");
+
+                    for (let i = 0; i < selectedPitches.length; i++) {
+
+                        if (selectedPitch === selectedPitches[i]) {
+                            selectedPitches.splice(i, 1);
+                        }
+                    }
+                } else {
+                    let dates = $('#selectPitches').val().split("-");
+                    if (checkIfPitchIsFree()) {
+                        this.classList.add("selected");
+                        selectedPitches.push(selectedPitch);
+                    } else {
+                        alert("This pitch is not free. Select another pitch or change your date.");
+                    }
+
+                }
+            }
+
+
+        });
+    }
+
+
+    //Fuck my life
+    /*
+    //iterate through the colums of a row
+    //iterate through the colums of a row
+    //x=1 because first row should not be selectable
+    for (let x = 1; x < columsPerRow.length; x++) {
+
+        //check if this date is available
+        if (columsPerRow[x].classList.contains("available-pitch")) {
+            columsPerRow[x].addEventListener('click', function () {
+
+                //get DAte of selected Cell
+                let selectedDate = allDates[this.cellIndex - 1];
+                console.log(selectedDate);
+
+                //get Pitch ID of selected Cell
+                let selectedPitch = rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0, rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<"));
+                console.log(selectedPitch);
+
+
+
+
+
+
+
+
+                console.log(selectingPitch);
+
+                if(!selectingPitch){
+                    lastSelection = selectedPitch;
+
                     if (this.classList.contains("selected")) {
                         this.classList.remove("selected");
-
-                        for(let i = 0; i < selectedPitches.length; i++){
-
-                            if(selectedPitch===selectedPitches[i]){
-                                selectedPitches.splice(i,1);
-                            }
-                        }
                     } else {
-                        let dates = $('#selectPitches').val().split("-");
-                        if(checkIfPitchIsFree()){
-                            this.classList.add("selected");
-                            selectedPitches.push(selectedPitch);
-                        }else{
-                            alert("This pitch is not free. Select another pitch or change your date.");
-                        }
-                        
+                        this.classList.add("selected");
                     }
+
+
+
                 }
 
-
-
-            });
-        }
+                selectingPitch = true;
 
 
 
+                if(selectingPitch){
 
+                    if(selectedPitch === lastSelection) {
 
-
-        //Fuck my life
-        /*
-        //iterate through the colums of a row
-        //iterate through the colums of a row
-        //x=1 because first row should not be selectable
-        for (let x = 1; x < columsPerRow.length; x++) {
-
-            //check if this date is available
-            if (columsPerRow[x].classList.contains("available-pitch")) {
-                columsPerRow[x].addEventListener('click', function () {
-
-                    //get DAte of selected Cell
-                    let selectedDate = allDates[this.cellIndex - 1];
-                    console.log(selectedDate);
-
-                    //get Pitch ID of selected Cell
-                    let selectedPitch = rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0, rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<"));
-                    console.log(selectedPitch);
-
-
-
-
-
-
-
-
-                    console.log(selectingPitch);
-
-                    if(!selectingPitch){
-                        lastSelection = selectedPitch;
 
                         if (this.classList.contains("selected")) {
                             this.classList.remove("selected");
                         } else {
                             this.classList.add("selected");
-                        }
 
-
-
-                    }
-
-                    selectingPitch = true;
-
-
-
-                    if(selectingPitch){
-
-                        if(selectedPitch === lastSelection) {
-
-
-                            if (this.classList.contains("selected")) {
-                                this.classList.remove("selected");
-                            } else {
-                                this.classList.add("selected");
-
-                                selectingPitch = true;
-                            }
-                        } else {
-                            alert("Please finish your selection before continuing!");
+                            selectingPitch = true;
                         }
                     } else {
-
-
+                        alert("Please finish your selection before continuing!");
                     }
+                } else {
 
-                    writeBooking();
+
+                }
+
+                writeBooking();
 
 
-                });
-            }
-        }*/
-        
-        function checkIfPitchIsFree() {
-            return true;
+            });
         }
+    }*/
+
+    function checkIfPitchIsFree() {
+        return true;
+    }
 
 
 }
@@ -355,7 +349,7 @@ function getPitches() {
 function insertBooking() {
     try {
         // generating booking date:
-        let date = formatDateFromMiliseconds(new Date());
+        let date = formatDateFromMilliseconds(new Date());
         date = dateConverter(date);
         let query = "INSERT bookings (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (4,2,\"2018-01-08\",\"2018-01-09\", \"cash\", 50.00, 0,\"phone-booking\",\"" + date + "\");";
         // executing insert a booking
