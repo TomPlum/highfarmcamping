@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 extends structure
 
 block append stylesheets
@@ -184,4 +185,188 @@ block append scripts
                 "opens": "left",
                 "showDropdowns": true
             });
+=======
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/daterangepicker.css")
+    link(rel="stylesheet" href="css/booking.css")
+
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-book
+        |  Create a Booking
+
+
+block append body-content
+
+    #accordion
+        .card
+            #headingOne.card-header
+                    button.form-control.btn-info(type='button', id="Edit" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
+                        |  Book Pitch
+                    h5.mb-0
+            #collapseOne.collapse(aria-labelledby='headingOne', data-parent='#accordion')
+                .card-body
+                    p
+                        | Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.
+                    p
+                        .row
+                    // Form Wraps Whole Container - Encapsulates Filter & Date Range
+                    form(action='')
+                        .container-fluid
+                            .row
+                                .col-md-6
+                                    fiedset
+                                        // Tent Filter Checkbox
+                                        .form-group(class='[ ]')
+                                            input#tent(type='checkbox', value='tent', name='pitch-type', autocomplete='off')
+                                            .btn-group(class='[ ]')
+                                                label.btn.btn-default(for='tent', class='[ ]')
+                                                    span.glyphicon.glyphicon-ok(class='[ ]')
+                                                    span
+                                                label.btn.btn-default.active(for='tent', class='[ ]')
+                                                    i.glyphicon.glyphicon-tent
+                                                    |                                             Tent
+                                        // Caravan Filter Checkbox
+                                        .form-group(class='[ ]')
+                                            input#caravan(type='checkbox', value='caravan', name='pitch-type', autocomplete='off')
+                                            .btn-group(class='[ ]')
+                                                label.btn.btn-default(for='caravan', class='[ ]')
+                                                    span.glyphicon.glyphicon-ok(class='[ ]')
+                                                    span
+                                                label.btn.btn-default.active(for='caravan', class='[ ]')
+                                                    span.fa.fa-fw.fa-car
+                                                    |                                             Caravan
+                                        // Motorhome Filter Checkbox
+                                        .form-group(class='[ ]')
+                                            input#motorhome(type='checkbox', value='motorhome', name='pitch-type', autocomplete='off')
+                                            .btn-group(class='[ ]')
+                                                label.btn.btn-default(for='motorhome', class='[ ]')
+                                                    span.glyphicon.glyphicon-ok(class='[ ]')
+                                                    span
+                                                label.btn.btn-default.active(for='motorhome', class='[ ]')
+                                                    span.fa.fa-fw.fa-truck
+                                                    |                                             Motorhome
+
+                                .col-md-6
+                                    .row
+                                        label(for='date-range') Select Date Range
+                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
+                                    .row
+                                        button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
+                                            span.glyphicon.glyphicon-tent
+                                            |  Find Pitch
+                            // Available Pitches Output Here
+                            .row
+                                .row.pitch-selection#pitchSelection
+
+        .card
+            #headingTwo.card-header
+                h5.mb-0
+                    button.form-control.btn-info(type='button', id="Edit2" data-toggle='collapse', data-target='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo')
+                        | Allocate Customer
+            #collapseTwo.collapse(aria-labelledby='headingTwo', data-parent='#accordion')
+                .card-body
+                    p
+                        | Here you can allocate a customer to the booking.
+                    p
+                        .row
+                            .col-md-4
+                                input.form-control.input(type='text', placeholder='Search existing customer by ID', id='customer_id',name ="customer_ID")
+                            .col-md-4
+                                button.form-control.btn-svenja(type='button',id='addcustomerbooking')
+                                    span.fa.fa-fw.fa-plus-circle
+                                    |  Add New Customer
+                div(id="addCustomerBookingForm")
+                    form#customerBookingForm
+                        .row
+                            p
+                            .col-md-2
+                                label First Name *
+                            .col-md-3
+                                input(type='text', name='first_name')
+                            .col-md-2
+                                label Last Name *
+                            .col-md-3
+                                input(type='text', name='last_name')
+                        br
+                        .row
+                            .col-md-2
+                                label Address Line 1 *
+                            .col-md-3
+                                input(type='text', name='address_line_1')
+                            .col-md-2
+                                label Address Line 2
+                            .col-md-3
+                                input(type='text', name='address_line_2')
+                        br
+                        .row
+                            .col-md-2
+                                label Registration
+                            .col-md-3
+                                input(type='text', name='registration')
+                        br
+                        .row
+                            .col-md-2
+                                label Date of Birth *
+                            .col-md-3
+                                input(type='text', name='date_of_birth',placeholder=" DD/MM/YYYY")
+                            .col-md-2
+                                label Email Address *
+                            .col-md-3
+                                input(type='text', name='email_address')
+                        br
+                        .row
+                            .col-md-2
+                                label Home Phone Number
+                            .col-md-3
+                                input(type='text', name='home_phone_number')
+                            .col-md-2
+                                label Mobile Phone Number
+                            .col-md-3
+                                input(type='text', name='mobile_phone_number')
+                        br
+                        .row
+                            .col-md-2
+                                label Amount of Dogs
+                            .col-md-3
+                                select.selectpicker
+                                    optgroup()
+                                        option 0
+                                        option 1
+                                        option 2
+                        br
+                        .row
+                            .col-md-2
+                                label Payment Method
+                            .col-md-3
+                                select.selectpicker
+                                    optgroup()
+                                        option Cash
+                                        option Cheque
+                            .col-md-2
+                                label Already paid?
+                            .col-md-3
+                                input(type='checkbox', name='already_paid')
+                        br
+                        .row
+                            .col-md-4
+                                button.form-control.btn-next(type='button', id='next', name='next')
+                                    |  Next
+
+
+
+block append scripts
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js")
+    script(src="js/booking.js")
+    script(src="js/booking-customer.js")
+    script(src="js/daterangepicker.js")
+    script(type="text/javascript").
+        $(function() {
+            $('input[name="date-range"]').daterangepicker({
+                "opens": "left",
+                "showDropdowns": true
+            });
+>>>>>>> 316536db31d83d8a4fb6a24fcc0052d2047465d9
         });

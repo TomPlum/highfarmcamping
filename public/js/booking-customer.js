@@ -71,78 +71,79 @@ function dateConverter(date){               //convert input date into database s
 
 $('#next').click(function() {
     if (IDused === true) {            //update customer
-        alert("IDused");
-        let valide = validityCheck();
+        /*let valide = validityCheck();
         alert("IDused2");
         alert("test");
-        if(valide){
-            let query = "UPDATE customers SET first_name = \"" +
-                $('input[name=first_name]').val() + "\",last_name = \"" +
-                $('input[name=last_name]').val() + "\",date_of_birth = \"" +
-                dateConverter($('input[name=date_of_birth]').val()) + "\",email_address = \"" +
-                $('input[name=email_address]').val() + "\",home_phone_number = \"" +
-                $('input[name=home_phone_number]').val() + "\",mobile_phone_number = \"" +
-                $('input[name=mobile_phone_number]').val() + "\",registration = \"" +
-                $('input[name=registration]').val() + "\",address_line_1 = \"" +
-                $('input[name=address_line_1]').val() + "\",address_line_2 = \"" +
-                $('input[name=address_line_1]').val() + "\" WHERE customer_id = \"" + insertedID + "\";";
+        if(valide){*/
+        let query = "UPDATE customers SET first_name = \"" +
+            $('input[name=first_name]').val() + "\",last_name = \"" +
+            $('input[name=last_name]').val() + "\",date_of_birth = \"" +
+            dateConverter($('input[name=date_of_birth]').val()) + "\",email_address = \"" +
+            $('input[name=email_address]').val() + "\",home_phone_number = \"" +
+            $('input[name=home_phone_number]').val() + "\",mobile_phone_number = \"" +
+            $('input[name=mobile_phone_number]').val() + "\",registration = \"" +
+            $('input[name=registration]').val() + "\",address_line_1 = \"" +
+            $('input[name=address_line_1]').val() + "\",address_line_2 = \"" +
+            $('input[name=address_line_1]').val() + "\" WHERE customer_id = \"" + insertedID + "\";";
 
-            $.ajax({
-                url: "/insert-customer",
-                type: "POST",
-                data: {"query": query},
-                success: function (err, rows) {
-                },
+        $.ajax({
+            url: "/insert-customer",
+            type: "POST",
+            data: {"query": query},
+            success: function (err, rows) {
+            },
 
 
-            })}
-        else{
+        })
+    alert("Customer has been updated.")}
+        /*else{
             $('#error').text("");
             for (let error of errors){
                 $('#error').append(error+"<br>");
             }
         }
-        alert("Customer has been updated. --> NOW: Booking Summary!");
-    }
+        alert("Customer has been updated. --> NOW: Booking Summary!");*/
+
     else {
-        let valide = validityCheck();
+        //let valide = validityCheck();
 
-        if(valide) {
-            let query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
-                $('input[name=first_name]').val() + "\",\"" +
-                $('input[name=last_name]').val() + "\",\"" +
-                dateConverter($('input[name=date_of_birth]').val()) + "\",\"" +
-                $('input[name=email_address]').val() + "\",\"" +
-                $('input[name=home_phone_number]').val() + "\",\"" +
-                $('input[name=mobile_phone_number]').val() + "\",\"" +
-                $('input[name=registration]').val() + "\",\"" +
-                $('input[name=address_line_1]').val() + "\",\"" +
-                $('input[name=address_line_2]').val() + "\")";
+        //if(valide) {
+        let query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
+            $('input[name=first_name]').val() + "\",\"" +
+            $('input[name=last_name]').val() + "\",\"" +
+            dateConverter($('input[name=date_of_birth]').val()) + "\",\"" +
+            $('input[name=email_address]').val() + "\",\"" +
+            $('input[name=home_phone_number]').val() + "\",\"" +
+            $('input[name=mobile_phone_number]').val() + "\",\"" +
+            $('input[name=registration]').val() + "\",\"" +
+            $('input[name=address_line_1]').val() + "\",\"" +
+            $('input[name=address_line_2]').val() + "\")";
 
-            $.ajax({
-                url: "/insert-customer",
-                type: "POST",
-                data: {"query": query},
-                success: function (err, rows) {
-                },
-                error: function (error) {
-                    console.log("Error inserting date into the database", error)
-                }
-            });
-            alert("Customer has been added. --> NOW: Booking Summary!");
-        }
-        else{
+        $.ajax({
+            url: "/insert-customer",
+            type: "POST",
+            data: {"query": query},
+            success: function (err, rows) {
+            },
+            error: function (error) {
+                console.log("Error inserting date into the database", error)
+            }
+        });
+
+       // }
+        /*else{
             $('#error').text("");
             for (let error of errors){
                 $('#error').append(error+"<br>");
             }
 
-        }
+        }*/
+        alert("Customer has been added.")
     }
-
+    window.location.href = "/manage-booking/overview";
 });
 
-function validityCheck(){
+/*function validityCheck(){
 
     let validity = true;
 
@@ -184,14 +185,14 @@ function validityCheck(){
 
     return validity;
 
-};
+};*/
 
 /**
  * Validate the date
  * @param input date
  * @returns {boolean} true=date is valid; false=date is invalid;
  */
-function dateValidityCheck(date) {
+/*function dateValidityCheck(date) {
 
     let validity = true;
     date +="";
@@ -220,14 +221,14 @@ function dateValidityCheck(date) {
         return true;
     }
 
-;
+;*/
 
 /**
  * Validate the email address
  * @param email
  * @returns {boolean} true=email is valid; false=email is invalid;
  */
-function emailValidityCheck(email) {
+/*function emailValidityCheck(email) {
 
     let validity = true;
     email +="";
@@ -248,4 +249,4 @@ function emailValidityCheck(email) {
         return true;
     }
 
-}};
+}}*/
