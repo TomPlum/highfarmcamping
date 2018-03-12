@@ -11,13 +11,14 @@ block append top-content
 
 
 block append body-content
+    p(id="currentBooking")
 
     #accordion
         .card
             #headingOne.card-header
-                    button.form-control.btn-info(type='button', id="Edit" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
-                        |  Book Pitch
-                    h5.mb-0
+                button.form-control.btn-info(type='button', id="Edit" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
+                    |  Book Pitch
+                h5.mb-0
             #collapseOne.collapse(aria-labelledby='headingOne', data-parent='#accordion')
                 .card-body
                     p
@@ -70,7 +71,10 @@ block append body-content
                                             span.glyphicon.glyphicon-tent
                                             |  Find Pitch
                             // Available Pitches Output Here
+
                             .row
+                                label(for='selectPitches') Select Dates
+                                input#selectPitches(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018')
                                 .row.pitch-selection#pitchSelection
 
         .card
@@ -159,8 +163,8 @@ block append body-content
                                         option Cheque
                             .col-md-2
                                 label Already paid?
-                            .col-md-3
-                                input(type='checkbox', name='already_paid')
+                        .col-md-3
+                            input(type='checkbox', name='already_paid')
                         br
                         .row
                             .col-md-4

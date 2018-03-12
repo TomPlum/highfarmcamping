@@ -126,6 +126,15 @@ router.post('/delete-single-customer', function(req, res) {
         });
 });
 
+// GENERAL DB QUERY / HTTP POST Request. CAN BE USED FOR ALL KIND OF SQL Statements!
+router.post('/db-query', function(req, res) {
+    console.log(req.body.query);
+    mysql.connection.query(req.body.query, function(err){
+        //console.log("GENERAL DB-QUERY ERROR: " + err);
+        res.send(err);
+    });
+});
+
 //POST DB Query of add / edit customer
 router.post('/insert-customer', function(req) {
     console.log(req.body.query);
