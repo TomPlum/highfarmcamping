@@ -142,40 +142,6 @@ $(document).ready(() => {
     } */
 
 
-// Goes to booking confirmation of selected booking when clicking show booking confirmation:
-
-    $('#Show').on('click', function () {
-        goToShowBookingConfirmation();
-    });
-
-    function goToShowBookingConfirmation() {
-
-        if (selectedRowValue !== "") {
-            console.log("This is the selectedRowValue :" + selectedRowValue);
-            window.location = "/manage-booking/show-booking?booking_id=" + selectedRowValue;
-        }
-        // You have to select a row before you can get the booking confirmation:
-        else alert("To continue, please select a booking and click the button again.");
-
-    }
-
-// Navigates to the delete booking page.
-
-    $('#Show').on('click', function () {
-        goToDeleteBooking();
-    });
-
-    function goToDeleteBooking() {
-
-        if (selectedRowValue !== "") {
-            console.log("This is the selectedRowValue :" + selectedRowValue);
-            window.location = "/manage-booking/delete-booking?booking_id=" + selectedRowValue;
-        }
-        // You have to select a row before you can get the booking confirmation:
-        else alert("To continue, please select a booking and click the button again.");
-
-    }
-
 // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
     $('#booking_id').keyup(function () {
@@ -367,7 +333,7 @@ $(document).ready(() => {
 
 // Navigates to the delete booking page.
 
-        $('#Show').on('click', function () {
+        $('#Delete').on('click', function () {
             goToDeleteBooking();
         });
 
@@ -375,7 +341,7 @@ $(document).ready(() => {
 
             if (selectedRowValue !== "") {
                 console.log("This is the selectedRowValue :" + selectedRowValue);
-                window.location = "/manage-booking/delete-booking?booking_id=" + selectedRowValue;
+                window.location = "/manage-booking/delete?booking_id=" + selectedRowValue;
             }
             // You have to select a row before you can get the booking confirmation:
             else alert("To continue, please select a booking and click the button again.");
