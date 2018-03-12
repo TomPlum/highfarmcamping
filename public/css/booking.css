@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .find-pitch {
     background-color: #67d753;
     color: white;
@@ -72,74 +71,3 @@ tr.selected {
 #selectPitches{
     visibility: hidden;
 }
-=======
-.find-pitch {
-    background-color: #67d753;
-    color: white;
-    border: 2px solid white;
-    border-radius: 5px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    text-transform: uppercase;
-    font-weight: 500;
-    width: 130px;
-    transition: all ease 0.5s;
-}
-
-#customerBookingForm{
-    visibility: hidden;
-}
-
-.find-pitch:hover {
-    background-color: white;
-    border: 2px solid #67d753;
-    color: #67d753;
-}
-
-.pitch-selection-container {
-    display: block;
-    width: 100%;
-}
-
-.pitch-availability {
-    width: 100%;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    font-family: 'Poppins', sans-serif;
-}
-
-.pitch-availability td {
-    border-bottom: 1px solid black;
-    text-align: center;
-    color: rgba(0, 0, 0, 0);
-    transition: all ease 0.2s;
-}
-
-.pitch-availability td:hover {
-    background-color: gray;
-}
-
-.pitch-details {
-    color: black !important;
-}
-
-
-.pitch-availability th {
-    border: 1px solid black;
-    padding: 2px;
-}
-
-.available-pitch {
-    background-color: #76ff77;
-}
-
-.not-available-pitch {
-    background-color: #ff5547;
-}
-
-
-td.selected {
-    background-color: #2f8fd5 !important;
-    color: #2f8fd5;
-}
->>>>>>> 316536db31d83d8a4fb6a24fcc0052d2047465d9
