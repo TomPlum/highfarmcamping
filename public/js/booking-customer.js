@@ -140,7 +140,7 @@ $('#next').click(function() {
         }*/
         alert("Customer has been added.")
     }
-
+    window.location.href = "/manage-booking/overview";
 });
 
 /*function validityCheck(){
