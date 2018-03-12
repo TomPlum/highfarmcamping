@@ -21,4 +21,22 @@ tr.selected {
 
 .pitch-booking-overview table td {
     border-bottom: 1px solid black;
+=======
+.pitch-booking-overview table {
+    width: 100%;
 }
+tr.selected {
+    background-color: #2f8fd5 !important;
+    color: #FFF;
+}
+
+/*
+.pitch-booking-overview table th {
+    padding: 2px 5px;
+    background-color: #6ac1d5;
+}
+
+.pitch-booking-overview table td {
+    border-bottom: 1px solid black;
+>>>>>>> 425d37863e1ac7e175dce459fd03d371b2f74306
+*/

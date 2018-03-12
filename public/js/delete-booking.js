@@ -112,4 +112,3 @@ $(document).ready(() => {
             alert(errorNotification);
         }
     }
-});

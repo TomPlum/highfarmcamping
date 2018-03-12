@@ -63,7 +63,11 @@
 }
 
 
-td.selected {
+tr.selected {
     background-color: #2f8fd5 !important;
-    color: #2f8fd5;
+    color: #FFF !important;
+}
+
+#selectPitches{
+    visibility: hidden;
 }

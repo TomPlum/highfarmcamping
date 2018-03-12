@@ -4,6 +4,14 @@ $(document).ready(function () {
     getPitches();
     getPitchBookings();
 
+    //Initialize the DateRanger of the Booking
+    $(function() {
+        $('input[name="selectPitches"]').daterangepicker({
+            "opens": "right",
+            "showDropdowns": true
+        });
+    });
+
 
     $("input:checkbox").on('click', function () {
         // in the handler, 'this' refers to the box clicked on
@@ -29,13 +37,8 @@ let pitches = [];
 let pitchBookings = [];
 
 //should contain max. 3 currentBooking, each one has a pitch id, stard-date and end-date example:
-/*
-[
-    [pitch_id,start-date,end-date],
-    [pitch_id,start-date,end-date],
-    [pitch_id,start-date,end-date],
-]
-*/
+
+/* For future use
 let allBookings = [
     {
         pitchID: "",
@@ -53,6 +56,19 @@ let allBookings = [
         endDate: "",
     },
 ];
+let selectingPitch = false;
+let lastSelection;
+*/
+
+let selectedPitches = [];
+
+function writeBooking() {
+    document.getElementById("currentBooking").innerHTML = allBookings[0].pitchID+allBookings[0].startDate+allBookings[0].endDate+"<br>"+
+        allBookings[1].pitchID+allBookings[1].startDate+allBookings[1].endDate+"<br>"+
+        allBookings[2].pitchID+allBookings[2].startDate+allBookings[2].endDate+"<br>";
+
+
+}
 
 
 /*************************************/
@@ -123,15 +139,56 @@ function populatePitchSelection() {
     }
 
     $(".pitch-selection").html(oTable + headers + body + cTable);
+    $("#selectPitches").css("visibility","visible");
+    $("#selectPitches").val($("#date-range").val());
+
+
+
 
     //Make fields selectable
     let rows = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-    //iterate through rows
-    for (let i = 0; i < rows.length; i++) {
+        for (i = 0; i < rows.length; i++) {
+            rows[i].addEventListener('click', function() {
 
-        let columsPerRow = document.getElementById('pitchSelection').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[i].getElementsByTagName("td");
+                let selectedPitch = this.getElementsByTagName("td")[0].innerHTML.substring(0, this.getElementsByTagName("td")[0].innerHTML.indexOf("<"));
 
+                if(!selectedPitches.includes(selectedPitch) && selectedPitches.length === 3){
+                    alert("Your are not allowed to select more than 3 pitches");
+                }else {
+                    if (this.classList.contains("selected")) {
+                        this.classList.remove("selected");
+
+                        for(let i = 0; i < selectedPitches.length; i++){
+
+                            if(selectedPitch===selectedPitches[i]){
+                                selectedPitches.splice(i,1);
+                            }
+                        }
+                    } else {
+                        let dates = $('#selectPitches').val().split("-");
+                        if(checkIfPitchIsFree()){
+                            this.classList.add("selected");
+                            selectedPitches.push(selectedPitch);
+                        }else{
+                            alert("This pitch is not free. Select another pitch or change your date.");
+                        }
+                        
+                    }
+                }
+
+
+
+            });
+        }
+
+
+
+
+
+
+        //Fuck my life
+        /*
         //iterate through the colums of a row
         //iterate through the colums of a row
         //x=1 because first row should not be selectable
@@ -142,21 +199,71 @@ function populatePitchSelection() {
                 columsPerRow[x].addEventListener('click', function () {
 
                     //get DAte of selected Cell
-                    console.log(allDates[this.cellIndex - 1]);
+                    let selectedDate = allDates[this.cellIndex - 1];
+                    console.log(selectedDate);
 
                     //get Pitch ID of selected Cell
-                    console.log(rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0, rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<")));
+                    let selectedPitch = rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0, rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<"));
+                    console.log(selectedPitch);
 
-                    if (this.classList.contains("selected")) {
-                        this.classList.remove("selected");
-                    } else {
-                        this.classList.add("selected");
+
+
+
+
+
+
+
+                    console.log(selectingPitch);
+
+                    if(!selectingPitch){
+                        lastSelection = selectedPitch;
+
+                        if (this.classList.contains("selected")) {
+                            this.classList.remove("selected");
+                        } else {
+                            this.classList.add("selected");
+                        }
+
+
 
                     }
+
+                    selectingPitch = true;
+
+
+
+                    if(selectingPitch){
+
+                        if(selectedPitch === lastSelection) {
+
+
+                            if (this.classList.contains("selected")) {
+                                this.classList.remove("selected");
+                            } else {
+                                this.classList.add("selected");
+
+                                selectingPitch = true;
+                            }
+                        } else {
+                            alert("Please finish your selection before continuing!");
+                        }
+                    } else {
+
+
+                    }
+
+                    writeBooking();
+
+
                 });
             }
+        }*/
+        
+        function checkIfPitchIsFree() {
+            return true;
         }
-    }
+
+
 }
 
 function getDatesInRange(start, end) {
@@ -194,6 +301,28 @@ function convertDate(date) {
 /*************************************/
 /* --- DB Calls ----- ---------------*/
 /*************************************/
+
+//Booking
+function bookPitches() {
+
+    for(let booking of allBookings){
+        if(booking.pitchID!=""){
+            $.ajax({
+                url: "/insert-customer", //use an existing ajaxCall
+                type: "POST",
+                data: {"query": query},
+                success: function (err, rows) {
+
+                },
+                error: function (error) {
+                    console.log("Error inserting date into the database", error)
+                }
+            });
+        }
+    }
+
+}
+
 
 //Inner join of bookings and pitches
 function getPitchBookings() {
