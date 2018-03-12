@@ -11,6 +11,7 @@ block append top-content
 
 
 block append body-content
+    p(id="currentBooking")
 
     #accordion
         .card
@@ -70,7 +71,10 @@ block append body-content
                                             span.glyphicon.glyphicon-tent
                                             |  Find Pitch
                             // Available Pitches Output Here
+
                             .row
+                                label(for='selectPitches') Select Dates
+                                input#selectPitches(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018')
                                 .row.pitch-selection#pitchSelection
 
         .card
