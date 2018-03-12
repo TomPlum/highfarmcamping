@@ -179,14 +179,13 @@ function getName() {
 // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
 $('#booking_id').keyup(function(){
-    let inputValue = document.getElementById("booking_id").value;
+    let inputValue = document.getElementById("booking_id").value.toLowerCase();
     let table = document.getElementById("bookingTable");
     let tr = table.getElementsByTagName("tr");
-    let i=0;
     let td;
 
     // Go through all table rows and search for row with desired ID
-    for (i = 0; i < tr.length; i++) {
+    for (let i = 0; i < tr.length; i++) {
         // If inputValue starts with digit, filter ID, if not filter customer name
         if (inputValue.match(/^\d/)) {
             td = tr[i].getElementsByTagName("td")[0];
@@ -195,7 +194,8 @@ $('#booking_id').keyup(function(){
           td = tr[i].getElementsByTagName("td")[1];
         }
         if(td) {
-            if(td.innerHTML.indexOf(inputValue)> -1)
+            let searchInput = td.innerHTML.toLowerCase();
+            if(searchInput.indexOf(inputValue.toLowerCase()) > -1)
             {
                 tr[i].style.display = "";
             } else {
