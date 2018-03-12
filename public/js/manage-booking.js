@@ -162,7 +162,7 @@ function getName() {
 
 // Navigates to the delete booking page.
 
-    $('#Show').on('click', function(){
+    $('#Delete').on('click', function(){
         goToDeleteBooking();
     });
 
@@ -170,7 +170,7 @@ function getName() {
 
         if(selectedRowValue !== ""){
             console.log("This is the selectedRowValue :" + selectedRowValue);
-            window.location = "/manage-booking/delete-booking?booking_id="+selectedRowValue;
+            window.location = "/manage-booking/delete?booking_id="+selectedRowValue;
         }
         // You have to select a row before you can get the booking confirmation:
         else alert("To continue, please select a booking and click the button again.");
