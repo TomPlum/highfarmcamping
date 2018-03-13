@@ -6,33 +6,17 @@
     //c 67
     //d 68
     //m 77
+    //h 72
 
     window.onkeydown = e => {
         if (e.ctrlKey && e.altKey && e.keyCode === 68) {
-            $(".hotkeys").find(".ctrl-d").toggleClass("active-hotkey");
-            redirect("/");
-            setTimeout(function() {
-                $(".hotkeys").find(".ctrl-d").toggleClass("active-hotkey");
-            }, 2000);
-            //alert("You pressed Ctrl + Alt + D!");
+            window.location.href = "/";
         } else if (e.ctrlKey && e.altKey && e.keyCode === 66) {
-            $(".hotkeys").find(".ctrl-b").toggleClass("active-hotkey");
-            setTimeout(function() {
-                $(".hotkeys").find(".ctrl-b").toggleClass("active-hotkey");
-            }, 2000);
+            window.location.href = "/book";
         } else if (e.ctrlKey && e.altKey && e.keyCode === 67) {
-            $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
-            setTimeout(function() {
-                $(".hotkeys").find(".ctrl-c").toggleClass("active-hotkey");
-            }, 2000);
+            window.location.href = "/customer-overview";
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 72) {
+            window.location.href = "/help";
         }
     };
-
-    function redirect(uri) {
-        $.ajax({
-            url: '/redirect',
-            type: "POST",
-            data: {uri: uri}
-        });
-    }
 })(jQuery);

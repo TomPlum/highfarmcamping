@@ -1,73 +1,65 @@
 // This file is for displaying the customer to be deleted
 $(document).ready(() => {
-
     // variable filters the customer ID from the URL:
-    let booking_id = window.location.search.substring(13);
+    let uriParams = parseURLParams(window.location.toString());
 
-// We invoke Ajax call for getting a single customer
+    // We invoke Ajax call for getting a single customer
     getBookingFromDB();
 
-// Listen on the "Delete Booking" button and invoke SQL delete statement when clicking
+    // Listen on the "Delete Booking" button and invoke SQL delete statement when clicking
     $('#btnDeleteBooking').click(function () {
-        try
-        {
+        try {
             $.ajax({
-                url: "/delete-single-booking",
+                url: "/manage-booking/delete-single-booking",
                 type: "POST",
-                data: {"ID": booking_id},
-                success: function (err) {
-                    console.log("Ajax Request successful");
-                    if(JSON.stringify(err)==="\"\"")
-                    {
-                        $("#alertBoxContainer").css("visibility","visible");
-                    }
-                    // When delete Booking is not possible due to referential integrity we invoke a notification for the user:
-                    else
-                    {
-                        $("#alertBoxContainer2").css("visibility", "visible");
+                async: true,
+                data: {"ID": uriParams.booking_id[0]},
+                success: function (res) {
+                    if (typeof res === "object" && res.errno.toString() === "1451") {
+                        //Referential Integrity Error - Display Error Notification
+                        $("#alertBoxContainer2").css("display", "inline");
+
+                    } else if (typeof res === "string" && res === "Success") {
+                        //Successfully Deleted Booking
+                        $("#alertBoxContainer").css("display", "inline");
                     }
 
-                    $("#deleteBookingSection").css("visibility","hidden");
+                    //Remove The Delete Elements From The DOM
+                    $("#deleteBookingSection").css("display", "none");
                 },
                 error: function (error) {
-                    console.log("Ajax request error : " + error);
+                    console.log("Ajax Request Error : " + error);
                     alert(errorNotification);
                 }
             });
-        }
-        catch(err)
-        {
+        } catch (err) {
             console.log("Error in delete Booking Ajax request: " + err.toString());
             alert(errorNotification);
         }
     });
-//Ajax call for getting a single booking
 
+    //Ajax call for getting a single booking
     function getBookingFromDB() {
         try {
             $.ajax({
-                url: "/get-booking",
+                url: "/manage-booking/get-booking",
                 type: "POST",
-                data: {"ID": booking_id},
-                success: function (dataP) {
-                    booking = dataP;
-                    createTable();
+                data: {"ID": uriParams.booking_id[0]},
+                success: function (data) {
+                    createTable(data);
                 },
                 error: function (error) {
-                    console.log("Error receiving data from the database")
+                    console.log("getBookingFromDB() Error: " + error);
                 }
             })
-        }
-        catch(err)
-        {
+        } catch (err) {
             console.log("Error in getBookingFromDB(): " + err.toString());
             alert(errorNotification);
         }
     }
 
-    function createTable() {
+    function createTable(booking) {
         try {
-
             const oTable = "<table class='table table-hover table-striped table-condensed'>";
             const cTable = "</table>";
             let tBody = "<tbody>";
@@ -84,7 +76,7 @@ $(document).ready(() => {
                 "<th>Payment Total</th>" +
                 "<th>Paid</th>" +
                 "<th>Type</th>" +
-                "<th>Booking Data</th>"+
+                "<th>Booking Data</th>" +
                 "</tr>" +
                 "</thead>";
 
@@ -105,10 +97,9 @@ $(document).ready(() => {
             }
             tBody += "</tbody>";
             $(".booking-to-be-deleted").html(oTable + headers + tBody + cTable);
-        }
-        catch(err)
-        {
+        } catch (err) {
             console.log("Error in create table function: " + err.toString());
             alert(errorNotification);
         }
     }
+});
