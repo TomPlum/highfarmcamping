@@ -25,20 +25,7 @@ function getIcon(type) {
             return "N/A";
     }
 }
-//for displaying date of SQL query in a table:
-function formatDate(date) {
-    date = new Date(date);
-    let DD = date.getDate();
-    if (DD < 10) {
-        DD = "0" + DD;
-    }
-    let MM = date.getMonth() +1;
-    if (MM < 10) {
-        MM = "0" + MM;
-    }
-    const YYYY = date.getFullYear();
-    return DD + "/" + MM + "/" + YYYY;
-}
+
 // for displaying Paid? Yes or No in table
 function formatPaid(paid) {
     if (paid === 1) {
@@ -59,6 +46,20 @@ function dateConverter(date){
     let y = dateF.substring(6,10);
     return(y +"-"+m+"-"+d);
 }
+//for displaying date of SQL query in a table:
+function formatDate(date) {
+    date = new Date(date);
+    let DD = date.getDate();
+    if (DD < 10) {
+        DD = "0" + DD;
+    }
+    let MM = date.getMonth() +1;
+    if (MM < 10) {
+        MM = "0" + MM;
+    }
+    const YYYY = date.getFullYear();
+    return DD + "/" + MM + "/" + YYYY;
+}
 
 // To format milliseconds into format DD/MM/YYYY:
 function formatDateFromMilliseconds(date) {
@@ -70,6 +71,59 @@ function formatDateFromMilliseconds(date) {
     if (day.length < 2) day = '0' + day;
 
     return `${day}/${month}/${year}`;
+}
+// formats DD/MM/YYYY into JavaScript Date format
+function writtenDateToJavaScriptDate(dateStr) {
+    const [day, month, year] = dateStr.split("/");
+    return new Date(year, month - 1, day);
+}
+
+
+// checks if a value has the date format DD/MM/YYYY
+
+function generalDateValidityCheck(date) {
+
+    let validity = true;
+    date += "";
+
+    if (date.indexOf("/") !== 2 && date.indexOf("/", date.indexOf("/")) !== 5 && date.indexOf("/", date.indexOf(date.indexOf("/"), "/")) === -1) {
+        validity = false;
+    } else {
+        let d = date.substring(0, 2);
+        let m = date.substring(3, 5);
+        let y = date.substring(6);
+
+        if (d.length !== 2 || m.length !== 2 || y.length !== 4) {
+            validity = false;
+        } else {
+            if (parseInt(d) > 31 || parseInt(m) > 12) {
+                validity = false;
+            }
+        }
+
+    }
+
+    return validity;
+}
+
+function parseURLParams(url) {
+    let queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") return;
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=", 2);
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+
+        if (!parms.hasOwnProperty(n)) parms[n] = [];
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
 }
 
 let sqlStatement;

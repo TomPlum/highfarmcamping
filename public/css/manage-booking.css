@@ -7,10 +7,10 @@ tr.selected {
 }
 
 #alertBoxContainer{
-    visibility: hidden;
+    display: none;
 }
 #alertBoxContainer2{
-    visibility: hidden;
+    display: none;
 }
 
 /*

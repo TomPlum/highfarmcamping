@@ -9,3 +9,29 @@ block append body-content
         | This is the main page.
     p !{data}
 
+    p
+        br
+        | Count of dogs overview:
+        .countDogsCurrently
+
+    div(id="addCustomerForm")
+        form#customerForm()
+            .row
+                .col-md-3
+                    input.form-control.input(type='text', name='date', placeholder='DD/MM/YYYY')
+                .col-md-3
+                    button.form-control.btn-info(type='button', id="Count")
+                        |   Show count of dogs for specific date
+
+                .col-md-3
+                    .countDogsForDate
+
+
+block append scripts
+    script(src="js/dashboard.js")
+
+
+
+
+
+

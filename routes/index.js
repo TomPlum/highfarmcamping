@@ -126,7 +126,7 @@ router.post('/delete-single-customer', function(req, res) {
         });
 });
 
-// GENERAL DB QUERY / HTTP POST Request. CAN BE USED FOR ALL KIND OF SQL Statements!
+// GENERAL DB UPDATE/ INSERT QUERY / HTTP POST Request. CAN BE USED FOR ALL KIND OF SQL UPDATE OR INSERT Statements!
 router.post('/db-query', function(req, res) {
     console.log(req.body.query);
     mysql.connection.query(req.body.query, function(err){
@@ -135,15 +135,27 @@ router.post('/db-query', function(req, res) {
     });
 });
 
+
 //DB Query for booking a pitch
 router.post('/db-query-booking', function(req, res) {
     console.log(req.body.query);
-    mysql.connection.query(req.body.query, function(err, rows){
-        if(!err){
-            res.send([200,rows.insertId]);
-        }else{
+    mysql.connection.query(req.body.query, function(err, rows) {
+        if (!err) {
+            res.send([200, rows.insertId]);
+        } else {
             res.send(err);
         }
+    });
+});
+
+// General SELECT db query:
+
+router.post('/select-db-query', function(req, res) {
+    console.log(req.body.query);
+    //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
+    mysql.connection.query(req.body.query, function(err, rows) {
+        res.send(rows);
+
     });
 });
 
