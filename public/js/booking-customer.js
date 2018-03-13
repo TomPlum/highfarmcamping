@@ -79,7 +79,7 @@ function dateConverter(date) {               //convert input date into database 
     return (y + "-" + m + "-" + d);
 };
 
-
+/*
 function insertOrUpdateCustomer(callback) {
 
     if (IDused === true) {            //update customer
@@ -168,7 +168,7 @@ function insertOrUpdateCustomer(callback) {
     }
 
 }
-
+*/
 function validityCheck() {
 
     let validity = true;
@@ -207,6 +207,11 @@ function validityCheck() {
         $('input[name=address_line_1]').addClass("errorInput");
     } else {
         $('input[name=address_line_1]').removeClass("errorInput");
+    }
+
+    if(!selectedPitches || selectedPitches.length===0){
+        alert("No pitch is selected!");
+        validity = false;
     }
 
     return validity;
