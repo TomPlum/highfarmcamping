@@ -135,12 +135,32 @@ router.post('/db-query', function(req, res) {
     });
 });
 
-//POST DB Query of add / edit customer
-router.post('/insert-customer', function(req) {
+//DB Query for booking a pitch
+router.post('/db-query-booking', function(req, res) {
     console.log(req.body.query);
-    mysql.connection.query(req.body.query, function(err){
-        console.log(err);
+    mysql.connection.query(req.body.query, function(err, rows){
+        if(!err){
+            res.send([200,rows.insertId]);
+        }else{
+            res.send(err);
+        }
     });
+});
+
+//POST DB Query of add / edit customer
+router.post('/insert-customer', function(req, res) {
+    console.log(req.body.query);
+    let insertedId;
+    mysql.connection.query(req.body.query, function(err,rows){
+        console.log(err);
+        console.log(rows);
+        insertedId = rows.insertId;
+        if(!err){
+            res.send([200,insertedId]);
+        }
+
+    });
+
 });
 
 module.exports = router;

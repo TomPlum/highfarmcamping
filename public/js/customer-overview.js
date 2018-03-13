@@ -127,9 +127,10 @@ $(document).ready(() => {
     });
 
     function dateConverter(date){               //convert input date into database suitable date
-        let d = date.substring(0, 2);
-        let m = date.substring(3,5);
-        let y = date.substring(6,10);
+        let dateF  = date.trim();
+        let d = dateF.substring(0, 2);
+        let m = dateF.substring(3,5);
+        let y = dateF.substring(6,10);
         return(y +"-"+m+"-"+d);
 
     }

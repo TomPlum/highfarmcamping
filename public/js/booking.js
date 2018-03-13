@@ -31,14 +31,24 @@ $(document).ready(function () {
     });
 });
 
+
+
 /*************************************/
 /* --- Global Variables -------------*/
 /*************************************/
 let pitches = [];
 let pitchBookings = [];
+let selectedPitches = [];
+
+function writeBooking() {
+    document.getElementById("currentBooking").innerHTML = allBookings[0].pitchID+allBookings[0].startDate+allBookings[0].endDate+"<br>"+
+        allBookings[1].pitchID+allBookings[1].startDate+allBookings[1].endDate+"<br>"+
+        allBookings[2].pitchID+allBookings[2].startDate+allBookings[2].endDate+"<br>";
+
+
+}
 
 //should contain max. 3 currentBooking, each one has a pitch id, stard-date and end-date example:
-
 /* For future use
 let allBookings = [
     {
@@ -60,16 +70,6 @@ let allBookings = [
 let selectingPitch = false;
 let lastSelection;
 */
-
-let selectedPitches = [];
-
-function writeBooking() {
-    document.getElementById("currentBooking").innerHTML = allBookings[0].pitchID+allBookings[0].startDate+allBookings[0].endDate+"<br>"+
-        allBookings[1].pitchID+allBookings[1].startDate+allBookings[1].endDate+"<br>"+
-        allBookings[2].pitchID+allBookings[2].startDate+allBookings[2].endDate+"<br>";
-
-
-}
 
 
 /*************************************/
@@ -291,30 +291,101 @@ function convertDate(date) {
     return new Date(date);
 }
 
+function calculatePrice() {
+    return "50,0";
+
+}
+
 
 /*************************************/
 /* --- DB Calls ----- ---------------*/
 /*************************************/
 
 //Booking
-function bookPitches() {
+$('#next').click(function() {
 
-    for(let booking of allBookings){
-        if(booking.pitchID!=""){
-            $.ajax({
-                url: "/insert-customer", //use an existing ajaxCall
-                type: "POST",
-                data: {"query": query},
-                success: function (err, rows) {
 
-                },
-                error: function (error) {
-                    console.log("Error inserting date into the database", error)
-                }
-            });
-        }
+    let customerID = insertOrUpdateCustomer();
+    console.log(customerID);
+
+    if(customerID){
+         let bookingID = insertBooking(customerID);
+        console.log(bookingID);
+
+         if(bookingID){
+             for(let selectedPitch of selectedPitches){
+
+                 let query = "INSERT pitch_bookings (pitch_id,booking_id) VALUES (" +
+                    selectedPitch+","+
+                     bookingID+");"
+
+
+                 $.ajax({
+                     url: "/db-query",
+                     type: "POST",
+                     data: {"query": query},
+                     success: function (data) {
+                         console.log(data);
+                     },
+                     error: function (error) {
+                         console.log("Error inserting date into the database", error)
+                     }
+                 })
+
+
+             }
+         }
     }
 
+
+
+
+})
+
+function insertBooking(customerID) {
+    let returnValue = undefined;
+    try {
+        // generating booking date:
+        let date = dateConverter(formatDateFromMilliseconds(new Date()));
+
+        let dates = $('#selectPitches').val().split("-");
+
+        console.log(dates);
+
+        let query = "INSERT bookings (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (" +
+            customerID + "," +
+            $('select[name=dog_amount]').val() + "," +
+            dateConverter(dates[0]) + "," +
+            dateConverter(dates[1]) + "," +
+            $('select[name=payment_method]').val() + "," +
+            calculatePrice() +","+
+            document.getElementById('already_paid').checked + "," +
+            "\"phone-booking\"," +
+            date + ");";
+
+        console.log(query);
+
+        // executing insert a booking
+
+        $.ajax({
+            url: "/db-query-booking",
+            type: "POST",
+            data: {"query": query},
+            success: function (data) {
+                returnValue = data[1];
+            },
+            error: function (error) {
+                console.log("Error inserting date into the database", error)
+                returnValue = undefined;
+            }
+        })
+    }
+    catch(err)
+    {
+        console.log(err);
+        returnValue = undefined;
+    }
+    return returnValue;
 }
 
 
@@ -338,7 +409,6 @@ function getPitches() {
         type: "POST",
         success: function (rows) {
             pitches = rows;
-            console.log(pitches);
         },
         error: function (error) {
             console.log("Error getting pitches", error)
@@ -346,32 +416,4 @@ function getPitches() {
     });
 }
 
-function insertBooking() {
-    try {
-        // generating booking date:
-        let date = formatDateFromMilliseconds(new Date());
-        date = dateConverter(date);
-        let query = "INSERT bookings (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (4,2,\"2018-01-08\",\"2018-01-09\", \"cash\", 50.00, 0,\"phone-booking\",\"" + date + "\");";
-        // executing insert a booking
-        $.ajax({
-            url: "/db-query",
-            type: "POST",
-            data: {"query": query},
-            success: function (err) {
-                console.log("Ajax Request successful");
-                if (JSON.stringify(err) === "\"\"") {
-                    console.log("db-query successful");
-                    alert("SUCCESS");
-                }
-            },
-            error: function (error) {
-                console.log("Ajax request error : " + error);
-                alert(errorNotification);
-            }
-        })
-    }
-    catch(err)
-    {
-        console.log(err);
-    }
-}
+

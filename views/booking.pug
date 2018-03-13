@@ -147,7 +147,7 @@ block append body-content
                             .col-md-2
                                 label Amount of Dogs
                             .col-md-3
-                                select.selectpicker
+                                select.selectpicker(name="dog_amount")
                                     optgroup()
                                         option 0
                                         option 1
@@ -157,14 +157,14 @@ block append body-content
                             .col-md-2
                                 label Payment Method
                             .col-md-3
-                                select.selectpicker
+                                select.selectpicker(name="payment_method")
                                     optgroup()
-                                        option Cash
-                                        option Cheque
+                                        option(value="cash") Cash
+                                        option(value="cheque") Cheque
                             .col-md-2
                                 label Already paid?
-                            .col-md-3
-                            input(type='checkbox', name='already_paid')
+                                |
+                                input(type='checkbox', id="already_paid", name='already_paid' )
                         br
                         .row
                             .col-md-4

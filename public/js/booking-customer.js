@@ -10,16 +10,16 @@ let errors = [];
 
 let IDused = false;
 let insertedID;
-let customer=[];
+let customer = [];
 
 
-function getCustomerFromDB(){
+function getCustomerFromDB() {
     $.ajax({
         url: "/get-customer",
         type: "POST",
         data: {"ID": insertedID},
         success: function (row) {
-            customer=row;
+            customer = row;
             console.log(customer);
             insertDataInFields();
         },
@@ -29,12 +29,13 @@ function getCustomerFromDB(){
     });
 };
 
-function dateConverter2Slashes(date){
+function dateConverter2Slashes(date) {
     let d = date.substring(8, 10);
-    let m = date.substring(5,7);
-    let y = date.substring(0,4);
-    return(d + "/" +m+ "/"+y);
+    let m = date.substring(5, 7);
+    let y = date.substring(0, 4);
+    return (d + "/" + m + "/" + y);
 }
+
 function insertDataInFields() {
     $('input[name=first_name]').val(customer[0].first_name);
     $('input[name=last_name]').val(customer[0].last_name);
@@ -48,7 +49,7 @@ function insertDataInFields() {
 }
 
 $('#addcustomerbooking').click(function () {
-    IDused=false;
+    IDused = false;
     $('input[name=first_name]').val("");
     $('input[name=last_name]').val("");
     $('input[name=date_of_birth]').val("");
@@ -58,32 +59,32 @@ $('#addcustomerbooking').click(function () {
     $('input[name=registration]').val("");
     $('input[name=home_phone_number]').val("");
     $('input[name=mobile_phone_number]').val("");
-    $("#customerBookingForm").css("visibility","visible");
+    $("#customerBookingForm").css("visibility", "visible");
 });
 
-$('#customer_id').keyup(function() {
+$('#customer_id').keyup(function () {
     if (event.keyCode === 13) {
         insertedID = $('input[name=customer_ID]').val();
         getCustomerFromDB();
-        IDused =true;
-        $("#customerBookingForm").css("visibility","visible");
+        IDused = true;
+        $("#customerBookingForm").css("visibility", "visible");
     }
 });
 
-function dateConverter(date){               //convert input date into database suitable date
-    let d = date.substring(0, 2);
-    let m = date.substring(3,5);
-    let y = date.substring(6,10);
-    return(y +"-"+m+"-"+d);
+function dateConverter(date) {               //convert input date into database suitable date
+    let dateF  = date.trim();
+    let d = dateF.substring(0, 2);
+    let m = dateF.substring(3, 5);
+    let y = dateF.substring(6, 10);
+    return (y + "-" + m + "-" + d);
 };
 
-$('#next').click(function() {
+
+function insertOrUpdateCustomer() {
+
     if (IDused === true) {            //update customer
-        alert("IDused");
         let valide = validityCheck();
-        alert("IDused2");
-        alert("test");
-        if(valide){
+        if (valide) {
             let query = "UPDATE customers SET first_name = \"" +
                 $('input[name=first_name]').val() + "\",last_name = \"" +
                 $('input[name=last_name]').val() + "\",date_of_birth = \"" +
@@ -100,23 +101,28 @@ $('#next').click(function() {
                 type: "POST",
                 data: {"query": query},
                 success: function (err, rows) {
+                    alert("Customer has been updated. --> NOW: Booking Summary!");
+                    return insertedID;
                 },
+                error: (err) => {
+                    return undefined;
+                }
 
-
-            })}
-        else{
-            $('#error').text("");
-            for (let error of errors){
-                $('#error').append(error+"<br>");
-            }
-            console.log(errors);
+            })
         }
-        alert("Customer has been updated. --> NOW: Booking Summary!");
+        else {
+            $('#error').text("");
+            for (let error of errors) {
+                $('#error').append(error + "<br>");
+            }
+            return undefined;
+        }
+
     }
     else {
         let valide = validityCheck();
 
-        if(valide) {
+        if (valide) {
             let query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
                 $('input[name=first_name]').val() + "\",\"" +
                 $('input[name=last_name]').val() + "\",\"" +
@@ -132,62 +138,68 @@ $('#next').click(function() {
                 url: "/insert-customer",
                 type: "POST",
                 data: {"query": query},
-                success: function (err, rows) {
+                success: function (data) {
+                    alert("Customer has been added. --> NOW: Booking Summary!");
+                    console.log(data[1])
+                    return data[1];
                 },
                 error: function (error) {
                     console.log("Error inserting date into the database", error)
+                    return undefined;
                 }
             });
-            alert("Customer has been added. --> NOW: Booking Summary!");
+
+
         }
-        else{
+        else {
             $('#error').text("");
-            for (let error of errors){
-                $('#error').append(error+"<br>");
+            for (let error of errors) {
+                $('#error').append(error + "<br>");
             }
+            return undefined;
 
         }
     }
 
-});
+}
 
-function validityCheck(){
+function validityCheck() {
 
     let validity = true;
 
     //Validate inputs
-    if($('input[name=first_name]').val() === ""){
+    if ($('input[name=first_name]').val() === "") {
         validity = false;
         $('input[name=first_name]').addClass("errorInput");
-    }else{
+    } else {
         $('input[name=first_name]').removeClass("errorInput");
     }
 
-    if($('input[name=last_name]').val() === ""){
+    if ($('input[name=last_name]').val() === "") {
         validity = false;
         $('input[name=last_name]').addClass("errorInput");
-    }else{
+    } else {
         $('input[name=last_name]').removeClass("errorInput");
     }
 
-    if($('input[name=date_of_birth]').val() === "" || !dateValidityCheck($('input[name=date_of_birth]').val())){
+    if ($('input[name=date_of_birth]').val() === "" || !dateValidityCheck($('input[name=date_of_birth]').val())) {
         validity = false;
         $('input[name=date_of_birth]').addClass("errorInput");
-    }else{
+    } else {
         $('input[name=date_of_birth]').removeClass("errorInput");
 
     }
-    if($('input[name=email_address]').val() === "" || !emailValidityCheck($('input[name=email_address]').val())){
+    if ($('input[name=email_address]').val() === "" || !emailValidityCheck($('input[name=email_address]').val())) {
         validity = false;
         $('input[name=email_address]').addClass("errorInput");
-    }else{
+    } else {
         $('input[name=email_address]').removeClass("errorInput");
     }
 
-    if($('input[name=address_line_1]').val() === ""){
+    if ($('input[name=address_line_1]').val() === "") {
         validity = false;
         $('input[name=address_line_1]').addClass("errorInput");
-    }else{
+    } else {
         $('input[name=address_line_1]').removeClass("errorInput");
     }
 
@@ -203,29 +215,29 @@ function validityCheck(){
 function dateValidityCheck(date) {
 
     let validity = true;
-    date +="";
+    date += "";
 
-    if(date.indexOf("/")!==2 && date.indexOf("/",date.indexOf("/"))!== 5 && date.indexOf("/",date.indexOf(date.indexOf("/"),"/")) === -1 ){
+    if (date.indexOf("/") !== 2 && date.indexOf("/", date.indexOf("/")) !== 5 && date.indexOf("/", date.indexOf(date.indexOf("/"), "/")) === -1) {
         validity = false;
-    }else{
+    } else {
         let d = date.substring(0, 2);
-        let m = date.substring(3,5);
+        let m = date.substring(3, 5);
         let y = date.substring(6);
 
-        if(d.length !== 2 || m.length !== 2 || y.length !== 4){
-            validity=false;
-        }else{
-            if(parseInt(d)>31 || parseInt(m)>12){
-                validity=false;
+        if (d.length !== 2 || m.length !== 2 || y.length !== 4) {
+            validity = false;
+        } else {
+            if (parseInt(d) > 31 || parseInt(m) > 12) {
+                validity = false;
             }
         }
 
     }
 
-    if(!validity){
+    if (!validity) {
         errors.push("Invalid date format!");
         return false;
-    }else {
+    } else {
         return true;
     }
 }
@@ -238,21 +250,21 @@ function dateValidityCheck(date) {
 function emailValidityCheck(email) {
 
     let validity = true;
-    email +="";
+    email += "";
 
-    if (email.indexOf("@") === 0 || email.indexOf("@") === -1 || email.indexOf(".",email.indexOf("@")) === -1 || email.indexOf(".") + 1 === email.length){
+    if (email.indexOf("@") === 0 || email.indexOf("@") === -1 || email.indexOf(".", email.indexOf("@")) === -1 || email.indexOf(".") + 1 === email.length) {
         validity = false;
-    }else if(!(email.indexOf(("."),email.indexOf("@"))>email.indexOf("@")+1)){
+    } else if (!(email.indexOf(("."), email.indexOf("@")) > email.indexOf("@") + 1)) {
 
 
         validity = false;
     }
 
 
-    if(!validity){
+    if (!validity) {
         errors.push("Invalid email address!");
         return false;
-    }else {
+    } else {
         return true;
     }
 
