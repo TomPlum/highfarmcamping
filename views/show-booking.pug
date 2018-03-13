@@ -17,9 +17,14 @@ block append body-content
                 #loading
                 .booking-confirmation#booking
 
+    .col-md-8
+        button.form-control.btn-info(type='button', id='printPDF', name='printPDF')
+            span.glyphicon.glyphicon-list-alt
+            |  Send Booking confirmation
 
 block append scripts
     script(src="js/show-booking.js")
+    script(src="js/email-confirmation.js")
 
 
 
