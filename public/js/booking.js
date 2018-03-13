@@ -6,7 +6,7 @@ $(document).ready(function () {
     getPitchBookings();
 
     //Initialize the DateRanger of the Booking
-    $(function() {
+    $(function () {
         $('input[name="selectPitches"]').daterangepicker({
             "opens": "right",
             "showDropdowns": true
@@ -32,18 +32,18 @@ $(document).ready(function () {
 });
 
 
-
 /*************************************/
 /* --- Global Variables -------------*/
 /*************************************/
+const async = require('async');
 let pitches = [];
 let pitchBookings = [];
 let selectedPitches = [];
 
 function writeBooking() {
-    document.getElementById("currentBooking").innerHTML = allBookings[0].pitchID+allBookings[0].startDate+allBookings[0].endDate+"<br>"+
-        allBookings[1].pitchID+allBookings[1].startDate+allBookings[1].endDate+"<br>"+
-        allBookings[2].pitchID+allBookings[2].startDate+allBookings[2].endDate+"<br>";
+    document.getElementById("currentBooking").innerHTML = allBookings[0].pitchID + allBookings[0].startDate + allBookings[0].endDate + "<br>" +
+        allBookings[1].pitchID + allBookings[1].startDate + allBookings[1].endDate + "<br>" +
+        allBookings[2].pitchID + allBookings[2].startDate + allBookings[2].endDate + "<br>";
 
 
 }
@@ -292,7 +292,26 @@ function convertDate(date) {
 }
 
 function calculatePrice() {
-    return "50,0";
+    let totalPrice=0;
+
+    let dates = $('#selectPitches').val().split("-").trim();
+    let allDates = getDatesInRange(dates[0],dates[1]);
+
+    totalPrice += 5 * parseInt($('select[name=dog_amount]').val());
+
+    for(let selectedPitch of selectedPitches){
+
+        for(let pitch of pitches){
+            if(pitch.id === selectedPitch){
+
+                totalPrice += pitch.price*(allDates.length-1);
+
+            }
+        }
+
+    }
+
+    return totalPrice;
 
 }
 
@@ -302,48 +321,62 @@ function calculatePrice() {
 /*************************************/
 
 //Booking
-$('#next').click(function() {
+$('#next').click(function () {
 
 
-    let customerID = insertOrUpdateCustomer();
-    console.log(customerID);
+    //let customerID = insertOrUpdateCustomer();
+    //console.log(customerID);
 
-    if(customerID){
-         let bookingID = insertBooking(customerID);
+    /*
+    if (customerID) {
+        let bookingID = insertBooking(customerID);
         console.log(bookingID);
 
-         if(bookingID){
-             for(let selectedPitch of selectedPitches){
+        if (bookingID) {
+            for (let selectedPitch of selectedPitches) {
 
-                 let query = "INSERT pitch_bookings (pitch_id,booking_id) VALUES (" +
-                    selectedPitch+","+
-                     bookingID+");"
-
-
-                 $.ajax({
-                     url: "/db-query",
-                     type: "POST",
-                     data: {"query": query},
-                     success: function (data) {
-                         console.log(data);
-                     },
-                     error: function (error) {
-                         console.log("Error inserting date into the database", error)
-                     }
-                 })
+                let query = "INSERT pitch_bookings (pitch_id,booking_id) VALUES (" +
+                    selectedPitch + "," +
+                    bookingID + ");"
 
 
-             }
-         }
+                $.ajax({
+                    url: "/db-query",
+                    type: "POST",
+                    data: {"query": query},
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (error) {
+                        console.log("Error inserting date into the database", error)
+                    }
+                })
+
+
+            }
+        }
     }
+    */
 
-
-
+    book();
 
 })
 
-function insertBooking(customerID) {
-    let returnValue = undefined;
+let book = function (req, res) {
+    console.log("firstFunction in");
+    async.waterfall([
+        insertOrUpdateCustomer,
+        insertBooking,
+        insertPitchBookings
+    ], function (error, success) {
+        if (error) {
+            alert('Something is wrong!');
+        }
+        return alert('Done!');
+    });
+};
+
+function insertBooking(customerID, callback) {
     try {
         // generating booking date:
         let date = dateConverter(formatDateFromMilliseconds(new Date()));
@@ -358,7 +391,7 @@ function insertBooking(customerID) {
             dateConverter(dates[0]) + "," +
             dateConverter(dates[1]) + "," +
             $('select[name=payment_method]').val() + "," +
-            calculatePrice() +","+
+            calculatePrice() + "," +
             document.getElementById('already_paid').checked + "," +
             "\"phone-booking\"," +
             date + ");";
@@ -372,20 +405,49 @@ function insertBooking(customerID) {
             type: "POST",
             data: {"query": query},
             success: function (data) {
-                returnValue = data[1];
+                callback(null,data[1]);
+                return;
             },
             error: function (error) {
                 console.log("Error inserting date into the database", error)
-                returnValue = undefined;
+                callback(error,null);
+                return;
             }
         })
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        returnValue = undefined;
+        callback(err,null);
+        return;
     }
-    return returnValue;
+}
+
+function insertPitchBookings(bookingID, callback) {
+    for (let selectedPitch of selectedPitches) {
+
+        let query = "INSERT pitch_bookings (pitch_id,booking_id) VALUES (" +
+            selectedPitch + "," +
+            bookingID + ");"
+
+
+        $.ajax({
+            url: "/db-query",
+            type: "POST",
+            data: {"query": query},
+            success: function (data) {
+                console.log(data);
+                callback(null,"Success insert:"+selectedPitch+" - " +bookingID);
+                return;
+            },
+            error: function (error) {
+                console.log("Error inserting date into the database", error)
+                callback(error,null);
+                return;
+            }
+        })
+
+
+    }
 }
 
 
@@ -415,5 +477,7 @@ function getPitches() {
         }
     });
 }
+
+
 
 

@@ -80,7 +80,7 @@ function dateConverter(date) {               //convert input date into database 
 };
 
 
-function insertOrUpdateCustomer() {
+function insertOrUpdateCustomer(callback) {
 
     if (IDused === true) {            //update customer
         let valide = validityCheck();
@@ -102,10 +102,12 @@ function insertOrUpdateCustomer() {
                 data: {"query": query},
                 success: function (err, rows) {
                     alert("Customer has been updated. --> NOW: Booking Summary!");
-                    return insertedID;
+                    callback(null,insertedID);
+                    return;
                 },
                 error: (err) => {
-                    return undefined;
+                    callback(err,null);
+                    return;
                 }
 
             })
@@ -115,7 +117,8 @@ function insertOrUpdateCustomer() {
             for (let error of errors) {
                 $('#error').append(error + "<br>");
             }
-            return undefined;
+            callback("Inputs invalid",null);
+            return;
         }
 
     }
@@ -140,12 +143,14 @@ function insertOrUpdateCustomer() {
                 data: {"query": query},
                 success: function (data) {
                     alert("Customer has been added. --> NOW: Booking Summary!");
-                    console.log(data[1])
-                    return data[1];
+
+                    callback(null,data[1]);
+                    return;
                 },
                 error: function (error) {
                     console.log("Error inserting date into the database", error)
-                    return undefined;
+                    callback(err,null);
+                    return;
                 }
             });
 
@@ -156,7 +161,8 @@ function insertOrUpdateCustomer() {
             for (let error of errors) {
                 $('#error').append(error + "<br>");
             }
-            return undefined;
+            callback("Inputs invalid",null);
+            return;
 
         }
     }
