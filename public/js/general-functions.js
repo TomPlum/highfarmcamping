@@ -46,6 +46,16 @@ function dateConverter(date){
     let y = dateF.substring(6,10);
     return(y +"-"+m+"-"+d);
 }
+
+//convert input date from DatePicker DD/MM/YYYY into database suitable date
+function datePickerDateConverter(date){
+    dateF = date.trim();
+    let m = dateF.substring(0, 2);
+    let d = dateF.substring(3,5);
+    let y = dateF.substring(6,10);
+    return(y +"-"+m+"-"+d);
+}
+
 //for displaying date of SQL query in a table:
 function formatDate(date) {
     date = new Date(date);

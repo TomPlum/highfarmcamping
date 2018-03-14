@@ -32,7 +32,8 @@ $(document).ready(function () {
 });
 
 /**
- * TODO Check if pitch is available on the selected pitch
+ * TODO Check if pitch is available on the selected date
+ * TODO Is there a problem with the decision inserting or updating a customer???
  */
 
 /*************************************/
@@ -42,41 +43,9 @@ let pitches = [];
 let pitchBookings = [];
 let selectedPitches = [];
 
-function writeBooking() {
-    document.getElementById("currentBooking").innerHTML = allBookings[0].pitchID + allBookings[0].startDate + allBookings[0].endDate + "<br>" +
-        allBookings[1].pitchID + allBookings[1].startDate + allBookings[1].endDate + "<br>" +
-        allBookings[2].pitchID + allBookings[2].startDate + allBookings[2].endDate + "<br>";
-
-
-}
-
-//should contain max. 3 currentBooking, each one has a pitch id, stard-date and end-date example:
-/* For future use
-let allBookings = [
-    {
-        pitchID: "",
-        startDate: "",
-        endDate: "",
-    },
-    {
-        pitchID: "",
-        startDate: "",
-        endDate: "",
-    },
-    {
-        pitchID: "",
-        startDate: "",
-        endDate: "",
-    },
-];
-let selectingPitch = false;
-let lastSelection;
-*/
-
 
 /*************************************/
 /* --- Book a pitch -----------------*/
-
 /*************************************/
 
 function populatePitchSelection() {
@@ -92,7 +61,7 @@ function populatePitchSelection() {
 
     const oTable = "<table class='pitch-availability'>";
     const cTable = "</table>";
-    let headers = "<tr><th>Pitch</th>";
+    let headers = "<tr><th>Pitch (ID)</th>";
     const allDates = getDatesInRange(dateFrom, dateTo);
 
     for (let i = 0; i < allDates.length; i++) {
@@ -126,7 +95,7 @@ function populatePitchSelection() {
                         default:
                             icon = all;
                     }
-                    body += "<td class='pitch-details'>Pitch " + pitches[i].pitch_id + "<br>" + icon + "</td>";
+                    body += "<td class='pitch-details'>" + pitches[i].pitch_name + " ("+ pitches[i].pitch_id +")"+ "<br>" + icon + "</td>";
                 } else {
                     let available = checkAvailability(pitches[i], allDates[j - 1]);
                     if (available === true) {
@@ -152,7 +121,13 @@ function populatePitchSelection() {
     for (i = 0; i < rows.length; i++) {
         rows[i].addEventListener('click', function () {
 
-            let selectedPitch = this.getElementsByTagName("td")[0].innerHTML.substring(0, this.getElementsByTagName("td")[0].innerHTML.indexOf("<"));
+            let selectedPitchID = this.getElementsByTagName("td")[0].innerHTML.substring(this.getElementsByTagName("td")[0].innerHTML.indexOf("(")+1, this.getElementsByTagName("td")[0].innerHTML.indexOf(")"));
+            let selectedPitch;
+            for(let pitch of pitches){
+                if(pitch.pitch_id == selectedPitchID){
+                    selectedPitch = pitch;
+                }
+            }
 
             if (!selectedPitches.includes(selectedPitch) && selectedPitches.length === 3) {
                 alert("Your are not allowed to select more than 3 pitches");
@@ -170,7 +145,9 @@ function populatePitchSelection() {
                     let dates = $('#selectPitches').val().split("-");
                     if (checkIfPitchIsFree()) {
                         this.classList.add("selected");
-                        selectedPitches.push(selectedPitch);
+
+                                selectedPitches.push(selectedPitch);
+
                     } else {
                         alert("This pitch is not free. Select another pitch or change your date.");
                     }
@@ -178,82 +155,9 @@ function populatePitchSelection() {
                 }
             }
 
-
+            console.log(selectedPitches);
         });
     }
-
-
-    //Fuck my life
-    /*
-    //iterate through the colums of a row
-    //iterate through the colums of a row
-    //x=1 because first row should not be selectable
-    for (let x = 1; x < columsPerRow.length; x++) {
-
-        //check if this date is available
-        if (columsPerRow[x].classList.contains("available-pitch")) {
-            columsPerRow[x].addEventListener('click', function () {
-
-                //get DAte of selected Cell
-                let selectedDate = allDates[this.cellIndex - 1];
-                console.log(selectedDate);
-
-                //get Pitch ID of selected Cell
-                let selectedPitch = rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.substring(0, rows[this.parentNode.rowIndex].getElementsByTagName("td")[0].innerHTML.indexOf("<"));
-                console.log(selectedPitch);
-
-
-
-
-
-
-
-
-                console.log(selectingPitch);
-
-                if(!selectingPitch){
-                    lastSelection = selectedPitch;
-
-                    if (this.classList.contains("selected")) {
-                        this.classList.remove("selected");
-                    } else {
-                        this.classList.add("selected");
-                    }
-
-
-
-                }
-
-                selectingPitch = true;
-
-
-
-                if(selectingPitch){
-
-                    if(selectedPitch === lastSelection) {
-
-
-                        if (this.classList.contains("selected")) {
-                            this.classList.remove("selected");
-                        } else {
-                            this.classList.add("selected");
-
-                            selectingPitch = true;
-                        }
-                    } else {
-                        alert("Please finish your selection before continuing!");
-                    }
-                } else {
-
-
-                }
-
-                writeBooking();
-
-
-            });
-        }
-    }*/
 
     function checkIfPitchIsFree() {
         return true;
@@ -304,7 +208,7 @@ function calculatePrice() {
     for (let selectedPitch of selectedPitches) {
 
         for (let pitch of pitches) {
-            if (pitch.id === selectedPitch) {
+            if (pitch.pitch_id == selectedPitch.pitch_id) {
 
                 totalPrice += pitch.price * (allDates.length - 1);
 
@@ -325,40 +229,6 @@ function calculatePrice() {
 //Booking
 $('#next').click(function () {
 
-
-    //let customerID = insertOrUpdateCustomer();
-    //console.log(customerID);
-
-    /*
-    if (customerID) {
-        let bookingID = insertBooking(customerID);
-        console.log(bookingID);
-
-        if (bookingID) {
-            for (let selectedPitch of selectedPitches) {
-
-                let query = "INSERT pitch_bookings (pitch_id,booking_id) VALUES (" +
-                    selectedPitch + "," +
-                    bookingID + ");"
-
-
-                $.ajax({
-                    url: "/db-query",
-                    type: "POST",
-                    data: {"query": query},
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (error) {
-                        console.log("Error inserting date into the database", error)
-                    }
-                })
-
-
-            }
-        }
-    }
-    */
 
     if (validityCheck()){
 
@@ -397,105 +267,35 @@ function book() {
         bookingData:
             {
                 dogs: 0,
-                startDate: dates[0].trim(),
-                endDate: dates[1].trim(),
+                startDate: datePickerDateConverter(dates[0].trim()),
+                endDate: datePickerDateConverter(dates[1].trim()),
                 paymentMethod: $('select[name=payment_method]').val(),
                 price: calculatePrice(),
                 alreadyPaid: document.getElementById('already_paid').checked,
-                typ: "phone-booking",
+                type: "phone-booking",
                 bookingDate: dateConverter(formatDateFromMilliseconds(new Date()))
             },
         pitchData: selectedPitches
     }
 
+
     $.ajax({
         url: "/db-query-booking",
         type: "POST",
         data: {"data": data},
-        success: function (data) {
+        success: function (bookingID) {
             console.log("Book a pitch successful!")
+            alert("Booking successful!");
+            window.location.href = "/manage-booking/show-booking?booking_id="+bookingID[0];
+
         },
         error: function (error) {
+            alert("was geht ab");
             console.log("Error inserting date into the database", error)
         }
     })
 
 
-}
-
-
-function insertBooking(customerID, callback) {
-    try {
-        // generating booking date:
-        let date = dateConverter(formatDateFromMilliseconds(new Date()));
-
-        let dates = $('#selectPitches').val().split("-");
-
-        console.log(dates);
-
-        let query = "INSERT bookings (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (" +
-            customerID + "," +
-            $('select[name=dog_amount]').val() + "," +
-            dateConverter(dates[0]) + "," +
-            dateConverter(dates[1]) + "," +
-            $('select[name=payment_method]').val() + "," +
-            calculatePrice() + "," +
-            document.getElementById('already_paid').checked + "," +
-            "\"phone-booking\"," +
-            date + ");";
-
-        console.log(query);
-
-        // executing insert a booking
-
-        $.ajax({
-            url: "/db-query-booking",
-            type: "POST",
-            data: {"query": query},
-            success: function (data) {
-                callback(null, data[1]);
-                return;
-            },
-            error: function (error) {
-                console.log("Error inserting date into the database", error)
-                callback(error, null);
-                return;
-            }
-        })
-    }
-    catch (err) {
-        console.log(err);
-        callback(err, null);
-        return;
-    }
-}
-
-function insertPitchBookings(bookingID, callback) {
-    for (let selectedPitch of selectedPitches) {
-
-        let query = "INSERT pitch_bookings (pitch_id,booking_id) VALUES (" +
-            selectedPitch + "," +
-            bookingID + ");"
-
-
-        $.ajax({
-            url: "/db-query",
-            type: "POST",
-            data: {"query": query},
-            success: function (data) {
-                console.log(data);
-                callback(null, "Success insert:" + selectedPitch + " - " + bookingID);
-                return;
-            },
-            error: function (error) {
-                console.log("Error inserting date into the database", error)
-                callback(error, null);
-                return;
-            }
-        })
-
-
-    }
 }
 
 
