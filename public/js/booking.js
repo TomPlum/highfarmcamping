@@ -44,6 +44,7 @@ let pitchBookings = [];
 let selectedPitches = [];
 
 
+
 /*************************************/
 /* --- Book a pitch -----------------*/
 /*************************************/
@@ -143,24 +144,28 @@ function populatePitchSelection() {
                     }
                 } else {
                     let dates = $('#selectPitches').val().split("-");
-                    if (checkIfPitchIsFree()) {
-                        this.classList.add("selected");
 
-                                selectedPitches.push(selectedPitch);
+                    let allDates = getDatesInRange(dates[0].trim(), dates[1].trim());
+                    let available = true;
+                    for(let date of allDates){
+                        if(!checkAvailability(selectedPitch,date)){
+                            available=false;
+                        }
 
-                    } else {
-                        alert("This pitch is not free. Select another pitch or change your date.");
                     }
+                    if(available){
+                        selectedPitches.push(selectedPitch);
+                        this.classList.add("selected");
+                    }else{
+                        alert("This pitch is not available, please select another pitch or change your date.");
+                    }
+
 
                 }
             }
 
             console.log(selectedPitches);
         });
-    }
-
-    function checkIfPitchIsFree() {
-        return true;
     }
 
 
