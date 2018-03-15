@@ -64,8 +64,14 @@ block append body-content
 
                                 .col-md-6
                                     .row
-                                        label(for='date-range') Select Date Range
+                                        p
+                                            | Select Date Range
+                                        p
+                                        label(for='date-range')
                                         input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
+                                        P
+                                        |
+                                        P
                                     .row
                                         button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
                                             span.glyphicon.glyphicon-tent
