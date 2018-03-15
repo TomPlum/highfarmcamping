@@ -7,20 +7,22 @@
     //d 68
     //m 77
     //h 72
+    //o 79
+    //e 69
 
     window.onkeydown = e => {
 
-        if (e.ctrlKey && e.altKey && e.keyCode === 68) {            //D
+        if (e.ctrlKey && e.altKey && e.keyCode === 68) {           
             window.location.href = "/";
-        } else if (e.ctrlKey && e.altKey && e.keyCode === 66) {     //B
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 66) {
             window.location.href = "/book";
-        } else if (e.ctrlKey && e.altKey && e.keyCode === 67) {     //C
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 67) {
             window.location.href = "/customer-overview";
-        } else if (e.ctrlKey && e.altKey && e.keyCode === 72) {     //H
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 72) {
             window.location.href = "/help";
-        } else if (e.ctrlKey && e.altKey && e.keyCode === 79) {     //O
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 79) {
             window.location.href = "/manage-booking/overview";
-        } else if (e.ctrlKey && e.altKey && e.keyCode === 69) {     //E
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 69) {
             window.location.href = "/manage-booking/booking-history";
         }
     };
