@@ -9,10 +9,12 @@ $(document).ready(function () {
     $(function () {
         $('input[name="selectPitches"]').daterangepicker({
             "opens": "right",
-            "showDropdowns": true
+            "showDropdowns": true,
+            dateLimit: {
+                days: '14'
+            },
         });
     });
-
 
     $("input:checkbox").on('click', function () {
         // in the handler, 'this' refers to the box clicked on
