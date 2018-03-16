@@ -940,7 +940,6 @@
             //
             // minutes
             //
-
             html += ': <select class="minuteselect">';
 
             for (var i = 0; i < 60; i += this.timePickerIncrement) {

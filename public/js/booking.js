@@ -58,7 +58,7 @@ function populatePitchSelection() {
     let dateFrom = dates[0];
     let dateTo = dates[1];
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = ["Jan", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const months = ["Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
 
     const oTable = "<table class='pitch-availability'>";
     const cTable = "</table>";
@@ -283,6 +283,8 @@ function book() {
         pitchData: selectedPitches
     }
 
+    console.log(data);
+
 
     $.ajax({
         url: "/db-query-booking",
@@ -295,7 +297,6 @@ function book() {
 
         },
         error: function (error) {
-            alert("was geht ab");
             console.log("Error inserting date into the database", error)
         }
     })

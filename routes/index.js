@@ -188,7 +188,8 @@ router.post('/db-query-booking', function (req, res) {
 
     function insertOrUpdateCustomer(callback) {
             let query;
-            if(data.customerData.idUsed == true){
+            console.log("IdUsed : "+data.customerData.idUsed);
+            if(data.customerData.idUsed == "true"){
                 query = "UPDATE customers SET first_name = \"" +
                     data.customerData.firstName + "\",last_name = \"" +
                     data.customerData.lastName + "\",date_of_birth = \"" +
@@ -199,6 +200,7 @@ router.post('/db-query-booking', function (req, res) {
                     data.customerData.registration + "\",address_line_1 = \"" +
                     data.customerData.addressLine1 + "\",address_line_2 = \"" +
                     data.customerData.addressLine2 + "\" WHERE customer_id = \"" + data.customerData.insertId + "\";";
+                console.log(query);
             }else{
                 query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
                     data.customerData.firstName + "\",\"" +
@@ -210,11 +212,12 @@ router.post('/db-query-booking', function (req, res) {
                     data.customerData.registration + "\", \"" +
                     data.customerData.addressLine1 + "\", \"" +
                     data.customerData.addressLine2 + "\" )";
+                console.log(query);
             }
 
             mysql.connection.query(query, function (err, rows) {
                 let insertedCustomerID;
-                if(data.customerData.idUsed == true){
+                if(data.customerData.idUsed == "true"){
                     insertedCustomerID = data.customerData.insertId;
                 }else{
                     insertedCustomerID = rows.insertId;
@@ -244,7 +247,7 @@ router.post('/db-query-booking', function (req, res) {
                 data.bookingData.alreadyPaid + ",\"" +
                 data.bookingData.type+ "\",\"" +
                 data.bookingData.bookingDate+  "\");";
-
+            console.log(query);
             mysql.connection.query(query, function (err, okPacket) {
                 insertedId = okPacket.insertId;
                 bookingIdReturnValue = okPacket.insertId;

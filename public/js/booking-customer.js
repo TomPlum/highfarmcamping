@@ -19,9 +19,18 @@ function getCustomerFromDB() {
         type: "POST",
         data: {"ID": insertedID},
         success: function (row) {
-            customer = row;
-            console.log(customer);
-            insertDataInFields();
+            if(row.length != 0){
+                customer = row;
+                console.log(customer);
+                IDused = true
+                $("#customerBookingForm").css("visibility", "visible");
+                insertDataInFields();
+            }else{
+                IDused=false
+                $("#customerBookingForm").css("visibility", "hidden");
+                alert("Wrong Customer ID, please check your entered ID.")
+            }
+
         },
         error: function (error) {
             console.log("Error receiving data from the database")
@@ -66,8 +75,6 @@ $('#customer_id').keyup(function () {
     if (event.keyCode === 13) {
         insertedID = $('input[name=customer_ID]').val();
         getCustomerFromDB();
-        IDused = true;
-        $("#customerBookingForm").css("visibility", "visible");
     }
 });
 
