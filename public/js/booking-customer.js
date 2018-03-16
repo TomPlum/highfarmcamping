@@ -22,11 +22,11 @@ function getCustomerFromDB() {
             if(row.length != 0){
                 customer = row;
                 console.log(customer);
-                IDused = true
+                IDused = true;
                 $("#customerBookingForm").css("visibility", "visible");
                 insertDataInFields();
             }else{
-                IDused=false
+                IDused=false;
                 $("#customerBookingForm").css("visibility", "hidden");
                 alert("Wrong Customer ID, please check your entered ID.")
             }

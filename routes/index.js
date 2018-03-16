@@ -188,8 +188,7 @@ router.post('/db-query-booking', function (req, res) {
 
     function insertOrUpdateCustomer(callback) {
             let query;
-            console.log("IdUsed : "+data.customerData.idUsed);
-            if(data.customerData.idUsed == "true"){
+            if(data.customerData.idUsed === "true"){
                 query = "UPDATE customers SET first_name = \"" +
                     data.customerData.firstName + "\",last_name = \"" +
                     data.customerData.lastName + "\",date_of_birth = \"" +
@@ -212,12 +211,11 @@ router.post('/db-query-booking', function (req, res) {
                     data.customerData.registration + "\", \"" +
                     data.customerData.addressLine1 + "\", \"" +
                     data.customerData.addressLine2 + "\" )";
-                console.log(query);
             }
 
             mysql.connection.query(query, function (err, rows) {
                 let insertedCustomerID;
-                if(data.customerData.idUsed == "true"){
+                if(data.customerData.idUsed === "true"){
                     insertedCustomerID = data.customerData.insertId;
                 }else{
                     insertedCustomerID = rows.insertId;

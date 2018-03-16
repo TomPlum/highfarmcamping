@@ -253,7 +253,6 @@ function book() {
 
     //get selected Dates
     let dates = $('#selectPitches').val().split("-");
-
     let data = {
         customerData:
             {
@@ -282,8 +281,6 @@ function book() {
             },
         pitchData: selectedPitches
     }
-
-    console.log(data);
 
 
     $.ajax({
