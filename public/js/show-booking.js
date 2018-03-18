@@ -50,7 +50,7 @@ $(document).ready(() => {
             //Create Table Body
             tBody += "<tr>";
             tBody += "<td>" + data[0].booking_id + "</td>";
-            tBody += "<td>" + formatDate(data[0].booking_id) + "</td>";
+            tBody += "<td>" + formatDate(data[0].booking_date) + "</td>";
             tBody += "<td>" + formatDate(data[0].stay_start_date) + " - " + formatDate(data[0].stay_end_date) + "</td>";
             tBody += "<td>" + (data[0].payment_total).toFixed(2) + "</td>";
             tBody += "<td>" + ucFirst(data[0].payment_type) + "</td>";
