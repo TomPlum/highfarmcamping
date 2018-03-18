@@ -115,7 +115,7 @@ function populatePitchSelection() {
 
     $(".pitch-selection").html(oTable + headers + body + cTable);
     $("#selectPitches").css("visibility", "visible");
-    $("#selectPitches").val($("#date-range").val());
+    $("#selectPitches").val("");
 
 
     //Make fields selectable
