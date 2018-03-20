@@ -19,7 +19,7 @@ const isAuthenticated = function(req, res, next) {
 
 module.exports = function(passport) {
     /* GET Home Page */
-    router.get('/', isAuthenticated, function (req, res) {
+    router.get('/dashboard', isAuthenticated, function (req, res) {
         res.render('dashboard', {title: 'Dashboard', username: req.user.username});
     });
 
@@ -64,13 +64,13 @@ module.exports = function(passport) {
     });
 
     /* GET Login Page */
-    router.get('/login', function (req, res) {
+    router.get('/', function (req, res) {
         res.render('login', {title: "Login"});
     });
 
     /* POST Login Page */
     router.post('/authenticate', passport.authenticate('login', {
-        successRedirect: '/',
+        successRedirect: '/dashboard',
         failureRedirect: '/login',
         failureFlash: true
     }));
