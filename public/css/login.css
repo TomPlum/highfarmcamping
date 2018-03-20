@@ -133,7 +133,7 @@ body, html {
     border-radius: 0;
 }
 
-.support {
+.support, .register {
     margin-left: 20px !important;
 }
 

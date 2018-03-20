@@ -19,12 +19,15 @@ html(lang="en")
                 h4.text-center.welcome-msg You can access the campsite management system below.
                 br
                 p.text-center
-                    a.btn.btn-primary.btn-lg.login(href='#', role='button', data-toggle='modal', data-target='#login-modal')
+                    a.btn.btn-success.btn-lg.login(href='#', role='button', data-toggle='modal', data-target='#login-modal')
                         i.fa.fa-fw.fa-sign-in-alt
-                        |  Staff Login
+                        |  Login
+                    a.btn.btn-primary.btn-lg.register(href='#', role='button', data-toggle='modal', data-target='#login-modal')
+                        i.fa.fa-fw.fa-user-plus
+                        |  Register
                     a.btn.btn-info.btn-lg.support(href='#')
                         i.fas.fa-fw.fa-cog.fa-spin
-                        |  Contact Support
+                        |  Support
         #login-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display: none;')
             .modal-dialog
                 .modal-content
