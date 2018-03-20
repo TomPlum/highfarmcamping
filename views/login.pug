@@ -1,0 +1,80 @@
+doctype html
+html(lang="en")
+    head
+        title !{title}
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+
+        link#bootstrap-css(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css', rel='stylesheet')
+        script(src='//code.jquery.com/jquery-1.11.1.min.js')
+        script(defer='', src='https://use.fontawesome.com/releases/v5.0.6/js/all.js')
+        script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js')
+        link(href="css/login.css", rel='stylesheet')
+        script(src="js/login.js")
+
+    body
+        canvas.particles
+        .container-fluid.login-bg
+            .row.login-content
+                h1.text-center.welcome Welcome to HighFarm Camping
+                h4.text-center.welcome-msg You can access the campsite management system below.
+                br
+                p.text-center
+                    a.btn.btn-primary.btn-lg.login(href='#', role='button', data-toggle='modal', data-target='#login-modal')
+                        i.fa.fa-fw.fa-sign-in-alt
+                        |  Staff Login
+                    a.btn.btn-info.btn-lg.support(href='#')
+                        i.fas.fa-fw.fa-cog.fa-spin
+                        |  Contact Support
+        #login-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display: none;')
+            .modal-dialog
+                .modal-content
+                    .modal-header(align='center')
+                        img#img_logo.img-circle(src='img/tent.png')
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span.glyphicon.glyphicon-remove(aria-hidden='true')
+                    #div-forms
+                        form(action='/authenticate', method='POST')
+                            .modal-body
+                                #div-login-msg
+                                    #icon-login-msg.glyphicon.glyphicon-chevron-right
+                                    span#text-login-msg  Please Enter Your Username & Password
+                                input.username.form-control(type='text', name='username', placeholder='Username')
+                                input.password.form-control(type='password', name='password', placeholder='Password')
+                                //.checkbox
+                                    label
+                                        input(type='checkbox')
+                                        |  Remember me
+                            .modal-footer
+                                div
+                                    button.btn.btn-primary.btn-lg.btn-block.login(type='submit') Login
+                                //div
+                                    button#login_lost_btn.btn.btn-link(type='button') Lost Password?
+                                    button#login_register_btn.btn.btn-link(type='button') Register
+                        //form#lost-form(style='display:none;')
+                            .modal-body
+                                #div-lost-msg
+                                    #icon-lost-msg.glyphicon.glyphicon-chevron-right
+                                    span#text-lost-msg Type your e-mail.
+                                input#lost_email.form-control(type='text', placeholder='E-Mail (type ERROR for error effect)', required='')
+                            .modal-footer
+                                div
+                                    button.btn.btn-primary.btn-lg.btn-block(type='submit') Send
+                                div
+                                    button#lost_login_btn.btn.btn-link(type='button') Log In
+                                    button#lost_register_btn.btn.btn-link(type='button') Register
+                        //form#register-form(style='display:none;')
+                            .modal-body
+                                #div-register-msg
+                                    #icon-register-msg.glyphicon.glyphicon-chevron-right
+                                    span#text-register-msg Register an account.
+                                input#register_username.form-control(type='text', placeholder='Username (type ERROR for error effect)', required='')
+                                input#register_email.form-control(type='text', placeholder='E-Mail', required='')
+                                input#register_password.form-control(type='password', placeholder='Password', required='')
+                            .modal-footer
+                                div
+                                    button.btn.btn-primary.btn-lg.btn-block(type='submit') Register
+                                div
+                                    button#register_login_btn.btn.btn-link(type='button') Log In
+                                    button#register_lost_btn.btn.btn-link(type='button') Lost Password?
+        script(type="text/javascript", src="https://npmcdn.com/particlesjs@2.1.0/dist/particles.min.js")
+        script(src="js/particles-config.js")

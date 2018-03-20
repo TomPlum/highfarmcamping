@@ -27,6 +27,11 @@ html
                             strong HF
                     ul.list-unstyled.components
                         li
+                            a(href="#")
+                                i.glyphicon.glyphicon-user
+                                | Welcome, !{username}.
+                    ul.list-unstyled.components
+                        li
                             a(href='/')
                                 // <i class="fas fa-fw fa-tachometer-alt"></i>
                                 i.glyphicon.glyphicon-home
@@ -78,6 +83,10 @@ html
                             a(href="/help")
                                 i.glyphicon.glyphicon-info-sign
                                 | Help
+                        li
+                            a(href="/logout")
+                                i.glyphicon.glyphicon-log-out
+                                | Logout
                 // Page Content Holder
                 #content
                     nav.navbar.navbar-default

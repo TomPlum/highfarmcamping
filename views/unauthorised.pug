@@ -1,0 +1,170 @@
+doctype html
+html(lang="en")
+    head
+        title !{title}
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        //Favicon
+        link(rel="icon" href="/img/unauth.ico" type="image/x-icon")
+
+        //Fonts & Stylesheets
+        script(defer='', src='https://use.fontawesome.com/releases/v5.0.6/js/all.js')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    body
+        .container
+            .row.ghost-center
+                img.no_access(src="/img/no_access.png")
+                hr.rule
+                h1.message Unauthorised Access!
+                h1.message_sml You must be signed in to view this page.
+                #buttons
+                    a.report(href="/login")
+                        span.fa.fa-sign-in-alt.fa-fw
+                        |  Sign-In
+                    a.report(href="/contact")
+                        span.fa.fa-spin.fa-cog.fa-fw
+                        |  Report Problem
+    script(src='js/jquery-1.8.2.min.js')
+    script(src='js/scripts.js')
+    style(type="text/css").
+        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+        
+        html, body {
+            background-color: #2f8fd5 !important;
+        }
+
+        .error {
+            color: white;
+            fill: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12em;
+            margin-top: 30%;
+        }
+
+        .rule {
+            stroke: white;
+            background-color: white;
+            color: white;
+            width: 50%;
+            float: left;
+            stroke-width: 2px;
+            border: 0 none;
+            height: 2px;
+        }
+
+        .message {
+            color: white;
+            fill: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 4em;
+            clear: left;
+        }
+
+        .message_sml {
+            color: white;
+            fill: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 2em;
+            clear: left;
+            margin-bottom: 50px;
+        }
+
+        .report {
+            display: inline;
+            float: left;
+            margin-right: 20px;
+            text-transform: uppercase;
+            color: white;
+            border: 2px solid white;
+            padding: 12px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 1.5em;
+        }
+
+        .report:hover {
+            text-decoration: none;
+        }
+
+        .no_access {
+            fill: white;
+            color: white;
+            width: 25%;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .ghost-center {
+            position: relative;
+            padding-top: 5%;
+        }
+
+        @media (min-width: @screen-md-min) {
+            .ghost-center {
+                position: relative;
+                padding-top: 20%;
+            }
+        }
+        @media (max-width:1370px){
+            .no_access{
+                width:20%;
+            }
+        }
+
+        .ghost-center::before {
+            content: " ";
+            display: inline-block;
+            height: 100%;
+            width: 1%;
+            vertical-align: middle;
+        }
+        .ghost-center p {
+            display: inline-block;
+            vertical-align: middle;
+            width: 190px;
+            margin: 0;
+            padding: 20px;
+            background: black;
+        }
+
+        @media (max-width: 770px){
+            .no_access{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .container{
+                text-align:center;
+            }
+            .rule {
+                width:100%;
+            }
+            #buttons{
+                margin: 0 auto;
+                display:table;
+            }
+        }
+
+        @media (max-width: 500px){
+            .no_access{
+                width:40%;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .container{
+                text-align: center;
+                overflow-x:hidden;
+            }
+            .message{
+                font-size:2em;
+            }
+            .message_sml{
+                font-size:1.5em;
+            }
+            .report{
+                display:block;
+                margin:0 auto;
+            }
+        }

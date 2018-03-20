@@ -14,8 +14,8 @@ app.set('view engine', 'pug');
 //Middleware Stack
 app.use(favicon(path.join(__dirname, 'public/img', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const rootRoutes = ["/manage-booking"];
@@ -24,10 +24,33 @@ const rootRoutes = ["/manage-booking"];
 app.use(express.static(path.join(__dirname, 'public'))); // For /
 app.use(rootRoutes, express.static(path.join(__dirname, 'public'))); //For /x
 
+//Configuring Passport
+let passport = require('passport');
+let expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'high_farm_camping',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 1000 * 60 * 60 //1 Hour
+    }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Flash Messaging For Passport
+let flash = require('connect-flash');
+app.use(flash());
+
+//Initialize Passport
+let initPassport = require('./public/js/passport/passport-init');
+initPassport(passport);
 
 //Page Routing
-const index = require('./routes/index');
-const manage_bookings = require('./routes/manage-bookings');
+const index = require('./routes/index')(passport);
+const manage_bookings = require('./routes/manage-bookings')(passport);
 
 app.use('/', index);
 app.use('/manage-booking', manage_bookings);
