@@ -16,7 +16,7 @@ block append body-content
     #accordion
         .card
             #headingOne.card-header
-                button.form-control.btn-info(type='button', id="Edit" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
+                button.form-control.btn.btn-link(type='button', id="bookingCard" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
                     |  Book Pitch
                 h5.mb-0
             #collapseOne.collapse(aria-labelledby='headingOne', data-parent='#accordion')
@@ -85,7 +85,7 @@ block append body-content
         .card
             #headingTwo.card-header
                 h5.mb-0
-                    button.form-control.btn-info(type='button', id="Edit2" data-toggle='collapse', data-target='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo')
+                    button.form-control.btn.btn-link(type='button', id="customerCard" data-toggle='collapse', data-target='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo')
                         | Allocate Customer
             #collapseTwo.collapse(aria-labelledby='headingTwo', data-parent='#accordion')
                 .card-body

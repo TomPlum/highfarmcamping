@@ -1,5 +1,16 @@
 $(document).ready(function () {
 
+    //Collapse
+    $('#bookingCard').click(function () {
+        $('#collapseOne').collapse('show');
+        $('#collapseTwo').collapse('hide');
+    })
+
+    $('#customerCard').click(function () {
+        $('#collapseOne').collapse('hide');
+        $('#collapseTwo').collapse('show');
+    })
+
 
     //Call DB for Pitches & relation
     getPitches();
