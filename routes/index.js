@@ -71,7 +71,7 @@ module.exports = function(passport) {
     /* POST Login Page */
     router.post('/authenticate', passport.authenticate('login', {
         successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        failureRedirect: '/',
         failureFlash: true
     }));
 
@@ -89,7 +89,7 @@ module.exports = function(passport) {
     /* Handle Logout */
     router.get('/logout', isAuthenticated, function(req, res) {
         req.logout();
-        res.redirect('/login');
+        res.redirect('/');
     });
 
     //POST DB Query of the Customer-Overview
