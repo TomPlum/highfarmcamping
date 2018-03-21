@@ -28,7 +28,7 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('message', 'Invalid Password')); // redirect back to login page
                 }
                 */
-                if (!isValidPassword(rows[0].password, createHash(password))) {
+                if (!isValidPassword(rows[0].password, password)) {
                     return done(null, false, req.flash('error', 'Incorrect Password.'));
                 }
 
