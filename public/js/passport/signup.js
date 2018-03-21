@@ -25,6 +25,10 @@ module.exports = function(passport) {
                                 console.log(err);
                             }
 
+                            if (password !== req.body.confirm) {
+                                return done(null, false, req.flash('error', "Passwords Do Not Match"));
+                            }
+
                             console.log(rows);
                             //Check if Admin Key Correct
                             if (!validAdminKey(rows, req.body.admin_key)) {

@@ -46,8 +46,4 @@ module.exports = function(passport) {
         console.log(password);
         return bCrypt.compareSync(password, user);
     };
-
-    let createHash = function(password) {
-        return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-    };
 };

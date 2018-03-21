@@ -48,11 +48,11 @@ body, html {
     background-size: cover;
 }
 
-#login-modal .modal-dialog, #register-modal .modal-dialog {
+#login-modal .modal-dialog, #register-modal .modal-dialog, #support-modal .modal-dialog {
     width: 350px;
 }
 
-#login-modal input[type=text], input[type=password], #register-modal input[type=text], .permissions {
+#login-modal input[type=text], input[type=password], #register-modal input[type=text], .permissions, #support-modal input[type=text], textarea {
     margin-top: 10px;
 }
 
