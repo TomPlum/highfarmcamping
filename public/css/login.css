@@ -34,11 +34,11 @@ body, html {
     background-size: cover;
 }
 
-#login-modal .modal-dialog {
+#login-modal .modal-dialog, #register-modal .modal-dialog {
     width: 350px;
 }
 
-#login-modal input[type=text], input[type=password] {
+#login-modal input[type=text], input[type=password], #register-modal input[type=text] {
     margin-top: 10px;
 }
 
@@ -89,7 +89,7 @@ body, html {
     background-color: #eb575b !important;
 }
 
-#img_logo {
+.img_logo {
     max-height: 100px;
     max-width: 100px;
 }
@@ -135,7 +135,7 @@ body, html {
     border-radius: 0;
 }
 
-.support, .register, .login {
+.support, .register {
     margin-left: 20px !important;
 }
 

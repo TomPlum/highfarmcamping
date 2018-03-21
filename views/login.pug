@@ -22,7 +22,7 @@ html(lang="en")
                     a.btn.btn-success.btn-lg.login(href='#', role='button', data-toggle='modal', data-target='#login-modal')
                         i.fa.fa-fw.fa-sign-in-alt
                         |  Login
-                    a.btn.btn-primary.btn-lg.register(href='#', role='button', data-toggle='modal', data-target='#login-modal')
+                    a.btn.btn-primary.btn-lg.register(href='#', role='button', data-toggle='modal', data-target='#register-modal')
                         i.fa.fa-fw.fa-user-plus
                         |  Register
                     a.btn.btn-info.btn-lg.support(href='#')
@@ -32,7 +32,7 @@ html(lang="en")
             .modal-dialog
                 .modal-content
                     .modal-header(align='center')
-                        img#img_logo.img-circle(src='img/tent.png')
+                        img.img_logo.img-circle(src='img/tent.png')
                         button.close(type='button', data-dismiss='modal', aria-label='Close')
                             span.glyphicon.glyphicon-remove(aria-hidden='true')
                     #div-forms
@@ -50,6 +50,29 @@ html(lang="en")
                             .modal-footer
                                 div
                                     button.btn.btn-primary.btn-lg.btn-block.login(type='submit') Login
+                                div
+                                    a#login_lost_btn.btn.btn-link(href="/forgot-password") Lost Password?
+        #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display: none;')
+            .modal-dialog
+                .modal-content
+                    .modal-header(align='center')
+                        img.img_logo.img-circle(src='img/tent.png')
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span.glyphicon.glyphicon-remove(aria-hidden='true')
+                    #div-register-form
+                        form(action='/register', method='POST')
+                            .modal-body
+                                #div-register-msg
+                                    #icon-register-msg.glyphicon.glyphicon-chevron-right
+                                    span#text-register-msg Enter Your Details Below
+                                input.username.form-control(type='text', name='username', placeholder='Username')
+                                input.email.form-control(type='text', name='email', placeholder='Email')
+                                input.password.form-control(type='password', name='password', placeholder='Password')
+                                input.confirm.form-control(type='password', name='confirm', placeholder='Confirm Password')
+                            .modal-footer
+                                div
+                                    button.btn.btn-primary.btn-lg.btn-block.register-user(type='submit') Register
+
                                 //div
                                     button#login_lost_btn.btn.btn-link(type='button') Lost Password?
                                     button#login_register_btn.btn.btn-link(type='button') Register

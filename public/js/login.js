@@ -1,12 +1,12 @@
 $(function() {
 
-    var $formLogin = $('#login-form');
-    var $formLost = $('#lost-form');
-    var $formRegister = $('#register-form');
-    var $divForms = $('#div-forms');
-    var $modalAnimateTime = 300;
-    var $msgAnimateTime = 150;
-    var $msgShowTime = 2000;
+    let $formLogin = $('#login-form');
+    let $formLost = $('#lost-form');
+    let $formRegister = $('#register-form');
+    let $divForms = $('#div-forms');
+    let $modalAnimateTime = 300;
+    let $msgAnimateTime = 150;
+    let $msgShowTime = 2000;
 
     $('#login_register_btn').click( function () { modalAnimate($formLogin, $formRegister) });
     $('#register_login_btn').click( function () { modalAnimate($formRegister, $formLogin); });
@@ -16,8 +16,8 @@ $(function() {
     $('#register_lost_btn').click( function () { modalAnimate($formRegister, $formLost); });
 
     function modalAnimate ($oldForm, $newForm) {
-        var $oldH = $oldForm.height();
-        var $newH = $newForm.height();
+        let $oldH = $oldForm.height();
+        let $newH = $newForm.height();
         $divForms.css("height",$oldH);
         $oldForm.fadeToggle($modalAnimateTime, function(){
             $divForms.animate({height: $newH}, $modalAnimateTime, function(){
@@ -33,7 +33,7 @@ $(function() {
     }
 
     function msgChange($divTag, $iconTag, $textTag, $divClass, $iconClass, $msgText) {
-        var $msgOld = $divTag.text();
+        let $msgOld = $divTag.text();
         msgFade($textTag, $msgText);
         $divTag.addClass($divClass);
         $iconTag.removeClass("glyphicon-chevron-right");
