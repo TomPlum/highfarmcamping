@@ -65,7 +65,7 @@ module.exports = function(passport) {
 
     /* GET Login Page */
     router.get('/', function (req, res) {
-        res.render('login', {title: "Login"});
+        res.render('login', {title: "HighFarm Camping"});
     });
 
     /* POST Login Page */
