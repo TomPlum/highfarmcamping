@@ -18,7 +18,7 @@ module.exports = function(passport) {
                 //Username Does Not Exist, Log Error, Callback, Flash Error Message
                 if (!rows.length){
                     console.log('User: '+ username + ", does not exist.");
-                    return done(null, false, req.flash('message', 'User Not found.'));
+                    return done(null, false, req.flash('error', "User '" + username + "' Not Found."));
                 }
 
                 //User Exists, But Password Is Incorrect
@@ -28,8 +28,8 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('message', 'Invalid Password')); // redirect back to login page
                 }
                 */
-                if (!(rows[0].password === password)) {
-                    return done(null, false, req.flash('message', 'Incorrect Password.'));
+                if (!isValidPassword(rows[0].password, createHash(password))) {
+                    return done(null, false, req.flash('error', 'Incorrect Password.'));
                 }
 
                 //If No Previous Error Conditions Are Met - Username/Password Are Correct
@@ -42,6 +42,12 @@ module.exports = function(passport) {
 	); //End of passport.use()
 
     let isValidPassword = function(user, password){
-        return bCrypt.compareSync(password, user.password);
-    }
+        console.log(user);
+        console.log(password);
+        return bCrypt.compareSync(password, user);
+    };
+
+    let createHash = function(password) {
+        return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+    };
 };

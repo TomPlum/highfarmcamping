@@ -1,4 +1,5 @@
 let login = require('./login');
+let register = require('./signup');
 const mysql = require('../../../db/mysql');
 
 module.exports = function(passport){
@@ -16,4 +17,5 @@ module.exports = function(passport){
 
     //Setting up Passport Strategies for Login
     login(passport);
+    register(passport);
 };

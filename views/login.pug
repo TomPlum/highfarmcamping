@@ -9,7 +9,6 @@ html(lang="en")
         script(defer='', src='https://use.fontawesome.com/releases/v5.0.6/js/all.js')
         script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js')
         link(href="css/login.css", rel='stylesheet')
-        script(src="js/login.js")
 
     body
         canvas.particles
@@ -28,6 +27,12 @@ html(lang="en")
                     a.btn.btn-info.btn-lg.support(href='#')
                         i.fas.fa-fw.fa-cog.fa-spin
                         |  Support
+                    .error
+                        if (message !== "")
+                            script(type="text/javascript").
+                                $('.error').css("visibility", "visible");
+                        p.error !{error}
+                        p.message !{message}
         #login-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display: none;')
             .modal-dialog
                 .modal-content
@@ -64,11 +69,16 @@ html(lang="en")
                             .modal-body
                                 #div-register-msg
                                     #icon-register-msg.glyphicon.glyphicon-chevron-right
-                                    span#text-register-msg Enter Your Details Below
+                                    span#text-register-msg Register New User
                                 input.username.form-control(type='text', name='username', placeholder='Username')
                                 input.email.form-control(type='text', name='email', placeholder='Email')
                                 input.password.form-control(type='password', name='password', placeholder='Password')
                                 input.confirm.form-control(type='password', name='confirm', placeholder='Confirm Password')
+                                select.permissions.form-control(name='role')
+                                    option(value="admin") Admin
+                                    option(value="staff") Staff
+                                hr
+                                input.admin-key.form-control(type="password", name="admin_key", placeholder='Admin Key')
                             .modal-footer
                                 div
                                     button.btn.btn-primary.btn-lg.btn-block.register-user(type='submit') Register
@@ -104,3 +114,4 @@ html(lang="en")
                                     button#register_lost_btn.btn.btn-link(type='button') Lost Password?
         script(type="text/javascript", src="https://npmcdn.com/particlesjs@2.1.0/dist/particles.min.js")
         script(src="js/particles-config.js")
+        script(src="js/login.js")

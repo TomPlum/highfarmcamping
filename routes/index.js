@@ -65,7 +65,11 @@ module.exports = function(passport) {
 
     /* GET Login Page */
     router.get('/', function (req, res) {
-        res.render('login', {title: "HighFarm Camping"});
+        res.render('login', {
+            title: "HighFarm Camping",
+            message: req.flash('message'),
+            error: req.flash('error')
+        });
     });
 
     /* POST Login Page */
@@ -75,16 +79,13 @@ module.exports = function(passport) {
         failureFlash: true
     }));
 
-    /*
-    router.post('/authenticate', function(req, res, next) {
-        passport.authenticate('login', function(err, user, info) {
-            console.log("authenticate");
-            console.log(err);
-            console.log(user);
-            console.log(info);
-        })(req, res, next);
-    });
-    */
+    /* POST Register Page */
+    router.post('/register', passport.authenticate('signup', {
+        successRedirect: '/',
+        failureRedirect: '/',
+        session: false,
+        failureFlash: true
+    }));
 
     /* Handle Logout */
     router.get('/logout', isAuthenticated, function(req, res) {

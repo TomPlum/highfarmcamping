@@ -19,6 +19,20 @@ body, html {
     transform: translateY(-50%);
 }
 
+.error {
+    text-align: center;
+    color: #ff415c;
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
+.message {
+    text-align: center;
+    color: #6fff72;
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
 .welcome {
     color: #c0ecff;
     padding: 6px;
@@ -38,7 +52,7 @@ body, html {
     width: 350px;
 }
 
-#login-modal input[type=text], input[type=password], #register-modal input[type=text] {
+#login-modal input[type=text], input[type=password], #register-modal input[type=text], .permissions {
     margin-top: 10px;
 }
 
