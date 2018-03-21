@@ -21,15 +21,13 @@ block append body-content
                 h5.mb-0
             #collapseOne.collapse(aria-labelledby='headingOne', data-parent='#accordion')
                 .card-body
-                    p
-                        | Here you can create a new booking for a tent, caravan or motorhome pitch for a range of dates.
-                    p
-                        .row
                     // Form Wraps Whole Container - Encapsulates Filter & Date Range
                     form(action='')
                         .container-fluid
                             .row
-                                .col-md-6
+                                .col-md-1
+                                    |Pitch Type:
+                                .col-md-2
                                     fiedset
                                         // Tent Filter Checkbox
                                         .form-group(class='[ ]')
@@ -41,43 +39,56 @@ block append body-content
                                                 label.btn.btn-default.active(for='tent', class='[ ]')
                                                     i.glyphicon.glyphicon-tent
                                                     |                                             Tent
-                                        // Caravan Filter Checkbox
-                                        .form-group(class='[ ]')
-                                            input#caravan(type='checkbox', value='caravan', name='pitch-type', autocomplete='off')
-                                            .btn-group(class='[ ]')
-                                                label.btn.btn-default(for='caravan', class='[ ]')
-                                                    span.glyphicon.glyphicon-ok(class='[ ]')
-                                                    span
-                                                label.btn.btn-default.active(for='caravan', class='[ ]')
-                                                    span.fa.fa-fw.fa-car
-                                                    |                                             Caravan
-                                        // Motorhome Filter Checkbox
-                                        .form-group(class='[ ]')
-                                            input#motorhome(type='checkbox', value='motorhome', name='pitch-type', autocomplete='off')
-                                            .btn-group(class='[ ]')
-                                                label.btn.btn-default(for='motorhome', class='[ ]')
-                                                    span.glyphicon.glyphicon-ok(class='[ ]')
-                                                    span
-                                                label.btn.btn-default.active(for='motorhome', class='[ ]')
-                                                    span.fa.fa-fw.fa-truck
-                                                    |                                             Motorhome
+                                .col-md-3
+                                    // Caravan Filter Checkbox
+                                    .form-group(class='[]')
+                                        input#caravan(type='checkbox', value='caravan', name='pitch-type', autocomplete='off')
+                                        .btn-group(class='[ ]')
+                                            label.btn.btn-default(for='caravan', class='[ ]')
+                                                span.glyphicon.glyphicon-ok(class='[ ]')
+                                                span
+                                            label.btn.btn-default.active(for='caravan', class='[ ]')
+                                                span.fa.fa-fw.fa-car
+                                                |                                             Caravan
+                                .col-md-3
+                                    // Motorhome Filter Checkbox
+                                    .form-group(class='[ ]')
+                                        input#motorhome(type='checkbox', value='motorhome', name='pitch-type', autocomplete='off')
+                                        .btn-group(class='[ ]')
+                                            label.btn.btn-default(for='motorhome', class='[ ]')
+                                                span.glyphicon.glyphicon-ok(class='[ ]')
+                                                span
+                                            label.btn.btn-default.active(for='motorhome', class='[ ]')
+                                                span.fa.fa-fw.fa-truck
+                                                |                                             Motorhome
+                                .col-md-3
+                                    // Electrical Filter Checkbox
+                                    .form-group(class='[ ]')
+                                        input#electrical(type='checkbox', value='electrical', name='pitch-type', autocomplete='off')
+                                        .btn-group(class='[ ]')
+                                            label.btn.btn-default(for='electrical', class='[ ]')
+                                                span.glyphicon.glyphicon-ok(class='[ ]')
+                                                span
+                                            label.btn.btn-default.active(for='electrical', class='[ ]')
+                                                span.fa.fa-fw.fa-bolt
+                                                |                                             Electrical
 
-                                .col-md-6
-                                    .row
+                            .row
+                                .col-md-2
+                                        |Select Date Range
+                                .col-md-4
+                                    label(for='date-range')
+                                    input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
+                                    P
+                                    |
+                                    P
+                            .row
+                                .col-md-1
+                                    button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
+                                        span.glyphicon.glyphicon-tent
+                                        |  Find Pitch
                                         p
-                                            | Select Date Range
-                                        p
-                                        label(for='date-range')
-                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
-                                        P
-                                        |
-                                        P
-                                    .row
-                                        button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
-                                            span.glyphicon.glyphicon-tent
-                                            |  Find Pitch
-                            // Available Pitches Output Here
-
+                                // Available Pitches Output Here
                             .row
                                 input#selectPitches(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018', placeholder='Select Booking Duration')
                                 .row.pitch-selection#pitchSelection

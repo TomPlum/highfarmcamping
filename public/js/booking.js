@@ -63,6 +63,7 @@ let selectedPitches = [];
 /*************************************/
 
 function populatePitchSelection() {
+
     console.log(pitches);
     let filter = $("input:checked").val();
     console.log("Filtering Pitches by " + filter + "...");
@@ -86,7 +87,7 @@ function populatePitchSelection() {
     const tentIcon = "<span class='glyphicon glyphicon-tent'></span>";
     const mhomeIcon = "<span class='fa fa-truck'></span>";
     const caravanIcon = "<span class='fa fa-car'></span>";
-    const all = "<span class='glyphicon glyphicon-tent'></span> " + " <span class='fa fa-truck'></span> " + " <span class='fa fa-car'></span>";
+    const all = "<span class='glyphicon glyphicon-tent'></span> " + " <span class='fa fa-truck'></span> " + " <span class='fa fa-car'></span>" + " <span class='fa fa-bolt'></span>";
 
     let body = "";
     for (let i = 0; i < pitches.length; i++) {
@@ -109,7 +110,7 @@ function populatePitchSelection() {
                         default:
                             icon = all;
                     }
-                    body += "<td class='pitch-details'>" + pitches[i].pitch_name + " ("+ pitches[i].pitch_id +")"+ "<br>" + icon + "</td>";
+                    body += "<td class='pitch-details'>" + pitches[i].pitch_name + "<br>" + icon + "</td>";
                 } else {
                     let available = checkAvailability(pitches[i], allDates[j - 1]);
                     if (available === true) {
