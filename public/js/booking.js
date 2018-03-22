@@ -57,67 +57,12 @@ let pitchBookings = [];
 let selectedPitches = [];
 
 
-function hideChangeButton(){
-    $('fiedset#changebutton').css("display","none");
-    $('fiedset#durationlabel').css("display","inline");
-    $("#selectPitches").css("display","inline");
-}
-
-function showInputFields(){
-    $('fiedset#type').css("display","inline");
-    $('fiedset#tent').css("display","inline");
-    $('fiedset#caravan').css("display","inline");
-    $('fiedset#motorhome').css("display","inline");
-    $('fiedset#electrical').css("display","inline");
-    $('fiedset#daterangelabel').css("display","inline");
-    $('fiedset#daterange').css("display","inline");
-    $('fiedset#findbutton').css("display","inline");
-    $('fiedset#changebutton').css("display","none");
-}
-
 
 /*************************************/
 /* --- Book a pitch -----------------*/
 /*************************************/
 
 function populatePitchSelection() {
-
-    $('fiedset#changebutton').css("display","inline");
-    if ($('input:checked').val()) {
-        $('fiedset#caravan').css("display","none");
-        $('fiedset#motorhome').css("display","none");
-        $('fiedset#electrical').css("display","none");
-    }
-
-    if ($('input:checked').val()==='tent') {
-        $('fiedset#caravan').css("display","none");
-        $('fiedset#motorhome').css("display","none");
-        $('fiedset#electrical').css("display","none");
-    }
-
-    if ($('input:checked').val()==='caravan') {
-        $('fiedset#tent').css("display","none");
-        $('fiedset#motorhome').css("display","none");
-        $('fiedset#electrical').css("display","none");
-    }
-
-    if ($('input:checked').val()==='motorhome') {
-        $('fiedset#caravan').css("display","none");
-        $('fiedset#tent').css("display","none");
-        $('fiedset#electrical').css("display","none");
-    }
-
-    if ($('input:checked').val()==='electrical') {
-        $('fiedset#caravan').css("display","none");
-        $('fiedset#motorhome').css("display","none");
-        $('fiedset#tent').css("display","none");
-    }
-
-    $('fiedset#type').css("display","none");
-    $('fiedset#daterangelabel').css("display","none");
-    $('fiedset#daterange').css("display","none");
-    $('fiedset#findbutton').css("display","none");
-
 
     console.log(pitches);
     let filter = $("input:checked").val();

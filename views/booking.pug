@@ -16,7 +16,7 @@ block append body-content
     #accordion
         .card
             #headingOne.card-header
-                button.form-control.btn.btn-link(type='button', id="bookingCard" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne', onclick='hideChangeButton()')
+                button.form-control.btn.btn-link(type='button', id="bookingCard" data-toggle='collapse', data-target='#collapseOne', aria-expanded='false', aria-controls='collapseOne')
                     |  Book Pitch
                 h5.mb-0
             #collapseOne.collapse(aria-labelledby='headingOne', data-parent='#accordion')
@@ -25,22 +25,10 @@ block append body-content
                     form(action='')
                         .container-fluid
                             .row
-                                .col-md-3
-                                    fiedset#type
-                                        |Pitch Type:
-                                .col-md-3
-                                    fiedset#daterangelabel
-                                        |Select Date Range:
-                                .col-md-3
-                                    fiedset#findbutton
-                                        button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
-                                            span.glyphicon.glyphicon-tent
-                                            |  Find Pitch
-                                            p
-                                    // Available Pitches Output Here
-                            .row
-                                .col-md-3
-                                    fiedset#tent
+                                .col-md-1
+                                    |Pitch Type:
+                                .col-md-2
+                                    fiedset
                                         // Tent Filter Checkbox
                                         .form-group(class='[ ]')
                                             input#tent(type='checkbox', value='tent', name='pitch-type', autocomplete='off' checked)
@@ -52,66 +40,58 @@ block append body-content
                                                     i.glyphicon.glyphicon-tent
                                                     |                                             Tent
                                 .col-md-3
-                                    fiedset#daterange
-                                        label(for='date-range')
-                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
-                                        P
-                                        |
-                                        P
+                                    // Caravan Filter Checkbox
+                                    .form-group(class='[]')
+                                        input#caravan(type='checkbox', value='caravan', name='pitch-type', autocomplete='off')
+                                        .btn-group(class='[ ]')
+                                            label.btn.btn-default(for='caravan', class='[ ]')
+                                                span.glyphicon.glyphicon-ok(class='[ ]')
+                                                span
+                                            label.btn.btn-default.active(for='caravan', class='[ ]')
+                                                span.fa.fa-fw.fa-car
+                                                |                                             Caravan
+                                .col-md-3
+                                    // Motorhome Filter Checkbox
+                                    .form-group(class='[ ]')
+                                        input#motorhome(type='checkbox', value='motorhome', name='pitch-type', autocomplete='off')
+                                        .btn-group(class='[ ]')
+                                            label.btn.btn-default(for='motorhome', class='[ ]')
+                                                span.glyphicon.glyphicon-ok(class='[ ]')
+                                                span
+                                            label.btn.btn-default.active(for='motorhome', class='[ ]')
+                                                span.fa.fa-fw.fa-truck
+                                                |                                             Motorhome
+                                .col-md-3
+                                    // Electrical Filter Checkbox
+                                    .form-group(class='[ ]')
+                                        input#electrical(type='checkbox', value='electrical', name='pitch-type', autocomplete='off')
+                                        .btn-group(class='[ ]')
+                                            label.btn.btn-default(for='electrical', class='[ ]')
+                                                span.glyphicon.glyphicon-ok(class='[ ]')
+                                                span
+                                            label.btn.btn-default.active(for='electrical', class='[ ]')
+                                                span.fa.fa-fw.fa-bolt
+                                                |                                             Electrical
+
+                            .row
+                                .col-md-2
+                                        |Select Date Range
                                 .col-md-4
-                                    fiedset#changebutton
-                                        button.form-control.find-pitch(type='button', onclick='showInputFields()')
-                                            span.glyphicon.glyphicon-repeat
-                                            |  Change Pitch
-                                            p
+                                    label(for='date-range')
+                                    input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
+                                    P
+                                    |
+                                    P
                             .row
-                                .col-md-3
-                                    fiedset#caravan
-                                        // Caravan Filter Checkbox
-                                        .form-group(class='[]')
-                                            input#caravan(type='checkbox', value='caravan', name='pitch-type', autocomplete='off')
-                                            .btn-group(class='[ ]')
-                                                label.btn.btn-default(for='caravan', class='[ ]')
-                                                    span.glyphicon.glyphicon-ok(class='[ ]')
-                                                    span
-                                                label.btn.btn-default.active(for='caravan', class='[ ]')
-                                                    span.fa.fa-fw.fa-car
-                                                    |                                             Caravan
-                                .col-md-3
-                                    fiedset#durationlabel
-                                        |Select Booking Duration
+                                .col-md-1
+                                    button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
+                                        span.glyphicon.glyphicon-tent
+                                        |  Find Pitch
                                         p
+                                // Available Pitches Output Here
                             .row
-                                .col-md-3
-                                    fiedset#motorhome
-                                        // Motorhome Filter Checkbox
-                                        .form-group(class='[ ]')
-                                            input#motorhome(type='checkbox', value='motorhome', name='pitch-type', autocomplete='off')
-                                            .btn-group(class='[ ]')
-                                                label.btn.btn-default(for='motorhome', class='[ ]')
-                                                    span.glyphicon.glyphicon-ok(class='[ ]')
-                                                    span
-                                                label.btn.btn-default.active(for='motorhome', class='[ ]')
-                                                    span.fa.fa-fw.fa-truck
-                                                    |                                             Motorhome
-                                .col-md-3
-                                    input#selectPitches(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018')
-                                        .row.pitch-selection#pitchSelection
-                            .row
-                                .col-md-3
-                                    fiedset#electrical
-                                        // Electrical Filter Checkbox
-                                        .form-group(class='[ ]')
-                                            input#electrical(type='checkbox', value='electrical', name='pitch-type', autocomplete='off')
-                                            .btn-group(class='[ ]')
-                                                label.btn.btn-default(for='electrical', class='[ ]')
-                                                    span.glyphicon.glyphicon-ok(class='[ ]')
-                                                    span
-                                                label.btn.btn-default.active(for='electrical', class='[ ]')
-                                                    span.fa.fa-fw.fa-bolt
-                                                    |                                             Electrical
-
-
+                                input#selectPitches(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018', placeholder='Select Booking Duration')
+                                .row.pitch-selection#pitchSelection
 
         .card
             #headingTwo.card-header
