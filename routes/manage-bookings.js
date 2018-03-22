@@ -15,27 +15,27 @@ module.exports = function(passport) {
 
     /* GET Overview Page */
     router.get('/overview', isAuthenticated, function(req, res) {
-        res.render("manage-booking", {title: "Booking Overview"});
+        res.render("manage-booking", {title: "Booking Overview", username: req.user.username});
     });
 
     /* GET Edit Booking Page */
     router.get('/edit', isAuthenticated, function(req, res) {
-        res.render("edit-booking", {title: "Edit a Booking"});
+        res.render("edit-booking", {title: "Edit a Booking", username: req.user.username});
     });
 
     /* GET Delete Booking Page */
     router.get('/delete', isAuthenticated, function(req, res) {
-        res.render("delete-booking", {title: "Delete a Booking"});
+        res.render("delete-booking", {title: "Delete a Booking", username: req.user.username});
     });
 
     /* GET Booking History Page */
     router.get('/booking-history', isAuthenticated, function(req, res) {
-        res.render('booking-history', {title: "Booking History"});
+        res.render('booking-history', {title: "Booking History", username: req.user.username});
     });
 
 // GET Booking Search Page
     router.get('/show-booking', isAuthenticated, function(req, res) {
-        res.render('show-booking', {title: "Show Booking Confirmation"});
+        res.render('show-booking', {title: "Show Booking Confirmation", username: req.user.username});
     });
 
 //* POST Search Booking */

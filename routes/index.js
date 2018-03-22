@@ -25,37 +25,37 @@ module.exports = function(passport) {
 
     /* GET Pitch Booking Page */
     router.get('/book', isAuthenticated, function (req, res) {
-        res.render('booking', {title: 'Book a Pitch'});
+        res.render('booking', {title: 'Book a Pitch', username: req.user.username});
     });
 
     /* GET Help Page */
     router.get('/help', isAuthenticated, function (req, res) {
-        res.render('help', {title: 'Information'});
+        res.render('help', {title: 'Information', username: req.user.username});
     });
 
     /* GET Customer Overview Page */
     router.get('/customer-overview', isAuthenticated, function (req, res) {
-        res.render('customer-overview', {title: "Customer Overview"});
+        res.render('customer-overview', {title: "Customer Overview", username: req.user.username});
     });
 
     /* GET Add Customer Page  */
     router.get('/add-customer', isAuthenticated, function (req, res) {
-        res.render('addcustomer', {title: "Add Customer"});
+        res.render('addcustomer', {title: "Add Customer", username: req.user.username});
     });
 
     /* GET Search Customer Page */
     router.get('/searchcustomer', isAuthenticated, function (req, res) {
-        res.render('searchcustomer', {title: "Search Customer"});
+        res.render('searchcustomer', {title: "Search Customer", username: req.user.username});
     });
 
     /* GET Edit Customer Page */
     router.get('/edit-customer', isAuthenticated, function (req, res) {
-        res.render('editcustomer', {title: "Edit Customer"});
+        res.render('editcustomer', {title: "Edit Customer", username: req.user.username});
     });
 
     /* GET Delete Customer Page */
     router.get('/delete-customer', isAuthenticated, function (req, res) {
-        res.render('delete-customer', {title: "Delete a Customer"});
+        res.render('delete-customer', {title: "Delete a Customer", username: req.user.username});
     });
 
     /* GET Unauthorised Page */

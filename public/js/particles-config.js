@@ -15,9 +15,15 @@ window.onload = function() {
         //Responsiveness
         responsive: [
             {
+                breakpoint: 1920,
+                options: {
+                    maxParticles: calculateMaxParticles(1920)
+                }
+            },
+            {
                 breakpoint: 1720,
                 options: {
-                    maxParticles: 110
+                    maxParticles: calculateMaxParticles(1720)
                 }
             },
             {
