@@ -41,7 +41,7 @@ html(lang="en")
                         button.close(type='button', data-dismiss='modal', aria-label='Close')
                             span.glyphicon.glyphicon-remove(aria-hidden='true')
                     #div-forms
-                        form(action='/authenticate', method='POST')
+                        form#login-form(action='/authenticate', method='POST')
                             .modal-body
                                 #div-login-msg
                                     #icon-login-msg.glyphicon.glyphicon-chevron-right
@@ -52,7 +52,18 @@ html(lang="en")
                                 div
                                     button.btn.btn-primary.btn-lg.btn-block.login(type='submit') Login
                                 div
-                                    a#login_lost_btn.btn.btn-link(href="/forgot-password") Lost Password?
+                                    button#login_lost_btn.btn.btn-link(type="button") Lost Password?
+                        form#lost-form(style='display:none;')
+                            .modal-body
+                                #div-lost-msg
+                                    #icon-lost-msg.glyphicon.glyphicon-chevron-right
+                                    span#text-lost-msg Whoops! We'll send you a reminder.
+                                input#lost_email.form-control(type='text', placeholder='E-Mail Address', required)
+                            .modal-footer
+                                div
+                                    button.btn.btn-primary.btn-lg.btn-block(type='submit') Send
+                                div
+                                    button#lost_login_btn.btn.btn-link(type='button') Log In
         #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display: none;')
             .modal-dialog
                 .modal-content
