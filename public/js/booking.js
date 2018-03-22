@@ -56,13 +56,58 @@ let pitches = [];
 let pitchBookings = [];
 let selectedPitches = [];
 
+function hideButton(){
+    $('fieldset#changebutton').css("display","none");
 
+}
 
+function showInput(){
+    $('fieldset#findbutton').css("display","inline");
+    $('fieldset#type').css("display","inline");
+    $('fieldset#tentfield').css("display","inline");
+    $('fieldset#caravanfield').css("display","inline");
+    $('fieldset#motorhomefield').css("display","inline");
+    $('fieldset#electricalfield').css("display","inline");
+    $('fieldset#daterange').css("display","inline");
+    $('fieldset#daterangelabel').css("display","inline");
+    $('fieldset#changebutton').css("display","none");
+
+}
 /*************************************/
 /* --- Book a pitch -----------------*/
 /*************************************/
 
 function populatePitchSelection() {
+
+    $('fieldset#changebutton').css("display","inline");
+    $('fieldset#type').css("display","none");
+    $('fieldset#daterangelabel').css("display","none");
+    $('fieldset#daterange').css("display","none");
+    $('fieldset#findbutton').css("display","none");
+
+    if ($('input:checked').val()==='tent') {
+        $('fieldset#caravanfield').css("display","none");
+        $('fieldset#motorhomefield').css("display","none");
+        $('fieldset#electricalfield').css("display","none");
+    }
+
+    if ($('input:checked').val()==='caravan') {
+        $('fieldset#tentfield').css("display","none");
+        $('fieldset#motorhomefield').css("display","none");
+        $('fieldset#electricalfield').css("display","none");
+    }
+
+    if ($('input:checked').val()==='motorhome') {
+        $('fieldset#caravanfield').css("display","none");
+        $('fieldset#tentfield').css("display","none");
+        $('fieldset#electricalfield').css("display","none");
+    }
+
+    if ($('input:checked').val()==='electrical') {
+        $('fieldset#caravanfield').css("display","none");
+        $('fieldset#motorhomefield').css("display","none");
+        $('fieldset#tentfield').css("display","none");
+    }
 
     console.log(pitches);
     let filter = $("input:checked").val();
