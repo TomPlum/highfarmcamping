@@ -5,8 +5,6 @@ let mysql = require('../../../db/mysql');
 module.exports = function(passport) {
     passport.use('signup', new LocalStrategy({passReqToCallback: true},
         function(req, username, password, done) {
-            console.log(username);
-            console.log(password);
             let registerUser = function() {
                 mysql.connection.query("SELECT * FROM users WHERE username = '" + username + "';", function(err, rows) {
                     //If Unexpected Error - Log It & Return It

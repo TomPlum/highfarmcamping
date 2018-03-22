@@ -46,8 +46,8 @@ html(lang="en")
                                 #div-login-msg
                                     #icon-login-msg.glyphicon.glyphicon-chevron-right
                                     span#text-login-msg  Please Enter Your Username & Password
-                                input.username.form-control(type='text', name='username', placeholder='Username')
-                                input.password.form-control(type='password', name='password', placeholder='Password')
+                                input.username.form-control(type='text', name='username', placeholder='Username' required)
+                                input.password.form-control(type='password', name='password', placeholder='Password' required)
                             .modal-footer
                                 div
                                     button.btn.btn-primary.btn-lg.btn-block.login(type='submit') Login
@@ -66,15 +66,15 @@ html(lang="en")
                                 #div-register-msg
                                     #icon-register-msg.glyphicon.glyphicon-chevron-right
                                     span#text-register-msg Register New User
-                                input.username.form-control(type='text', name='username', placeholder='Username')
-                                input.email.form-control(type='text', name='email', placeholder='Email')
-                                input.password.form-control(type='password', name='password', placeholder='Password')
-                                input.confirm.form-control(type='password', name='confirm', placeholder='Confirm Password')
+                                input.username.form-control(type='text', name='username', placeholder='Username' required)
+                                input.email.form-control(type='text', name='email', placeholder='Email' required)
+                                input.password.form-control(type='password', name='password', placeholder='Password' required)
+                                input.confirm.form-control(type='password', name='confirm', placeholder='Confirm Password' required)
                                 select.permissions.form-control(name='role')
                                     option(value="admin") Admin
                                     option(value="staff") Staff
                                 hr
-                                input.admin-key.form-control(type="password", name="admin_key", placeholder='Admin Key')
+                                input.admin-key.form-control(type="password", name="admin_key", placeholder='Admin Key' required)
                             .modal-footer
                                 div
                                     button.btn.btn-primary.btn-lg.btn-block.register-user(type='submit') Register

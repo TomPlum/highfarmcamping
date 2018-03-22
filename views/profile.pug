@@ -1,0 +1,20 @@
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/profile.css")
+
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-user
+        |  !{username}'s Profile
+
+block append body-content
+    .conatiner-fluid
+        .row
+            .col-md-6
+                label Username
+                p !{username}
+                label Email
+                p !{email}
+                label Role
+                p !{role}

@@ -6,7 +6,7 @@ module.exports = function(passport) {
 	passport.use('login', new LocalStrategy({passReqToCallback: true},
         function(req, username, password, done) {
             //Queries DB For User
-            mysql.connection.query("SELECT * FROM users WHERE username = '" + username + "';", function(err, rows) {
+            mysql.connection.query("SELECT * FROM users WHERE username = ?;", [username], function(err, rows) {
                 //In The Event Of An Error, Throw It
                 if (err) {
                     console.log(err);
@@ -22,12 +22,6 @@ module.exports = function(passport) {
                 }
 
                 //User Exists, But Password Is Incorrect
-                /*
-                if (!isValidPassword(user, password)){
-                    console.log('Invalid Password');
-                    return done(null, false, req.flash('message', 'Invalid Password')); // redirect back to login page
-                }
-                */
                 if (!isValidPassword(rows[0].password, password)) {
                     return done(null, false, req.flash('error', 'Incorrect Password.'));
                 }
@@ -42,8 +36,6 @@ module.exports = function(passport) {
 	); //End of passport.use()
 
     let isValidPassword = function(user, password){
-        console.log(user);
-        console.log(password);
         return bCrypt.compareSync(password, user);
     };
 };

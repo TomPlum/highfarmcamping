@@ -3,6 +3,7 @@ const router = express.Router();
 const mysql = require('../db/mysql');
 const async = require("async");
 const asyncLoop = require('node-async-loop');
+const bCrypt = require('bcrypt-nodejs');
 
 const isAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
@@ -10,6 +11,14 @@ const isAuthenticated = function(req, res, next) {
         return next();
     } else {
         res.redirect('/unauthorised');
+    }
+};
+
+const ifLoggedIn = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.redirect('/dashboard');
+    } else {
+        return next();
     }
 };
 
@@ -58,13 +67,28 @@ module.exports = function(passport) {
         res.render('delete-customer', {title: "Delete a Customer", username: req.user.username});
     });
 
+    /* GET Profile Page */
+    router.get('/profile', isAuthenticated, function (req, res) {
+        res.render('profile', {
+            title: "My Profile",
+            username: req.user.username,
+            email: req.user.email,
+            role: req.user.permissions
+        });
+    });
+
+    /* GET Change Password Page */
+    router.get('/change-password', isAuthenticated, function (req, res) {
+        res.render('change-password', {title: "Change Password", username: req.user.username});
+    });
+
     /* GET Unauthorised Page */
     router.get('/unauthorised', function (req, res) {
         res.render('unauthorised', {title: "Unauthorised."});
     });
 
     /* GET Login Page */
-    router.get('/', function (req, res) {
+    router.get('/', ifLoggedIn, function (req, res) {
         res.render('login', {
             title: "HighFarm Camping",
             message: req.flash('message'),
@@ -86,6 +110,58 @@ module.exports = function(passport) {
         session: false,
         failureFlash: true
     }));
+
+    /* POST Change Password */
+    router.post('/change-password', function(req, res) {
+        let isValidPassword = function(user, password){
+            return bCrypt.compareSync(password, user);
+        };
+
+        let createHash = function(password) {
+            return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+        };
+
+        console.log(req.body.username);
+        mysql.connection.query("SELECT * FROM users WHERE username = ?;", [req.body.username], function(err, rows) {
+            console.log(rows);
+            //If Unexpected Error - Log It & Return It
+            if (err || !rows.length || rows === []) {
+                console.log("Error: " + err);
+                res.status(200).render('change-password', {
+                    error: "User " + req.body.username + " not found.",
+                    success: null,
+                    username: req.body.username
+                });
+            } else {
+                //New Password & Confirm Passwords DO NOT match
+                if (req.body.new !== req.body.confirm) {
+                    res.status(200).render('change-password', {
+                        error: "Passwords Do Not Match.",
+                        success: null,
+                        username: req.body.username
+                    });
+                }
+
+                //Old Password & Current Database Passwords DO NOT match
+                if(!isValidPassword(rows[0].password, req.body.old)) {
+                    res.status(200).render('change-password',{
+                        error: "Incorrect Current Password.",
+                        success: null,
+                        username: req.body.username
+                    });
+                }
+
+                //Update Password
+                mysql.connection.query("UPDATE users SET password = ? WHERE username = ?;", [createHash(req.body.confirm), req.body.username], (err, rows) => {
+                    res.status(200).render('change-password', {
+                        error: null,
+                        success: "Successfully Updated Password.",
+                        username: req.body.username
+                    });
+                });
+            }
+        });
+    });
 
     /* Handle Logout */
     router.get('/logout', isAuthenticated, function(req, res) {

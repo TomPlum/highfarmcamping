@@ -27,9 +27,22 @@ html
                             strong HF
                     ul.list-unstyled.components
                         li
-                            a(href="#")
-                                i.glyphicon.glyphicon-user
+                            a(href="#user-menu", data-toggle='collapse', aria-expanded='false')
+                                i.glyphicon.glyphicon-tree-conifer
                                 | Welcome, !{username}.
+                            ul#user-menu.collapse.list-unstyled
+                                li
+                                    a(href="/profile")
+                                        i.glyphicon.glyphicon-user
+                                        |  Profile
+                                li
+                                    a(href="/change-password")
+                                        i.glyphicon.glyphicon-lock
+                                        |  Change Password
+                                li
+                                    a(href="/logout")
+                                        i.glyphicon.glyphicon-log-out
+                                        | Logout
                     ul.list-unstyled.components
                         li
                             a(href='/dashboard')
@@ -83,10 +96,6 @@ html
                             a(href="/help")
                                 i.glyphicon.glyphicon-info-sign
                                 | Help
-                        li
-                            a(href="/logout")
-                                i.glyphicon.glyphicon-log-out
-                                | Logout
                 // Page Content Holder
                 #content
                     nav.navbar.navbar-default
