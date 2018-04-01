@@ -60,6 +60,7 @@ $(document).ready(() => {
                         }
                         else break;
                     }
+                    tBody+="</tr>";
                     tBody += "</td>";
 
                     /*if (i+1 < data.length -1) {

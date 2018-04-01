@@ -136,4 +136,4 @@ function parseURLParams(url) {
     return parms;
 }
 
-let sqlStatement;
+

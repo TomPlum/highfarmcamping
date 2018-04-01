@@ -1,30 +1,33 @@
 extends structure
 
+block append stylesheets
+    link(rel="stylesheet" href="css/dashboard.css")
+
 block append top-content
     p.page-title
         span.glyphicon.glyphicon-home
         |  Dashboard
 block append body-content
     p
-        | This is the main page.
+        | Pitch Overview - booked pitches at a glance
     p !{data}
 
-    p
-        br
-        | Count of dogs overview:
-        .countDogsCurrently
-
-    div(id="addCustomerForm")
-        form#customerForm()
+    div(id="dog")
+        form#dogForm()
             .row
                 .col-md-3
                     input.form-control.input(type='text', name='date', placeholder='DD/MM/YYYY')
                 .col-md-3
                     button.form-control.btn-info(type='button', id="Count")
-                        |   Show dog count for date
-
+                        |   Show overview for day
                 .col-md-3
-                    .countDogsForDate
+                    .countDogs
+        .pitchOverview
+
+
+
+
+
 
 
 block append scripts
