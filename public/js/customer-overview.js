@@ -58,7 +58,7 @@ $(document).ready(() => {
 
                 },
                 error: function (error) {
-                    console.log("Error inserting date into the database", error)
+                    console.log("Error inserting data into the database", error)
                 }
             });
 
