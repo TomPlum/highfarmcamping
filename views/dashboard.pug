@@ -1,5 +1,8 @@
 extends structure
 
+block append stylesheets
+    link(rel="stylesheet" href="css/dashboard.css")
+
 block append top-content
     p.page-title
         span.glyphicon.glyphicon-home
@@ -16,10 +19,12 @@ block append body-content
                     button.form-control.btn-info(type='button', id="Show")
                         |   Show overview for one day
                 .col-md-3
+                    input.form-control.input(type='text', placeholder='Search Pitch by ID', id='pitchSearch')
+                .col-md-3
                     .countDogs
         br
         #loading
-        .pitchOverview
+        .pitchOverview#pitchTable
 
 
 
