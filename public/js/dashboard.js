@@ -104,7 +104,7 @@ $(document).ready(() => {
 
             let headers = "<thead>" +
                 "<tr>" +
-                "<th>Pitch ID</th>" +
+                "<th>Pitch</th>" +
                 "<th>Customer Name</th>" +
                 "<th>Registration Number</th>" +
                 "<th>Booking ID</th>" +
@@ -135,6 +135,7 @@ $(document).ready(() => {
                         tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
                         tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
                         tBody += "<td>" + data[i].count_dogs + "</td>";
+                        tBody += "<td id='IdColumn'>" + data[i].pitch_id + "</td>";
                         tBody += "</td>";
                         tBody += "</tr>";
                     }
@@ -192,5 +193,51 @@ $(document).ready(() => {
                 $(".countDogs").html("<p> Count of dogs on " + formatDate(date) + ": " + countDogs +"</p>");
             }
         }
+// Searching for a booked pitch through its ID
+    $('#pitchSearch').keyup(function(){
+        let inputValue = document.getElementById("pitchSearch").value;
+        let table = document.getElementById("pitchTable");
+        let tr = table.getElementsByTagName("tr");
+        let td;
+        let noPitch = true;
+        // This for loop determines if searched pitch is booked or not
+        for (let i = 0; i < tr.length; i++) {
+            // idColumn in pitchTable with index 7, it is hidden and only there to deliver the ID for the searching engine
+            td = tr[i].getElementsByTagName("td")[7];
+
+            if(td) {
+                let searchInput = td.innerHTML.toLowerCase();
+                if(searchInput.indexOf(inputValue) > -1) {
+                    noPitch=false;
+                }
+            }
+
+        }
+        if(noPitch===true)
+        {
+            if(inputValue !=="")
+            { alert("Pitch with ID "+ inputValue + " or with ID containing a " + inputValue + " is not booked."); }
+        } else
+         //  pitch is booked, now the row of this pitch will be found through the search engine:
+        // For loop: Go through all table rows and search for row with desired ID:
+        {
+            for (let i = 0; i < tr.length; i++) {
+
+                td = tr[i].getElementsByTagName("td")[7];
+
+                if (td) {
+                    let searchInput = td.innerHTML.toLowerCase();
+                    if (searchInput.indexOf(inputValue) > -1) {
+                        noPitch = false;
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+
+            }
+        }
+
+    });
 
 });

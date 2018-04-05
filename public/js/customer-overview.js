@@ -484,8 +484,8 @@ $(document).ready(() => {
 
     // filter Table through ID when inserting values into "search customer through ID" field through JQuery:
 
-    $('#customer_id').keyup(function(){
-        let inputValue = document.getElementById("customer_id").value.toLowerCase();
+    $('#customerId').keyup(function(){
+        let inputValue = document.getElementById("customerId").value.toLowerCase();
         let table = document.getElementById("customerTable");
         let tr = table.getElementsByTagName("tr");
         let td;
