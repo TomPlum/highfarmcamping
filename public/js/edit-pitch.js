@@ -133,7 +133,7 @@ function openEditModal(id) {
 
 function openDeleteModal(id) {
     //Are you sure?
-    $("#areYouSure").html("Are you sure you want to delete Pitch " + id + " ?\nThis action cannot be un-done.");
+    $("#areYouSure").html("Are you sure you want to delete Pitch " + id + "?\nThis action cannot be un-done.");
 
     //Bind Delete Pitch Button Event
     $("#deletePitch").on("click", () => {
