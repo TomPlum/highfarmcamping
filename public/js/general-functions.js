@@ -6,11 +6,11 @@ const errorNotification = "I am sorry. We have an error. Please contact your IT 
 
 // For getting icons for a pitch:
 function getIcon(type) {
-    const all_weather = "<span class='fa fa-cloud'></span>";
-    const tent = "<span class='glyphicon glyphicon-tent'></span>";
-    const caravan = "<span class='fa fa-car'></span>";
-    const motorhome = "<span class='fa fa-truck'></span>";
-    const electrical = "<span class='fa fa-lightbulb'></span>";
+    const all_weather = "<span title='All Weather' class='fa fa-cloud'></span>";
+    const tent = "<span title='Tent' class='glyphicon glyphicon-tent'></span>";
+    const caravan = "<span title='Caravan' class='fas fa-car'></span>";
+    const motorhome = "<span title='Motorhome' class='fas fa-truck'></span>";
+    const electrical = "<span title='Electrical Outlet' class='fas fa-bolt'></span>";
 
     switch (type) {
         case "tent":
@@ -21,6 +21,8 @@ function getIcon(type) {
             return motorhome + " " + all_weather + electrical;
         case "all":
             return tent + " " + caravan + " " + motorhome + " " + electrical;
+        case "all-manage":
+            return "<div class='row'>" + tent + " " + caravan + "</div><div class='row'>" + motorhome + " " + electrical + "</div>";
         default:
             return "N/A";
     }

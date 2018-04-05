@@ -9,6 +9,7 @@
     //h 72
     //o 79
     //e 69
+    //p 80
 
     window.onkeydown = e => {
 
@@ -24,6 +25,8 @@
             window.location.href = "/manage-booking/overview";
         } else if (e.ctrlKey && e.altKey && e.keyCode === 69) {
             window.location.href = "/manage-booking/booking-history";
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 80) {
+            window.location.href = "/manage-pitches/overview";
         }
     };
 })(jQuery);
