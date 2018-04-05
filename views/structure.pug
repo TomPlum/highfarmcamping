@@ -73,23 +73,26 @@ html
                                 // <i class="fa fa-fw fa-address-book"></i>
                                 i.glyphicon.glyphicon-user
                                 | Customer Management
-
                         li
+                            a(href='/manage-pitches/overview')
+                                i.glyphicon.glyphicon-tent
+                                | Pitch Management
+                        //li
                             a(href='#manage-pitch', data-toggle='collapse', aria-expanded='false')
                                 // <i class="fa fa-fw fa-map-signs"></i>
                                 i.glyphicon.glyphicon-tent
                                 | Pitch Management
                             ul#manage-pitch.collapse.list-unstyled
                                 li
-                                    a(href='/manage-pitch/add')
+                                    a(href='/manage-pitches/add')
                                         i.glyphicon.glyphicon-plus
                                         | Add Pitch
                                 li
-                                    a(href='/manage-pitch/edit')
+                                    a(href='/manage-pitches/edit')
                                         i.glyphicon.glyphicon-pencil
                                         | Edit Pitch
                                 li
-                                    a(href='/manage-pitch/delete')
+                                    a(href='/manage-pitches/delete')
                                         i.glyphicon.glyphicon-minus
                                         | Delete Pitch
                         li

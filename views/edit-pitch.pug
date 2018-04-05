@@ -1,0 +1,138 @@
+extends structure
+
+block append stylesheets
+    link(rel='stylesheet', href='css/edit-pitch.css')
+
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-tent
+        |  Pitch Management
+
+block append body-content
+    p
+        | View a grid of all pitches on the campsite. Sorting, Filtering, Editing & Deleting options are provided.
+    #pitchManagementControls.container
+        .row
+            .col-md-3
+                .input-group
+                    span.input-group-addon Sort
+                        i.fa.fa-fw.fa-sort
+                    select#sortGrid(class="form-control" autocomplete="off")
+                        option.default(value="" selected disabled) - Select Sort -
+                        option#idAscending(value="asc") Pitch ID (Ascending)
+                        option#idDescending(value="desc") Pitch ID (Descending)
+                        i.fa.fa-fw.fa-sort
+                        |  Sort By ID
+            .col-md-4
+                .input-group
+                    span.input-group-addon Filter
+                        i.fa.fa-fw.fa-filter
+                    select#filterGrid(class="form-control" autocomplete="off")
+                        option.default(value="" selected disabled) - Select Filter -
+                        optgroup(label="Pitch Type")
+                            option(value="") View All
+                            option#filterTent(value="tent") Tent
+                            option#filterCaravan(value="caravan") Caravan
+                            option#filterMotorhome(value="motorhome") Motorhome
+                            option#filterAll(value="all-manage") All Weather & Electrical
+                        optgroup(label="Availability")
+                            option#filterAvailable(value="1") Available
+                            option#filterNotAvailable(value="0") Not Available
+    #pitchManagementGrid.grid
+
+    #editModal.modal.fade(role='dialog')
+        .modal-dialog
+            // Modal content
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title Edit Pitch
+                .modal-body
+                    p Make amendments to the details of the selected pitch.
+                    #editPitchDetails.container-fluid
+                        .row
+                            .col-sm-6
+                                label Name
+                                .input-group
+                                    span.input-group-addon
+                                        i.far.fa-fw.fa-id-card
+                                    input#editPitchName(type="text" placeholder="Pitch Name" class="form-control")
+                            .col-sm-6
+                                label Type
+                                .input-group
+                                    span.input-group-addon
+                                        i.far.fa-fw.fa-compass
+                                    select#editPitchType(class="form-control")
+                                        option(value="tent") Tent
+                                        option(value="caravan") Caravan
+                                        option(value="motorhome") Motorhome
+                                        option(value="all-manage") All Weather & Electrical
+                        .row
+                            .col-sm-4
+                                label Price
+                                .input-group
+                                    span.input-group-addon
+                                        i.fas.fa-fw.fa-pound-sign
+                                    input#editPitchPrice(type="text" placeholder="Pitch Cost" class="form-control")
+                            .col-sm-4
+                                label Available?
+                                .input-group
+                                    span.input-group-addon
+                                        i.far.fa-fw.fa-clock
+                                    select#editPitchAvailability(class="form-control")
+                                        option(value="1") Yes
+                                        option(value="0") No
+                            .col-sm-4
+                                label Electrical?
+                                .input-group
+                                    span.input-group-addon
+                                        i.fas.fa-fw.fa-bolt
+                                    select#editPitchElectrical(class="form-control")
+                                        option(value="1") Yes
+                                        option(value="0") No
+                .modal-footer
+                    button.btn.btn-danger(type="button", data-dismiss='modal')
+                        i.fa.fa-fw.fa-times
+                        |  Discard Changes
+                    button#finishedEditing.btn.btn-success(type='button')
+                        i.fa.fa-fw.fa-check
+                        |  Finish Editing
+
+    #viewModal.modal.fade(role='dialog')
+        .modal-dialog
+            // Modal content
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title View Pitch Information
+                .modal-body
+                    p View information regarding the selected pitch. Such as the current booking.
+                    #viewPitchDetails.container-fluid
+                        .row
+
+                .modal-footer
+                    button.btn.btn-success(type='button', data-dismiss='modal')
+                        i.fa.fa-fw.fa-check
+                        |  I've Seen Enough
+
+    #deleteModal.modal.fade(role='dialog')
+        .modal-dialog
+            // Modal content
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title Delete Pitch
+                .modal-body
+                    p Remove a pitch from the database.
+                    #deletePitchDetails.container-fluid
+                        .row
+                            #areYouSure
+                .modal-footer
+                    button#deletePitch.btn.btn-danger(type='button', data-dismiss='modal')
+                        i.far.fa-fw.fa-trash-alt
+                        |  Delete
+block append scripts
+    script(src='js/hammer.min.js')
+    script(src='js/muuri.min.js')
+    script(src='js/edit-pitch.js')
+

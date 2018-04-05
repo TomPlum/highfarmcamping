@@ -4,12 +4,12 @@ $(document).ready(function () {
     $('#bookingCard').click(function () {
         $('#collapseOne').collapse('show');
         $('#collapseTwo').collapse('hide');
-    })
+    });
 
     $('#customerCard').click(function () {
         $('#collapseOne').collapse('hide');
         $('#collapseTwo').collapse('show');
-    })
+    });
 
 
     //Call DB for Pitches & relation
@@ -184,7 +184,7 @@ function populatePitchSelection() {
             let selectedPitchID = this.getElementsByTagName("td")[0].innerHTML.substring(this.getElementsByTagName("td")[0].innerHTML.indexOf("(")+1, this.getElementsByTagName("td")[0].innerHTML.indexOf(")"));
             let selectedPitch;
             for(let pitch of pitches){
-                if(pitch.pitch_id == selectedPitchID){
+                if(pitch.pitch_id === selectedPitchID){
                     selectedPitch = pitch;
                 }
             }
@@ -272,7 +272,7 @@ function calculatePrice() {
     for (let selectedPitch of selectedPitches) {
 
         for (let pitch of pitches) {
-            if (pitch.pitch_id == selectedPitch.pitch_id) {
+            if (pitch.pitch_id === selectedPitch.pitch_id) {
 
                 totalPrice += pitch.price * (allDates.length - 1);
 
@@ -305,7 +305,7 @@ $('#next').click(function () {
     }
 
 
-})
+});
 
 function book() {
 
@@ -339,7 +339,7 @@ function book() {
                 bookingDate: dateConverter(formatDateFromMilliseconds(new Date()))
             },
         pitchData: selectedPitches
-    }
+    };
 
 
     $.ajax({
@@ -347,7 +347,7 @@ function book() {
         type: "POST",
         data: {"data": data},
         success: function (bookingID) {
-            console.log("Book a pitch successful!")
+            console.log("Book a pitch successful!");
             alert("Booking successful!");
             window.location.href = "/manage-booking/show-booking?booking_id="+bookingID[0];
 
