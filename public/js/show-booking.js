@@ -58,21 +58,20 @@ $(document).ready(() => {
             tBody += "<td>";
             // in case when one booking has several pitches:
             if (data.length > 1) {
-                console.log(data.length);
                 // one booking has two pitches:
                 if(data.length===2)
                 {
-                    tBody += getIcon(data[0].type) + " Pitch " + data[0].pitch_id + " &nbsp &nbsp" +  getIcon(data[1].type) + " Pitch " + data[1].pitch_id;
+                    tBody += "Pitch " + data[0].pitch_id + " " + getIcon(data[0].type) + " &nbsp &nbsp" +  " Pitch " + data[1].pitch_id + " " + getIcon(data[1].type);
                 }
                 else
                     // one booking has three pitches:
                 {
-                    tBody += getIcon(data[0].type) + " Pitch " + data[0].pitch_id + "&nbsp &nbsp" +  getIcon(data[1].type) + " Pitch " + data[1].pitch_id + "<br>" + getIcon(data[2].type) + " Pitch " + data[2].pitch_id;
+                    tBody += "Pitch " + data[0].pitch_id + " " + getIcon(data[0].type) + "&nbsp &nbsp" +  " Pitch " + data[1].pitch_id + " " + getIcon(data[0].type) + "<br> Pitch " + data[2].pitch_id + " " + getIcon(data[2].type);
                 }//tBody += "Pitch " + data[0].pitch_id + "<br>" + getIcon(data[i].type);
             }
             // one booking has one pitch:
             else {
-                tBody += getIcon(data[0].type) + " Pitch " + data[0].pitch_id;
+                tBody += "Pitch " + data[0].pitch_id + " " + getIcon(data[0].type) ;
             }
             tBody += "</td>";
             tBody += "<td>" + displayDogInformation(data[0].count_dogs) + "</td>";

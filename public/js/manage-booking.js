@@ -49,12 +49,12 @@ $(document).ready(() => {
                     tBody += "<td>" + data[i].payment_total.toFixed(2) + "</td>";
                     tBody += "<td>" + formatPaid(data[i].paid) + "</td>";
                     tBody += "<td>" + formatDate(data[i].stay_start_date) + " - " + formatDate(data[i].stay_end_date) + "</td>";
-                    tBody += "<td>" + getIcon(data[i].type) + " Pitch " + data[i].pitch_id + "&nbsp; &nbsp;";
+                    tBody += "<td>  Pitch " +  data[i].pitch_id + " " +  getIcon(data[i].type) + "&nbsp; &nbsp;";
                     // For the case: several pitches per booking we use the for loop to fill several pitches into the Booked Pitches column:
                     for (let o = i + 1; o <= (i + 3); o++) {
                         if (o < data.length - 1) {
                             if (data[o].booking_id === data[i].booking_id) {
-                                tBody += getIcon(data[o].type) + " Pitch " + data[o].pitch_id + "<br>";
+                                tBody += " Pitch " + data[o].pitch_id + " " + getIcon(data[o].type) + "<br>";
                             }
                             else break;
                         }

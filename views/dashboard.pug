@@ -8,18 +8,22 @@ block append top-content
         span.glyphicon.glyphicon-home
         |  Dashboard
 block append body-content
-    p An overview of the management system. Here you can view booked pitches and and their respective details.
+    p Dashboard - Booked Pitches and Their Details at a Glance
     p !{data}
 
         form
             .row
                 .col-md-3
-                    input.form-control.input(type='text', name='date', placeholder='DD/MM/YYYY')
+                    .inner-addon.left-addon
+                        i.glyphicon.glyphicon-calendar
+                        input.form-control.input(type='text', name='date', placeholder='DD/MM/YYYY')
                 .col-md-3
                     button.form-control.btn-info(type='button', id="Show")
                         |   Show overview for one day
                 .col-md-3
-                    input.form-control.input(type='text', placeholder='Search Pitch by ID', id='pitchSearch')
+                    .inner-addon.left-addon
+                        i.glyphicon.glyphicon-search
+                        input.form-control.input(type='text', placeholder='Search Pitch by ID', id='pitchSearch')
                 .col-md-3
                     .countDogs
         br

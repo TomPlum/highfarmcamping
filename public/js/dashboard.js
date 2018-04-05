@@ -128,7 +128,7 @@ $(document).ready(() => {
                     if (date <= endDate && startDate <= date) {
                         nothingBooked=false;
                         tBody += "<tr>";
-                        tBody += "<td>" + getIcon(data[i].type) + " Pitch " + data[i].pitch_id;
+                        tBody += "<td> Pitch " + data[i].pitch_id + " " + getIcon(data[i].type) ;
                         tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
                         tBody += "<td>" + data[i].registration + "</td>";
                         tBody += "<td>" + data[i].booking_id + "</td>";
@@ -216,7 +216,15 @@ $(document).ready(() => {
         if(noPitch===true)
         {
             if(inputValue !=="")
-            { alert("Pitch with ID "+ inputValue + " or with ID containing a " + inputValue + " is not booked."); }
+            {
+                if(inputValue.startsWith("0"))
+                {
+                    alert("No pitch with ID 0 or starting with 0 exists.");
+                }
+                else {
+                    alert("Pitch with ID " + inputValue + " or with ID containing a " + inputValue + " is not booked.");
+                }
+            }
         } else
          //  pitch is booked, now the row of this pitch will be found through the search engine:
         // For loop: Go through all table rows and search for row with desired ID:

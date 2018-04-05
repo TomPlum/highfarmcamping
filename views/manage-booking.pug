@@ -12,7 +12,9 @@ block append body-content
         | Here you can see an overview of all bookings and their payment status.
     .row
         .col-md-3
-            input.form-control.input(type='text', placeholder='Search by ID or Name', id='booking_id')
+            .inner-addon.left-addon
+                i.glyphicon.glyphicon-search
+                input.form-control.input(type='text', placeholder='Search by ID or Name', id='booking_id')
         .col-md-3
             button.form-control.btn-info(type='button', id="Show")
                 span.glyphicon.glyphicon-list-alt
