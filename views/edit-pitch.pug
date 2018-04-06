@@ -9,10 +9,10 @@ block append top-content
         |  Pitch Management
 
 block append body-content
-    p
-        | View a grid of all pitches on the campsite. Sorting, Filtering, Editing & Deleting options are provided.
     #pitchManagementControls.container
         .row
+            .col-sm-12
+                p View a grid of all pitches on the campsite. Sorting, Filtering, Editing & Deleting options are provided.
             .col-md-3
                 .input-group
                     span.input-group-addon Sort
@@ -38,11 +38,22 @@ block append body-content
                         optgroup(label="Availability")
                             option#filterAvailable(value="1") Available
                             option#filterNotAvailable(value="0") Not Available
-    #pitchManagementGrid.grid
+            .col-md-3
+                button.btn.btn-success(type="button" data-toggle='modal' data-target='#addModal')
+                    i.fas.fa-fw.fa-plus
+                    |  Add Pitch
+    .container
+        .row
+            .col-sm-12
+                #loading
+
+    .container
+        .row
+            .col-sm-12
+                #pitchManagementGrid.grid
 
     #editModal.modal.fade(role='dialog')
         .modal-dialog
-            // Modal content
             .modal-content
                 .modal-header
                     button.close(type='button', data-dismiss='modal') ×
@@ -100,7 +111,6 @@ block append body-content
 
     #viewModal.modal.fade(role='dialog')
         .modal-dialog
-            // Modal content
             .modal-content
                 .modal-header
                     button.close(type='button', data-dismiss='modal') ×
@@ -109,15 +119,24 @@ block append body-content
                     p View information regarding the selected pitch. Such as the current booking.
                     #viewPitchDetails.container-fluid
                         .row
+                            h3
+                                i.fas.fa-fw.fa-book
+                                | Currently Booked
+                            #pitchCurrentlyBooked
+                        .row
+                            h3
+                                i.fa.fa-fw.fa-history
+                                | Booking History
+                            #pitchBookingHistory
+
 
                 .modal-footer
                     button.btn.btn-success(type='button', data-dismiss='modal')
                         i.fa.fa-fw.fa-check
-                        |  I've Seen Enough
+                        |  Looks Good
 
     #deleteModal.modal.fade(role='dialog')
         .modal-dialog
-            // Modal content
             .modal-content
                 .modal-header
                     button.close(type='button', data-dismiss='modal') ×
@@ -131,6 +150,59 @@ block append body-content
                     button#deletePitch.btn.btn-danger(type='button', data-dismiss='modal')
                         i.far.fa-fw.fa-trash-alt
                         |  Delete
+
+    #addModal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title Add Pitch
+                .modal-body
+                    #addPitchDetails.container-fluid
+                        .row
+                            .col-sm-6
+                                label Name
+                                .input-group
+                                    span.input-group-addon
+                                        i.far.fa-fw.fa-id-card
+                                    input#addPitchName(type="text" placeholder="Pitch Name" class="form-control")
+                            .col-sm-6
+                                label Type
+                                .input-group
+                                    span.input-group-addon
+                                        i.far.fa-fw.fa-compass
+                                    select#addPitchType(class="form-control")
+                                        option(value="tent") Tent
+                                        option(value="caravan") Caravan
+                                        option(value="motorhome") Motorhome
+                                        option(value="all") All Weather & Electrical
+                        .row
+                            .col-sm-4
+                                label Price
+                                .input-group
+                                    span.input-group-addon
+                                        i.fas.fa-fw.fa-pound-sign
+                                    input#addPitchPrice(type="text" placeholder="Pitch Cost" class="form-control")
+                            .col-sm-4
+                                label Available?
+                                .input-group
+                                    span.input-group-addon
+                                        i.far.fa-fw.fa-clock
+                                    select#addPitchAvailability(class="form-control")
+                                        option(value="1") Yes
+                                        option(value="0") No
+                            .col-sm-4
+                                label Electrical?
+                                .input-group
+                                    span.input-group-addon
+                                        i.fas.fa-fw.fa-bolt
+                                    select#addPitchElectrical(class="form-control")
+                                        option(value="1") Yes
+                                        option(value="0") No
+                .modal-footer
+                    button#addPitch.btn.btn-success(type='button', data-dismiss='modal')
+                        i.fas.fa-fw.fa-plus
+                        |  Add Pitch
 block append scripts
     script(src='js/hammer.min.js')
     script(src='js/muuri.min.js')

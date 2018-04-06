@@ -11,20 +11,37 @@
 }
 
 .tent {
-    background: #6a89cc !important;
+    background: #48dbfb !important;
 }
 
 .caravan {
-    background: #38ada9 !important;
+    background: #ff6b6b !important;
 }
 
 .motorhome {
-    background: #0a3d62 !important;
+    background: #feca57 !important;
 }
 
-.all {
-    background: #e55039 !important;
+.all-manage {
+    background: #f368e0 !important;
 }
+
+.tent:hover {
+    background: #45adcd !important; /*Brightness: 50*/
+}
+
+.caravan:hover {
+    background: #cd6767 !important;
+}
+
+.motorhome:hover {
+    background: #ce9f48 !important;
+}
+
+.all-manage:hover {
+    background: #ce6bbb !important;
+}
+
 .item:hover {
     text-decoration: none;
 }
@@ -42,16 +59,12 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    background: #2f8fd5;
     color: white;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color ease 0.2s;
 }
 
-.item-content:hover {
-    background-color: #309fd5;
-}
 
 .item-content .pitch_id {
     font-size: 1.5em;
@@ -115,4 +128,9 @@ input, select {
 
 #areYouSure {
     font-size: 1.4em;
+}
+
+#pitchManagementControls {
+    margin-left: 8px;
+    margin-bottom: 15px;
 }

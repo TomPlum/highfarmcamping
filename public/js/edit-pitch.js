@@ -2,17 +2,22 @@
 let grid;
 
 //Pitch data from AJAX calls needs to be used outside of page load function calls. So stored globally here
-let pitchData;
+let pitchData, pitchInformation;
 
 $(document).ready(() => {
+    startLoadingAnimation();
     $.ajax({
         url: "/manage-pitches/get-pitches",
         type: "POST",
         async: true,
         success: function(data) {
-            renderPitchOverview(parsePitchTypes(data));
+            console.log(data.pitches);
+            console.log(data.info);
+            renderPitchOverview(parsePitchTypes(data.pitches));
+            stopLoadingAnimation();
             bindGridControlEvents();
-            pitchData = data;
+            pitchData = data.pitches;
+            pitchInformation = data.info;
         },
         error: function(err) {
             console.log(err);
@@ -39,7 +44,7 @@ function renderPitchOverview(data) {
                                 "<div class='item-footer'>" +
                                     "<hr>" +
                                     "<div class='view_pitch'>" +
-                                        "<button id='editPitch' type='button' class='pitch-button' title='View Details' data-toggle='modal' data-target='#viewModal'>" +
+                                        "<button id='editPitch' onclick='renderPitchBookingHistory(" + data[i].pitch_id + "); renderPitchCurrentlyBooked(" + data[i].pitch_id + ")' type='button' class='pitch-button' title='View Details' data-toggle='modal' data-target='#viewModal'>" +
                                             "<i class='fas fa-fw fa-eye'></i>" +
                                         "</button>" +
                                     "</div>" +
@@ -93,6 +98,10 @@ function bindGridControlEvents() {
     });
 
     $("#filterGrid").change(filter);
+
+    $("#addPitch").on("click", () => {
+        addPitch();
+    })
 }
 
 function filter() {
@@ -127,7 +136,11 @@ function openEditModal(id) {
 
     //Bind Finished Editing Button Event
     $("#finishedEditing").on("click", () => {
-        editPitch(id, $("#editPitchName").val(), $("#editPitchType").val(), $("#editPitchPrice").val(), $("#editPitchAvailability").val(), $("#editPitchElectrical").val());
+        let type = $("#editPitchType").val();
+        if (type === "all-manage") {
+            type = "all";
+        }
+        editPitch(id, $("#editPitchName").val(), type, $("#editPitchPrice").val(), $("#editPitchAvailability").val(), $("#editPitchElectrical").val());
     });
 }
 
@@ -183,6 +196,91 @@ function deletePitch(id) {
         type: "POST",
         async: true,
         data: {id: id},
+        success: function(data) {
+
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
+function renderPitchBookingHistory(id) {
+    //Clear Last Selection
+    const html = $("#pitchBookingHistory");
+    html.html("");
+    const oTable = "<div class='history-booking'>" +
+                        "<table class='table table- table-striped table-hover'>" +
+                            "<thead>" +
+                                "<tr>" +
+                                    "<th>ID</th>" +
+                                    "<th>Name</th>" +
+                                    "<th>Duration</th>" +
+                                    "<th>Paid</th>" +
+                                "</tr>" +
+                            "</thead>" +
+                            "<tbody id='pitchBookingHistoryBody'>";
+    html.append(oTable);
+
+    for (let i = 0; i < pitchInformation.length; i++) {
+        if (pitchInformation[i].pitch_id === id) {
+            const booking_id = pitchInformation[i].booking_id;
+            const name = pitchInformation[i].first_name + " " + pitchInformation[i].last_name;
+            const duration = formatDate(pitchInformation[i].stay_start_date) + " - " + formatDate(pitchInformation[i].stay_end_date);
+            const paid = pitchInformation[i].price;
+            const row = "<tr>" +
+                            "<td>" + booking_id + "</td>" +
+                            "<td>" + name + "</td>" +
+                            "<td>" + duration + "</td>" +
+                            "<td>£" + paid + "</td>" +
+                        "</tr>";
+            $("#pitchBookingHistoryBody").append(row);
+        }
+    }
+
+    const cTable = "</tbody>" +
+                "</table>" +
+            "</div>";
+    html.append(cTable);
+}
+
+function renderPitchCurrentlyBooked(id) {
+    let currentlyBooked = false;
+
+    for (let i = 0; i < pitchInformation.length; i++) {
+        //Find Correct Pitch
+        if (pitchInformation[i].pitch_id === id) {
+            //Check If Today's Date Falls Within Booking Duration
+            const today = new Date();
+            const start = pitchInformation[i].stay_start_date;
+            const end = pitchInformation[i].stay_end_date;
+
+            if (Date.parse(today) >= Date.parse(start) && Date.parse(today) <= Date.parse(end)) {
+                currentlyBooked = true;
+            }
+        }
+    }
+
+    const el = $("#pitchCurrentlyBooked");
+    if (currentlyBooked) {
+        el.html("This pitch is currently booked by; table of info to be rendered here");
+    } else {
+        el.html("This pitch is currently available.")
+    }
+}
+
+function addPitch() {
+    const name = $("#addPitchName").val();
+    const type = $("#addPitchType").val();
+    const price = $("#addPitchPrice").val();
+    const available = $("#addPitchAvailability").val();
+    const electrical = $("#addPitchElectrical").val();
+
+    $.ajax({
+        url: "/manage-pitches/add-pitch",
+        type: "POST",
+        async: true,
+        data: {name: name, type: type, price: price, available: available, electrical: electrical},
         success: function(data) {
 
         },

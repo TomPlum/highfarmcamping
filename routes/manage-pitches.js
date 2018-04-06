@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../db/mysql');
+const async = require("async");
 
 const isAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
@@ -19,15 +20,40 @@ module.exports = function(passport) {
 
     /* POST Get Pitches Data */
     router.post('/get-pitches', function(req, res) {
-        mysql.connection.query("SELECT * FROM pitches", function(err, rows) {
-            if (err) {console.log(err);}
-
-            res.status(200).send(rows);
+        let pitchInformationQuery = "SELECT * FROM pitch_bookings" +
+            " INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id" +
+            " INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id" +
+            " INNER JOIN customers ON bookings.customer_id = customers.customer_id;";
+        let pitchesQuery  = "SELECT * FROM pitches";
+        async.waterfall([
+            function(callback) {
+                mysql.connection.query(pitchesQuery, function(err, rows) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, null);
+                    } else {
+                        callback(null, rows);
+                    }
+                });
+            },
+            function(pitches, callback) {
+                mysql.connection.query(pitchInformationQuery, function(err, rows) {
+                    if (err) {
+                        console.log(err);
+                        callback(err, pitches, null);
+                    } else {
+                        callback(null, pitches, rows);
+                    }
+                });
+            }
+        ], function(err, pitches, pitchInformation) {
+            res.status(200).send({pitches: pitches, info: pitchInformation});
         });
     });
 
     /* POST Edit Pitch */
     router.post('/edit-pitch', function(req, res) {
+        console.log(req.body.name, req.body.type, req.body.price, req.body.availability, req.body.electrical, req.body.id);
         mysql.connection.query(
             "UPDATE pitches SET pitch_name = ?, type = ?, price = ?, available = ?, electrical = ? WHERE pitch_id = ?;",
             [req.body.name, req.body.type, req.body.price, req.body.availability, req.body.electrical, req.body.id],
@@ -50,6 +76,21 @@ module.exports = function(passport) {
                res.status(200).send("Successfully Deleted Pitch " + req.body.id);
            }
        });
+    });
+
+    /* POST Add Pitch */
+    router.post('/add-pitch', function(req, res) {
+        mysql.connection.query(
+            "INSERT INTO pitches VALUES (?, ?, ?, ?, ?)",
+            [req.body.type, req.body.available, req.body.price, req.body.electrical, req.body.name],
+            function(err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.status(200).send("Successfully Added New Pitch");
+                }
+            }
+        );
     });
 
     return router;
