@@ -42,6 +42,11 @@ module.exports = function(passport) {
         res.render('help', {title: 'Information', username: req.user.username});
     });
 
+    /* GET Gas Cylinder Overview Page */
+    router.get('/gas-cylinder-overview', isAuthenticated, function (req, res) {
+        res.render('gas-cylinder-overview', {title: "Gas Cylinder Overview", username: req.user.username});
+    });
+
     /* GET Customer Overview Page */
     router.get('/customer-overview', isAuthenticated, function (req, res) {
         res.render('customer-overview', {title: "Customer Overview", username: req.user.username});

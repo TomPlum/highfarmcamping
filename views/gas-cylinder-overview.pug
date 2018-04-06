@@ -1,0 +1,20 @@
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/gas-cylinder-overview.css")
+
+block append top-content
+    p.page-title
+        span.fa.fa-fw.fa-lg.fa-history
+        | Gas Cylinder Overview
+block append body-content
+    p
+        | Current status of sites gas cylinders.
+    .container
+        .row
+            .col-sm-12
+                #loading
+                #gas-cylinders-overview
+
+block append scripts
+    script(src="js/gas-cylinder-overview.js")
