@@ -219,6 +219,18 @@ module.exports = function(passport) {
         });
     });
 
+//POST for gas cylinder overview
+    router.post('/get-gas_cylinder_overview', isAuthenticated, function (req, res) {
+        mysql.connection.query("SELECT * FROM gas_cylinder_overview ", function (err, rows) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(rows);
+                res.send(rows);
+            }
+        });
+    });
+
 // POST DB Query for getting single customer for delete customer
     router.post('/get-customer', isAuthenticated, function (req, res) {
         //+req.data.ID+
