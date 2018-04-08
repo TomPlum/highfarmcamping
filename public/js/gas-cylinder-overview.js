@@ -26,6 +26,7 @@ function renderGasCylinderOverview(data) {
         "<th>cylinder_reference</th>" +
         "<th>size</th>" +
         "<th>condition</th>" +
+        "<th>allocated_pitch</th>" +
         "</tr>" +
         "</thead>";
 
@@ -35,6 +36,7 @@ function renderGasCylinderOverview(data) {
         tBody += "<td>" + data[i].cylinder_reference + "</td>";
         tBody += "<td>" + data[i].size + "</td>";
         tBody += "<td>" + data[i].condition + "</td>";
+        tBody += "<td>" + data[i].allocated_pitch + "</td>"
     }
     
 
