@@ -1,18 +1,19 @@
 $(document).ready(() => {
     startLoadingAnimation();
+
     $.ajax({
-        url: "/gas-cylinder-overview",
+        url: "/get-gas_cylinder_overview",
         type: "POST",
-        async: true,
-        success: function(data) {
+        success: (data) => {
             stopLoadingAnimation();
-            renderGasCylinderOverview(data)
+            renderGasCylinderOverview(data);
         },
-        error: function(err) {
+        error: (err) => {
             console.log(err);
+            alert(errorNotification);
         }
-    }) ;
-});
+    });
+
 
 function renderGasCylinderOverview(data) {
     const oTable = "<table class='table table-hover table-striped table-condensed'>";
@@ -35,7 +36,10 @@ function renderGasCylinderOverview(data) {
         tBody += "<td>" + data[i].size + "</td>";
         tBody += "<td>" + data[i].condition + "</td>";
     }
+    
 
     $("#gas-cylinder-overview").html(oTable + headers + tBody + cTable);
     console.log(data);
 }
+
+});

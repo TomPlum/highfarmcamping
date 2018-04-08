@@ -116,8 +116,6 @@ $(document).ready(() => {
 
             //Create Table Body
 
-           // let testDate =  writtenDateToJavaScriptDate("15/01/2018");
-
             let nothingBooked=true;
             for (let i = 0; i < data.length; i++) {
 
@@ -170,31 +168,33 @@ $(document).ready(() => {
 
         // function calculates count of dogs which are on campsite for specific date
         function calculateCountDogs(rows, date) {
-
-            let countDogs=0;
-            for(let i = 0; i < rows.length; i++)
-            {
-                let startDate = writtenDateToJavaScriptDate(formatDate(rows[i].stay_start_date));
-                let endDate = writtenDateToJavaScriptDate(formatDate(rows[i].stay_end_date));
-                // if statement goes through every booking timeframe and looks if the given date lies within the booking timeframe
-                if(date <= endDate && startDate <= date)
-                {
-                    countDogs+=rows[i].count_dogs;
+            try {
+                let countDogs = 0;
+                for (let i = 0; i < rows.length; i++) {
+                    let startDate = writtenDateToJavaScriptDate(formatDate(rows[i].stay_start_date));
+                    let endDate = writtenDateToJavaScriptDate(formatDate(rows[i].stay_end_date));
+                    // if statement goes through every booking timeframe and looks if the given date lies within the booking timeframe
+                    if (date <= endDate && startDate <= date) {
+                        countDogs += rows[i].count_dogs;
+                    }
+                }
+                // display the count of dogs on the webpage:
+                if (date === today) {
+                    $(".countDogs").html("<p> Count of dogs for today: " + countDogs + "</p>");
+                }
+                else {
+                    $(".countDogs").html("<p> Count of dogs on " + formatDate(date) + ": " + countDogs + "</p>");
                 }
             }
-            // display the count of dogs on the webpage:
-            if (date === today)
-            {
-              //  $(".countDogs").html("<p> Count of dogs for today: " + countDogs +"</>");
-               //   $(".countDogs").html("<div class='panel panel-default'> <div class='panel-body'> Count of dogs for today: "+countDogs+" </div>   </div>");
-                $(".countDogs").html("<p> Count of dogs for today: "+countDogs + "</p>");
-            }
-            else{
-                $(".countDogs").html("<p> Count of dogs on " + formatDate(date) + ": " + countDogs +"</p>");
+            catch(err) {
+                console.log(err);
+                alert(errorNotification);
             }
         }
 // Searching for a booked pitch through its ID
     $('#pitchSearch').keyup(function(){
+
+        try {
         let inputValue = document.getElementById("pitchSearch").value;
         let table = document.getElementById("pitchTable");
         let tr = table.getElementsByTagName("tr");
@@ -202,7 +202,7 @@ $(document).ready(() => {
         let noPitch = true;
         // This for loop determines if searched pitch is booked or not
         for (let i = 0; i < tr.length; i++) {
-            // idColumn in pitchTable with index 7, it is hidden and only there to deliver the ID for the searching engine
+            // idColumn in pitchTable with index 7, it is hidden and only there to deliver the ID for the search engine
             td = tr[i].getElementsByTagName("td")[7];
 
             if(td) {
@@ -245,7 +245,11 @@ $(document).ready(() => {
 
             }
         }
-
+        }
+        catch(err) {
+            console.log(err);
+            alert(errorNotification);
+        }
     });
 
 });
