@@ -44,40 +44,40 @@ html
                                         i.glyphicon.glyphicon-log-out
                                         | Logout
                     ul.list-unstyled.components
-                        li
+                        li#dashboard
                             a(href='/dashboard')
                                 // <i class="fas fa-fw fa-tachometer-alt"></i>
                                 i.glyphicon.glyphicon-home
                                 | Dashboard
-                        li
+                        li#bookPitch
                             a(href='/book')
                                 // <i class="far fa-fw fa-calendar-alt"></i>
                                 i.glyphicon.glyphicon-book
                                 | Book Pitch
-                        li
+                        li#bookingManagement
                             a(href='#manage-booking', data-toggle='collapse', aria-expanded='false')
                                 // <i class="far fa-fw fa-clipboard"></i>
                                 i.glyphicon.glyphicon-calendar
                                 | Booking Management
                             ul#manage-booking.collapse.list-unstyled
-                                li
+                                li#bookingsOverview
                                     a(href='/manage-booking/overview')
                                         i.glyphicon.glyphicon-align-justify
                                         | Bookings Overview
-                                li
+                                li#bookingHistory
                                     a(href="/manage-booking/booking-history")
                                         i.glyphicon.glyphicon-time
                                         | Booking History
-                        li
+                        li#customerManagement
                             a(href='/customer-overview', aria-expanded='false')
                                 // <i class="fa fa-fw fa-address-book"></i>
                                 i.glyphicon.glyphicon-user
                                 | Customer Management
-                        li
+                        li#pitchManagement
                             a(href='/manage-pitches/pitch-management')
                                 i.glyphicon.glyphicon-tent
                                 | Pitch Management
-                        li
+                        li#gasCylinderOverview
                             a(href='/gas-cylinder-overview')
                                 i.glyphicon.glyphicon-fire
                                 | Gas Cylinder Overview

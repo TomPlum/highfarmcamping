@@ -4,6 +4,20 @@ $(document).ready(() => {
 
     //Update the time every second (1000ms)
     setInterval(updateTime, 1000);
+
+    //Bind Event To SideBar Collapse (Reduces length of sidebar text upon collapsing)
+    const sidebar = $("#sidebarCollapse");
+    sidebar.on("click", () => {
+        if ($("#sidebar").hasClass("active")) {
+            $("#bookingManagement > a").html("<i class='glyphicon glyphicon-calendar'></i>Booking Management");
+            $("#customerManagement > a").html("<i class='glyphicon glyphicon-user'></i>Customer Management");
+            $("#pitchManagement > a").html("<i class='glyphicon glyphicon-tent'></i>Pitch Management");
+        } else {
+            $("#bookingManagement > a").html("<i class='glyphicon glyphicon-calendar'></i>Manage Bookings");
+            $("#customerManagement > a").html("<i class='glyphicon glyphicon-user'></i>Manage Customers");
+            $("#pitchManagement > a").html("<i class='glyphicon glyphicon-tent'></i>Manage Pitches");
+        }
+    });
 });
 
 function getToday() {
