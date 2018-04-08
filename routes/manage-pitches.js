@@ -14,8 +14,8 @@ const isAuthenticated = function(req, res, next) {
 
 module.exports = function(passport) {
     /* GET Edit Pitches Page */
-    router.get('/overview', isAuthenticated, function(req, res) {
-        res.render('edit-pitch', {title: "Pitch Management", username: req.user.username});
+    router.get('/pitch-management', isAuthenticated, function(req, res) {
+        res.render('pitch-management', {title: "Pitch Management", username: req.user.username});
     });
 
     /* POST Get Pitches Data */
@@ -81,7 +81,7 @@ module.exports = function(passport) {
     /* POST Add Pitch */
     router.post('/add-pitch', function(req, res) {
         mysql.connection.query(
-            "INSERT INTO pitches VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO pitches (type, available, price, electrical, pitch_name) VALUES (?, ?, ?, ?, ?)",
             [req.body.type, req.body.available, req.body.price, req.body.electrical, req.body.name],
             function(err) {
                 if (err) {

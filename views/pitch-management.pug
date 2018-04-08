@@ -1,7 +1,7 @@
 extends structure
 
 block append stylesheets
-    link(rel='stylesheet', href='css/edit-pitch.css')
+    link(rel='stylesheet', href='css/pitch-management.css')
 
 block append top-content
     p.page-title
@@ -9,11 +9,11 @@ block append top-content
         |  Pitch Management
 
 block append body-content
-    #pitchManagementControls.container
+    #pitchManagementControls.container-fluid
         .row
             .col-sm-12
                 p View a grid of all pitches on the campsite. Sorting, Filtering, Editing & Deleting options are provided.
-            .col-md-3
+            .col-md-4
                 .input-group
                     span.input-group-addon Sort
                         i.fa.fa-fw.fa-sort
@@ -34,20 +34,23 @@ block append body-content
                             option#filterTent(value="tent") Tent
                             option#filterCaravan(value="caravan") Caravan
                             option#filterMotorhome(value="motorhome") Motorhome
-                            option#filterAll(value="all-manage") All Weather & Electrical
+                            option#filterAll(value="all") All Weather & Electrical
                         optgroup(label="Availability")
                             option#filterAvailable(value="1") Available
                             option#filterNotAvailable(value="0") Not Available
-            .col-md-3
-                button.btn.btn-success(type="button" data-toggle='modal' data-target='#addModal')
+            .col-md-4
+                button#addPitchBeforeModal.btn.btn-success(type="button" data-toggle='modal' data-target='#addModal')
                     i.fas.fa-fw.fa-plus
                     |  Add Pitch
-    .container
+                button#refreshPitchManagement.btn.btn-primary(type="button")
+                    i.fas.fa-fw.fa-sync-alt
+                    |  Refresh
+    .container-fluid
         .row
             .col-sm-12
                 #loading
 
-    .container
+    .container-fluid
         .row
             .col-sm-12
                 #pitchManagementGrid.grid
@@ -77,7 +80,7 @@ block append body-content
                                         option(value="tent") Tent
                                         option(value="caravan") Caravan
                                         option(value="motorhome") Motorhome
-                                        option(value="all-manage") All Weather & Electrical
+                                        option(value="all") All Weather & Electrical
                         .row
                             .col-sm-4
                                 label Price
@@ -206,5 +209,5 @@ block append body-content
 block append scripts
     script(src='js/hammer.min.js')
     script(src='js/muuri.min.js')
-    script(src='js/edit-pitch.js')
+    script(src='js/pitch-management.js')
 

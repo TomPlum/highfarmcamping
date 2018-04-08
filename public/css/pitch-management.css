@@ -1,10 +1,12 @@
 .grid {
     position: relative;
+    width: 100%;
+    overflow: auto;
 }
 .item {
     position: absolute;
-    width: 160px;
-    height: 160px;
+    width: 155px;
+    height: 155px;
     margin: 5px;
     z-index: 1;
     text-decoration: none;
@@ -22,7 +24,7 @@
     background: #feca57 !important;
 }
 
-.all-manage {
+.all-manage, .all {
     background: #f368e0 !important;
 }
 
@@ -38,7 +40,7 @@
     background: #ce9f48 !important;
 }
 
-.all-manage:hover {
+.all-manage:hover, .all:hover {
     background: #ce6bbb !important;
 }
 
@@ -71,7 +73,7 @@
 }
 
 .item-content .pitch_icon {
-    font-size: 2.5em;
+    font-size: 2.2em;
 }
 .item.muuri-item-dragging .item-content {
     background: #ff5f69;
@@ -133,4 +135,13 @@ input, select {
 #pitchManagementControls {
     margin-left: 8px;
     margin-bottom: 15px;
+}
+
+#refreshPitchManagement {
+    margin-left: 8px;
+    transition: all ease 0.5s;
+}
+
+#refreshPitchManagement:hover svg {
+    transform: rotate(180deg);
 }

@@ -288,6 +288,7 @@ a.article, a.article:hover {
     min-height: 100vh;
     transition: all 0.3s;
     width: 100%;
+    overflow: auto;
 }
 
 .vertically-center {

@@ -5,6 +5,20 @@ let grid;
 let pitchData, pitchInformation;
 
 $(document).ready(() => {
+    loadPitchManagementData();
+
+    //Bind Refresh Button
+    $("#refreshPitchManagement").on("click", () => {
+        refreshPitchManagement();
+    });
+
+    //Bind Add Button Form Validation
+    $("#addPitchBeforeModal").on("click", () => {
+        addFormValidation();
+    })
+});
+
+function loadPitchManagementData() {
     startLoadingAnimation();
     $.ajax({
         url: "/manage-pitches/get-pitches",
@@ -13,7 +27,8 @@ $(document).ready(() => {
         success: function(data) {
             console.log(data.pitches);
             console.log(data.info);
-            renderPitchOverview(parsePitchTypes(data.pitches));
+            //renderPitchOverview(parsePitchTypes(data.pitches));
+            renderPitchOverview(data.pitches);
             stopLoadingAnimation();
             bindGridControlEvents();
             pitchData = data.pitches;
@@ -23,7 +38,11 @@ $(document).ready(() => {
             console.log(err);
         }
     });
-});
+}
+
+function clearPitchManagementGrid() {
+    $("#pitchManagementGrid").html("");
+}
 
 function renderPitchOverview(data) {
     //DOM Element Responsible For Grid
@@ -70,7 +89,9 @@ function renderPitchOverview(data) {
     //Muuri Constructor - Initialises Plugin
     grid = new Muuri('.grid', {
         dragEnabled: true,
-        layoutOnResize: 200,
+        layoutOnResize: 100,
+        horizontal: true,
+        layoutOnInit: true,
         sortData: {
             id: function (item, element) {
                 return parseFloat(element.getAttribute('data-id'));
@@ -142,6 +163,9 @@ function openEditModal(id) {
         }
         editPitch(id, $("#editPitchName").val(), type, $("#editPitchPrice").val(), $("#editPitchAvailability").val(), $("#editPitchElectrical").val());
     });
+
+    //Load Validation
+    editFormValidation();
 }
 
 function openDeleteModal(id) {
@@ -181,7 +205,8 @@ function editPitch(id, name, type, price, availability, electrical) {
             $("#editModal .modal-title").html(data);
             $("#finishedEditing svg").addClass("fa fa-check").removeClass("fa-spin fas fa-circle-notch");
             setTimeout(() => {
-                $('#editModal').modal('hide')
+                $('#editModal').modal('hide');
+                refreshPitchManagement();
             }, 1000);
         },
         error: function(err) {
@@ -197,7 +222,8 @@ function deletePitch(id) {
         async: true,
         data: {id: id},
         success: function(data) {
-
+            alert("Successfully Deleted Pitch " + id);
+            refreshPitchManagement();
         },
         error: function(err) {
             console.log(err);
@@ -282,10 +308,66 @@ function addPitch() {
         async: true,
         data: {name: name, type: type, price: price, available: available, electrical: electrical},
         success: function(data) {
-
+            alert("Successfully Added Pitch " + name);
+            refreshPitchManagement();
         },
         error: function(err) {
             console.log(err);
         }
     });
+}
+
+function editFormValidation() {
+    const type = $("#editPitchType");
+    type.on("change", () => {
+        const val = type.val();
+        if (val === "all") {
+            //Change Electrical To Yes
+            $("#editPitchElectrical").val("1");
+        } else {
+            //Change Electrical To No
+            $("#editPitchElectrical").val("0");
+        }
+    });
+
+    //Monetary Validation (Price)
+    $("#editPitchPrice").on("keyup", () => {
+        let val = $("#editPitchPrice").val();
+        const valid = /^\d{0,4}(\.\d{0,2})?$/.test(val);
+
+        if(!valid){
+            //Remove The Invalid Character
+            $("#editPitchPrice").val(val.substring(0, val.length - 1));
+        }
+    });
+}
+
+function addFormValidation() {
+    const type = $("#addPitchType");
+    type.on("change", () => {
+        const val = type.val();
+        if (val === "all") {
+            //Change Electrical To Yes
+            $("#addPitchElectrical").val("1");
+        } else {
+            //Change Electrical To No
+            $("#addPitchElectrical").val("0");
+        }
+    });
+
+    //Monetary Validation (Price)
+    $("#addPitchPrice").on("keyup", () => {
+        let val = $("#addPitchPrice").val();
+        const valid = /^\d{0,4}(\.\d{0,2})?$/.test(val);
+
+        if(!valid){
+            //Remove The Invalid Character
+            $("#addPitchPrice").val(val.substring(0, val.length - 1));
+        }
+    });
+}
+
+function refreshPitchManagement() {
+    clearPitchManagementGrid();
+    loadPitchManagementData();
 }
