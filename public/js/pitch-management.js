@@ -15,7 +15,14 @@ $(document).ready(() => {
     //Bind Add Button Form Validation
     $("#addPitchBeforeModal").on("click", () => {
         addFormValidation();
-    })
+    });
+
+    //Bind Sidebar Menu Collapse (Re-Layout Muuri)
+    $("#sidebarCollapse").on("click", () => {
+        setTimeout(() => {
+            grid.layout();
+        }, 200);
+    });
 });
 
 function loadPitchManagementData() {
