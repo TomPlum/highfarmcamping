@@ -14,34 +14,31 @@ $(document).ready(() => {
         }
     });
 
+    function renderGasCylinderOverview(data) {
+        const oTable = "<table class='table table-hover table-striped table-condensed'>";
+        const cTable = "</table>";
+        let tBody = "<tbody>";
 
-function renderGasCylinderOverview(data) {
-    const oTable = "<table class='table table-hover table-striped table-condensed'>";
-    const cTable = "</table>";
-    let tBody = "<tbody>";
+        let headers = "<thead>" +
+                        "<tr>" +
+                            "<th>Gas Cylinder ID</th>" +
+                            "<th>Reference</th>" +
+                            "<th>Size</th>" +
+                            "<th>Condition</th>" +
+                            "<th>Allocated Pitch ID</th>" +
+                        "</tr>" +
+                    "</thead>";
 
-    let headers = "<thead>" +
-        "<tr>" +
-        "<th>gas_cylinder_id</th>" +
-        "<th>cylinder_reference</th>" +
-        "<th>size</th>" +
-        "<th>condition</th>" +
-        "<th>allocated_pitch</th>" +
-        "</tr>" +
-        "</thead>";
+        for (let i = 0; i < data.length; i++) {
+            tBody += "<tr>";
+            tBody += "<td>" + data[i].gas_cylinder_id + "</td>";
+            tBody += "<td>" + data[i].cylinder_reference + "</td>";
+            tBody += "<td>" + data[i].size + "</td>";
+            tBody += "<td>" + data[i].condition + "</td>";
+            tBody += "<td>" + data[i].allocated_pitch + "</td>"
+        }
 
-    for (let i = 0; i < data.length; i++) {
-        tBody += "<tr>";
-        tBody += "<td>" + data[i].gas_cylinder_id + "</td>";
-        tBody += "<td>" + data[i].cylinder_reference + "</td>";
-        tBody += "<td>" + data[i].size + "</td>";
-        tBody += "<td>" + data[i].condition + "</td>";
-        tBody += "<td>" + data[i].allocated_pitch + "</td>"
+
+        $("#gas-cylinders-overview").html(oTable + headers + tBody + cTable);
     }
-    
-
-    $("#gas-cylinder-overview").html(oTable + headers + tBody + cTable);
-    console.log(data);
-}
-
 });
