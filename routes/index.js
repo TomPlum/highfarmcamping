@@ -306,7 +306,7 @@ module.exports = function(passport) {
                 insertOrUpdateCustomer,
                 insertBooking,
                 insertPitchesBooking
-            ], function (error, success) {
+            ], function (error) {
                 if (error) {
                     alert('Something is wrong!');
                 }

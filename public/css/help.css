@@ -1,5 +1,17 @@
 .hotkeys p {
+    color: #000;
     transition: all ease 0.5s;
+}
+.hotkeys span {
+    font-weight: bold;
+}
+
+.hotkeys svg {
+    margin-right: 5px;
+}
+
+.glyphicon {
+    margin-right: 9px;
 }
 
 .active-hotkey {
