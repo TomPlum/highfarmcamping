@@ -1,5 +1,4 @@
 $(document).ready(() => {
-
 });
 
 var customerEmail;
@@ -44,33 +43,33 @@ function createPdfFromHtml() {
 
 }
 
-
 function sendEmailConfirmation() {
+    const nodemailer = require('nodemailer');
+    const xoauth2 = require('xoauth2');
 
-    let nodemailer = require('nodemailer');
-
-    let transporter = nodemailer.createTransport({
+    var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'highfarm.campsites@gmail.com',
-            pass: 'BoltonCampingProject123'
+            xoauth2: xoauth2.createXOAuth2Generator({
+                user: 'highfarm.campsites@gmail.com',
+                clientId: '211967510289-m2if3f96pcrauqp26s9q9pbc5njni23l.apps.googleusercontent.com',
+                clientSecret: 'UI3d-NQTmGPkEQCx1vTYtPFC',
+                refreshToken: '1/VKbDNf3ZIkAz3pHuYDlZMiyH7e_PwBiXWPoJnBGl-eS7Nwpz9ljpVxaUrp671GZP'
+            })
         }
-    });
+    })
 
-    let mailOptions = {
+    var mailOptions = {
         from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
         to: customerEmail,
-        subject: 'High Farm Campground - Booking Overview',
-        text: 'Test Text. That was easy.'
+        subject: 'Your Booking confirmation',
+        text: 'This is a test. Thx'
     }
 
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log('Email could not be sent');
+    transporter.sendMail(mailOptions, function (err, res) {
+        if (err) {
+            console.log('Error');
+        } else {
+            console.log('Email Sent');
         }
-        else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-}
+    })}
