@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('../db/mysql');
+const nodemailer = require('nodemailer');
+const xoauth2 = require('xoauth2');
 const async = require('async');
+
 const isAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
         console.log("User " + req.user.username + " authenticated.");
@@ -57,13 +60,54 @@ module.exports = function(passport) {
 
 // POST DB Query for getting single customer for delete customer
     router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
-        let sql_statement = "SELECT email FROM customers WHERE customer_id=" + id + ";";
+        let sql_statement = "SELECT email_address FROM customers WHERE customer_id='1';";
         async.waterfall([
-            
-        ]);
-        mysql.connection.query(sql_statement, function (err, rows) {
-            res.send(rows);
+            function(callback) {
+                mysql.connection.query(sql_statement, function (err, rows) {
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, rows);
+                    }
+                });
+            },
+            function(email, callback) {
+                const customerEmail = email[0].email_address;
+
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: 'highfarm.campsites@gmail.com',
+                        clientId: '211967510289-m2if3f96pcrauqp26s9q9pbc5njni23l.apps.googleusercontent.com',
+                        clientSecret: 'UI3d-NQTmGPkEQCx1vTYtPFC',
+                        refreshToken: '1/GFMjz4NXVjrTt09mDhKct7GH6bjEaO7AfaDoDB_OtlM',
+                        accessToken: 'ya29.GluYBev-3ScBR8waQNph75piaCzUAFRwCVQagfv7m6hoXzoxOoeGqs1rCSCbsdmFOWZ2wseU8eCHMoIKIIWFywEU8g4j88MHl-nQ0rXkiriuMmiqCVydyYOsmqZv',
+                    },
+                });
+
+                let mailOptions = {
+                    from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
+                    to: customerEmail,
+                    subject: 'Your Booking confirmation',
+                    text: 'This is a test. Thx'
+                };
+
+                transporter.sendMail(mailOptions, function (err) {
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, "Successfully Sent Email To: " + customerEmail);
+                    }
+                });
+            }
+        ], function(err, success) {
+            if (err) {
+                console.log(err);
+            }
+            res.status(200).send(success);
         });
+
     });
 
     /* POST Booking Overview */

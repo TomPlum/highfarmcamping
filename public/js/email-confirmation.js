@@ -4,9 +4,9 @@ $(document).ready(() => {
 var customerEmail;
 
 $('#printPDF').click(function(){
-    getCustomerFromDB();
+    //getCustomerFromDB();
     sendEmailConfirmation();
-})
+});
 
 function getCustomerFromDB() {
     $.ajax({
@@ -30,6 +30,20 @@ function getCustomerFromDB() {
     });
 }
 
+function sendEmailConfirmation(id) {
+    $.ajax({
+        url: "/manage-booking/send-booking-confirmation",
+        data: {id: id, body: body},
+        type: "POST",
+        success: function(data) {
+
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
 function createPdfFromHtml() {
     var fs = require('fs');
     var pdf = require('html-pdf');
@@ -42,34 +56,3 @@ function createPdfFromHtml() {
     });
 
 }
-
-function sendEmailConfirmation() {
-    const nodemailer = require('nodemailer');
-    const xoauth2 = require('xoauth2');
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            xoauth2: xoauth2.createXOAuth2Generator({
-                user: 'highfarm.campsites@gmail.com',
-                clientId: '211967510289-m2if3f96pcrauqp26s9q9pbc5njni23l.apps.googleusercontent.com',
-                clientSecret: 'UI3d-NQTmGPkEQCx1vTYtPFC',
-                refreshToken: '1/VKbDNf3ZIkAz3pHuYDlZMiyH7e_PwBiXWPoJnBGl-eS7Nwpz9ljpVxaUrp671GZP'
-            })
-        }
-    })
-
-    var mailOptions = {
-        from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
-        to: customerEmail,
-        subject: 'Your Booking confirmation',
-        text: 'This is a test. Thx'
-    }
-
-    transporter.sendMail(mailOptions, function (err, res) {
-        if (err) {
-            console.log('Error');
-        } else {
-            console.log('Email Sent');
-        }
-    })}
