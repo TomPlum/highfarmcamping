@@ -55,7 +55,7 @@ block append body-content
                                 .col-md-3
                                     fieldset#daterange
                                         label(for='date-range')
-                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 01/14/2018')
+                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 04/01/2018')
                                         P
                                         |
                                         P
@@ -163,7 +163,7 @@ block append body-content
                             .col-md-2
                                 label Date of Birth *
                             .col-md-3
-                                input(type='text', name='date_of_birth',placeholder=" DD/MM/YYYY")
+                                input(type='text', name='date_of_birth', placeholder=" DD/MM/YYYY")
                             .col-md-2
                                 label Email Address *
                             .col-md-3
@@ -221,6 +221,11 @@ block append scripts
         $(function() {
             $('input[name="date-range"]').daterangepicker({
                 "opens": "left",
-                "showDropdowns": true
+                "showDropdowns": true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                startDate: "01/01/2018",
+                endDate: "14/01/2018"
             });
         });
