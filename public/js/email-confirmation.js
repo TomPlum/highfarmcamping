@@ -21,7 +21,6 @@ function getCustomerFromDB() {
             customer=data;
             console.log(customer);
             customerEmail = customer[0].email_address;
-            console.log(customerEmail);
         },
         error: function () {
             console.log("We have an error in AJAX request for customer ID: " + err);
@@ -33,7 +32,7 @@ function getCustomerFromDB() {
 function sendEmailConfirmation(id) {
     $.ajax({
         url: "/manage-booking/send-booking-confirmation",
-        data: {id: id, body: body},
+        data: {id: id},
         type: "POST",
         success: function(data) {
 
@@ -42,17 +41,4 @@ function sendEmailConfirmation(id) {
             console.log(err);
         }
     });
-}
-
-function createPdfFromHtml() {
-    var fs = require('fs');
-    var pdf = require('html-pdf');
-    var html = fs.readFileSync('./test/businesscard.html', 'utf8');
-    var options = {format: 'A4', orientation: 'landscape'};
-
-    pdf.create(html, options).toFile('./businesscard.pdf', function (err, res) {
-        if (err) return console.log('Error creating the PDF');
-        console.log(res); // { filename: '/app/businesscard.pdf' }
-    });
-
 }
