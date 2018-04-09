@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     //test
+    //test2
 
     //Collapse
     $('#bookingCard').click(function () {
