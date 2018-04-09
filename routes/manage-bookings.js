@@ -55,6 +55,17 @@ module.exports = function(passport) {
             });
     });
 
+// POST DB Query for getting single customer for delete customer
+    router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
+        let sql_statement = "SELECT email FROM customers WHERE customer_id=" + id + ";";
+        async.waterfall([
+            
+        ]);
+        mysql.connection.query(sql_statement, function (err, rows) {
+            res.send(rows);
+        });
+    });
+
     /* POST Booking Overview */
     router.post('/get-booking-overview', isAuthenticated, function(req, res) {
         mysql.connection.query(
