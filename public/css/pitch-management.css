@@ -139,9 +139,13 @@ input, select {
 
 #refreshPitchManagement {
     margin-left: 8px;
+    cursor: pointer;
+}
+
+#refreshPitchManagement svg {
     transition: all ease 0.5s;
 }
 
 #refreshPitchManagement:hover svg {
-    transform: rotate(180deg);
+    transform: rotateZ(180deg);
 }
