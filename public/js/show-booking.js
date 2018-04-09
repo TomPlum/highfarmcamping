@@ -66,12 +66,12 @@ $(document).ready(() => {
                 else
                     // one booking has three pitches:
                 {
-                    tBody += "Pitch " + data[0].pitch_id + " " + getIcon(data[0].type) + "&nbsp &nbsp" +  " Pitch " + data[1].pitch_id + " " + getIcon(data[0].type) + "<br> Pitch " + data[2].pitch_id + " " + getIcon(data[2].type);
-                }//tBody += "Pitch " + data[0].pitch_id + "<br>" + getIcon(data[i].type);
+                    tBody += data[0].pitch_name + " " + getIcon(data[0].type) + "&nbsp &nbsp" +  data[1].pitch_name  + " " + getIcon(data[1].type) + "<br>" +  data[2].pitch_name + " " + getIcon(data[2].type);
+                }
             }
             // one booking has one pitch:
             else {
-                tBody += "Pitch " + data[0].pitch_id + " " + getIcon(data[0].type) ;
+                tBody += data[i].pitch_name  + " " + getIcon(data[0].type) ;
             }
             tBody += "</td>";
             tBody += "<td>" + displayDogInformation(data[0].count_dogs) + "</td>";
@@ -102,15 +102,6 @@ $(document).ready(() => {
             tBody2 += "<td>" + formatDate(data[0].date_of_birth) + "</td>";
             tBody2 += "<td>" + data[0].registration + "</td>";
             tBody2 += "</tr>";
-
-            // To create a line to enclose booking confirmation:
-           /* tBody2 += "<tr>";
-            tBody2 += "<td></td>";
-            tBody2 += "<td></td>";
-            tBody2 += "<td></td>";
-            tBody2 += "<td></td>";
-            tBody2 += "</tr>";*/
-
             tBody2 += "</tbody>";
 
             let headers3 = "<thead>" +

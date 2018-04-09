@@ -68,7 +68,7 @@ $(document).ready(() => {
     function getPitchOverview(date)
     {
         try {
-            let query = "SELECT pitches.pitch_id, pitches.type, customers.first_name, customers.last_name, customers.registration, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.booking_id, bookings.paid FROM pitches" +
+            let query = "SELECT pitches.pitch_id, pitches.pitch_name, pitches.type, customers.first_name, customers.last_name, customers.registration, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.booking_id, bookings.paid FROM pitches" +
                 "        LEFT JOIN pitch_bookings ON pitch_bookings.pitch_id = pitches.pitch_id" +
                 "        LEFT JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id" +
                 "        LEFT JOIN customers ON bookings.customer_id = customers.customer_id";
@@ -126,7 +126,7 @@ $(document).ready(() => {
                     if (date <= endDate && startDate <= date) {
                         nothingBooked=false;
                         tBody += "<tr>";
-                        tBody += "<td> Pitch " + data[i].pitch_id + " " + getIcon(data[i].type) ;
+                        tBody += "<td>" + data[i].pitch_name + " " + getIcon(data[i].type) ;
                         tBody += "<td>" + data[i].first_name + " " + data[i].last_name + "</td>";
                         tBody += "<td>" + data[i].registration + "</td>";
                         tBody += "<td>" + data[i].booking_id + "</td>";

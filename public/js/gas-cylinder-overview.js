@@ -35,7 +35,13 @@ $(document).ready(() => {
             tBody += "<td>" + data[i].cylinder_reference + "</td>";
             tBody += "<td>" + data[i].size + "</td>";
             tBody += "<td>" + data[i].condition + "</td>";
-            tBody += "<td>" + data[i].allocated_pitch + "</td>"
+            if (data[i].allocated_pitch!== null)
+            {
+                tBody += "<td>" + data[i].allocated_pitch + "</td>"
+            }
+            else{
+                tBody += "<td> Not allocated </td>"
+            }
         }
 
 

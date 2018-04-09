@@ -46,6 +46,11 @@ module.exports = function(passport) {
     router.get('/gas-cylinder-overview', isAuthenticated, function (req, res) {
         res.render('gas-cylinder-overview', {title: "Gas Cylinder Overview", username: req.user.username});
     });
+    /* GET Add Cylinder Page */
+    router.get('/add-cylinder', isAuthenticated, function (req, res) {
+        res.render('add-cylinder', {title: "Add Cylinder", username: req.user.username});
+    });
+
 
     /* GET Customer Overview Page */
     router.get('/customer-overview', isAuthenticated, function (req, res) {
@@ -55,11 +60,6 @@ module.exports = function(passport) {
     /* GET Add Customer Page  */
     router.get('/add-customer', isAuthenticated, function (req, res) {
         res.render('addcustomer', {title: "Add Customer", username: req.user.username});
-    });
-
-    /* GET Search Customer Page */
-    router.get('/searchcustomer', isAuthenticated, function (req, res) {
-        res.render('searchcustomer', {title: "Search Customer", username: req.user.username});
     });
 
     /* GET Edit Customer Page */
@@ -276,6 +276,22 @@ module.exports = function(passport) {
 
 //POST DB Query of add / edit customer
     router.post('/insert-customer', isAuthenticated, function (req, res) {
+        console.log(req.body.query);
+        let insertedId;
+        mysql.connection.query(req.body.query, function (err, rows) {
+            console.log(err);
+            console.log(rows);
+            insertedId = rows.insertId;
+            if (!err) {
+                res.send([200, insertedId]);
+            }
+
+        });
+
+    });
+
+    //POST DB Query for insert cylinder
+    router.post('/insert-cylinder', isAuthenticated, function (req, res) {
         console.log(req.body.query);
         let insertedId;
         mysql.connection.query(req.body.query, function (err, rows) {

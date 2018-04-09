@@ -5,14 +5,29 @@ block append stylesheets
 
 block append top-content
     p.page-title
-        span.fa.fa-fw.fa-lg.fa-history
+        i.glyphicon.glyphicon-fire
         | Gas Cylinder Overview
 block append body-content
-       .container-fluid
+    p
+        | Current status of sites gas cylinders.
+    p
+        .row
+            .col-md-3
+                button.form-control.btn-info(type='button', onclick="location.href='/add-cylinder'")
+                    span.fa.fa-fw.fa-plus-circle
+                    |  Add Cylinder
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Edit")
+                    span.fa.fa-fw.fa-edit
+                    |  Edit Cylinder
+            .col-md-3
+                button.form-control.btn-info(type='button', id="Delete")
+                    span.fa.fa-fw.fa-minus-circle
+                    |  Delete Cylinder
+
+    .container-fluid
         .row
             .col-sm-12
-                p
-                    | Current status of sites gas cylinders.
                 #loading
                 #gas-cylinders-overview
 

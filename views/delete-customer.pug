@@ -4,6 +4,11 @@ block append stylesheets
     link(rel="stylesheet" href="css/customer.css")
     link(rel="stylesheet" href="css/ui.css")
 
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-remove-circle
+        |  Delete Costumer
+
 block append body-content
     h2
     div(id='alertBoxContainer')
@@ -36,10 +41,6 @@ block append body-content
                     .col-md-2
 
             .col-md-2
-
-    h2
-        span.glyphicon.glyphicon-remove-circle
-        |  Delete customer
     p
         | Do you really want to delete this customer?
     br
