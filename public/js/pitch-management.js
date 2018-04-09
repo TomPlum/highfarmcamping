@@ -375,6 +375,10 @@ function addFormValidation() {
 }
 
 function refreshPitchManagement() {
-    clearPitchManagementGrid();
+    console.log("Number of Muuri Tiles: " + $(".item").length);
+    console.log("Pitch Data Length: " + pitchData.length);
+    while ($('.item').length > 0) {
+        clearPitchManagementGrid();
+    }
     loadPitchManagementData();
 }

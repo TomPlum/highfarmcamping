@@ -1,0 +1,11 @@
+extends structure
+
+block append stylesheets
+    link(rel='stylesheet', href='css/email-management.css')
+
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-envelope
+        |  Email Management
+
+block append body-content

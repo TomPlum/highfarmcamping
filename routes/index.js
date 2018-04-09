@@ -39,18 +39,18 @@ module.exports = function(passport) {
 
     /* GET Help Page */
     router.get('/help', isAuthenticated, function (req, res) {
-        res.render('help', {title: 'Information', username: req.user.username});
+        res.render('help', {title: 'Help & Information', username: req.user.username});
     });
 
     /* GET Gas Cylinder Overview Page */
     router.get('/gas-cylinder-overview', isAuthenticated, function (req, res) {
         res.render('gas-cylinder-overview', {title: "Gas Cylinder Overview", username: req.user.username});
     });
+
     /* GET Add Cylinder Page */
     router.get('/add-cylinder', isAuthenticated, function (req, res) {
         res.render('add-cylinder', {title: "Add Cylinder", username: req.user.username});
     });
-
 
     /* GET Customer Overview Page */
     router.get('/customer-overview', isAuthenticated, function (req, res) {
@@ -70,6 +70,11 @@ module.exports = function(passport) {
     /* GET Delete Customer Page */
     router.get('/delete-customer', isAuthenticated, function (req, res) {
         res.render('delete-customer', {title: "Delete a Customer", username: req.user.username});
+    });
+
+    /* GET Email Management Page */
+    router.get('/email-management', isAuthenticated, function(req, res) {
+        res.render('email-management', {title: "Email Management", username: req.user.username});
     });
 
     /* GET Profile Page */

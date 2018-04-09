@@ -12,10 +12,14 @@ $(document).ready(() => {
             $("#bookingManagement > a").html("<i class='glyphicon glyphicon-calendar'></i>Booking Management");
             $("#customerManagement > a").html("<i class='glyphicon glyphicon-user'></i>Customer Management");
             $("#pitchManagement > a").html("<i class='glyphicon glyphicon-tent'></i>Pitch Management");
+            $("#emailManagement > a").html("<i class='glyphicon glyphicon-envelope'></i>Email Management");
+            $("#helpAndInformation > a").html("<i class='glyphicon glyphicon-info-sign'></i>Help &amp; Information");
         } else {
             $("#bookingManagement > a").html("<i class='glyphicon glyphicon-calendar'></i>Manage Bookings");
             $("#customerManagement > a").html("<i class='glyphicon glyphicon-user'></i>Manage Customers");
             $("#pitchManagement > a").html("<i class='glyphicon glyphicon-tent'></i>Manage Pitches");
+            $("#emailManagement > a").html("<i class='glyphicon glyphicon-envelope'></i>Manage Emails");
+            $("#helpAndInformation > a").html("<i class='glyphicon glyphicon-info-sign'></i>Help &amp; Info");
         }
     });
 });

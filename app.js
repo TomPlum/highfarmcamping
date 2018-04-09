@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const rootRoutes = ["/manage-booking", "/manage-pitches"];
+const rootRoutes = ["/manage-booking", "/manage-pitches", "/manage-emails"];
 
 //Express Static Routing
 app.use(express.static(path.join(__dirname, 'public'))); // For /
@@ -52,10 +52,12 @@ initPassport(passport);
 const index = require('./routes/index')(passport);
 const manage_bookings = require('./routes/manage-bookings')(passport);
 const manage_pitches = require('./routes/manage-pitches')(passport);
+const manage_emails = require('./routes/manage-emails')(passport);
 
 app.use('/', index);
 app.use('/manage-booking', manage_bookings);
 app.use('/manage-pitches', manage_pitches);
+app.use('/manage-emails', manage_emails);
 
 //Handle 404
 app.use(function(req, res) {

@@ -11,6 +11,7 @@
     //e 69
     //p 80
     //u 85
+    //g 71
 
     window.onkeydown = e => {
 
@@ -30,6 +31,8 @@
             window.location.href = "/manage-pitches/overview";
         } else if (e.ctrlKey && e.altKey && e.keyCode === 85) {
             window.location.href = "/profile";
+        } else if (e.ctrlKey && e.altKey && e.keyCode === 71) {
+            window.location.href = "/email-management";
         }
     };
 })(jQuery);
