@@ -109,7 +109,6 @@ function populatePitchSelection() {
         $('fieldset#tentfield').css("display","none");
     }
 
-    console.log(pitches);
     let filter = $("input:checked").val();
     console.log("Filtering Pitches by " + filter + "...");
 
@@ -123,6 +122,7 @@ function populatePitchSelection() {
     const cTable = "</table>";
     let headers = "<tr><th>Pitch (ID)</th>";
     const allDates = getDatesInRange(dateFrom, dateTo);
+    console.log(allDates);
 
     for (let i = 0; i < allDates.length; i++) {
         headers += "<th>" + months[allDates[i].getMonth()] + " " + allDates[i].getDate() + "<sup>" + getDateSuffix(allDates[i].getDate()) + "</sup></th>";
@@ -231,8 +231,8 @@ function populatePitchSelection() {
 }
 
 function getDatesInRange(start, end) {
-    let startDate = new Date(start);
-    let endDate = new Date(end);
+    let startDate = new Date(convertBritishToISO(start));
+    let endDate = new Date(convertBritishToISO(end));
     let dates = [];
 
     while (true) {

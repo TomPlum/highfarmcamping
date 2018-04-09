@@ -73,6 +73,16 @@ function formatDate(date) {
     return DD + "/" + MM + "/" + YYYY;
 }
 
+//convert british format to ISOformat
+function convertBritishToISO(date) {
+    dateF = date.trim();
+    let d = dateF.substring(0, 2);
+    let m = dateF.substring(3,5);
+    let y = dateF.substring(6,10);
+    console.log(y +"/"+m+"/"+d);
+    return(y +"/"+m+"/"+d);
+}
+
 // To format milliseconds into format DD/MM/YYYY:
 function formatDateFromMilliseconds(date) {
     let month = String(date.getMonth() + 1);
