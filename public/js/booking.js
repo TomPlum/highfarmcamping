@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     //test
     //test2
+    //test3
 
     //Collapse
     $('#bookingCard').click(function () {
