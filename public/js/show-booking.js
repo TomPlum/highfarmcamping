@@ -71,7 +71,7 @@ $(document).ready(() => {
             }
             // one booking has one pitch:
             else {
-                tBody += data[i].pitch_name  + " " + getIcon(data[0].type) ;
+                tBody += data[0].pitch_name  + " " + getIcon(data[0].type) ;
             }
             tBody += "</td>";
             tBody += "<td>" + displayDogInformation(data[0].count_dogs) + "</td>";

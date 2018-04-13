@@ -52,8 +52,8 @@ function dateConverter(date){
 //convert input date from DatePicker DD/MM/YYYY into database suitable date
 function datePickerDateConverter(date){
     dateF = date.trim();
-    let m = dateF.substring(0, 2);
-    let d = dateF.substring(3,5);
+    let d = dateF.substring(0, 2);
+    let m = dateF.substring(3,5);
     let y = dateF.substring(6,10);
     return(y +"-"+m+"-"+d);
 }

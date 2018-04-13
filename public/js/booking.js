@@ -1,9 +1,5 @@
 $(document).ready(function () {
 
-    //test
-    //test2
-    //test3
-
     //Collapse
     $('#bookingCard').click(function () {
         $('#collapseOne').collapse('show');
@@ -28,6 +24,9 @@ $(document).ready(function () {
             dateLimit: {
                 days: '14'
             },
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
         });
     });
 
@@ -47,11 +46,6 @@ $(document).ready(function () {
         }
     });
 });
-
-/**
- * TODO Check if pitch is available on the selected date
- * TODO Is there a problem with the decision inserting or updating a customer???
- */
 
 /*************************************/
 /* --- Global Variables -------------*/
@@ -126,7 +120,6 @@ function populatePitchSelection() {
     const cTable = "</table>";
     let headers = "<tr><th>Pitch (ID)</th>";
     const allDates = getDatesInRange(dateFrom, dateTo);
-    console.log(allDates);
 
     for (let i = 0; i < allDates.length; i++) {
         headers += "<th>" + months[allDates[i].getMonth()] + " " + allDates[i].getDate() + "<sup>" + getDateSuffix(allDates[i].getDate()) + "</sup></th>";
@@ -159,7 +152,8 @@ function populatePitchSelection() {
                         default:
                             icon = all;
                     }
-                    body += "<td class='pitch-details'>" + pitches[i].pitch_name + "<br>" + icon + "</td>";
+                    //body += "<td class='pitch-details'>" + pitches[i].pitch_name + "<br>" + icon + "</td>";
+                    body += "<td class='pitch-details'>" + pitches[i].pitch_name + " ("+ pitches[i].pitch_id +")"+ "<br>" + icon + "</td>";
                 } else {
                     let available = checkAvailability(pitches[i], allDates[j - 1]);
                     if (available === true) {
@@ -186,9 +180,11 @@ function populatePitchSelection() {
         rows[i].addEventListener('click', function () {
 
             let selectedPitchID = this.getElementsByTagName("td")[0].innerHTML.substring(this.getElementsByTagName("td")[0].innerHTML.indexOf("(")+1, this.getElementsByTagName("td")[0].innerHTML.indexOf(")"));
+            console.log("again: "+selectedPitchID);
             let selectedPitch;
+
             for(let pitch of pitches){
-                if(pitch.pitch_id === selectedPitchID){
+                if(pitch.pitch_id == selectedPitchID){
                     selectedPitch = pitch;
                 }
             }
@@ -227,7 +223,6 @@ function populatePitchSelection() {
                 }
             }
 
-            console.log(selectedPitches);
         });
     }
 
