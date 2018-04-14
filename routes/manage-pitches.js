@@ -93,5 +93,16 @@ module.exports = function(passport) {
         );
     });
 
+    /* POST Get Seasonal Pricing */
+    router.post('/season-pricing', function(req, res) {
+       mysql.connection.query("SELECT * FROM seasons;", function(err, rows) {
+          if (err) {
+              console.log(err);
+          }
+
+          res.status(200).send(rows);
+       });
+    });
+
     return router;
 };

@@ -79,6 +79,11 @@ function renderPitchOverview(data) {
                                             "<i class='far fa-fw fa-edit'></i>" +
                                         "</button>" +
                                     "</div>" +
+                                    "<div class='seasonal_pricing'>" +
+                                        "<button type='button' onclick='getSeasonalPricing()' class='pitch-button' title='Seasonal Pricing' data-toggle='modal' data-target='#seasonalPricingModal'>" +
+                                            "<i class='fas   fa-fw fa-snowflake'></i>" +
+                                        "</button>" +
+                                    "</div>" +
                                     "<div class='delete_pitch'>" +
                                         "<button type='button' onclick='openDeleteModal(" + data[i].pitch_id + ")' class='pitch-button' title='Delete' data-toggle='modal' data-target='#deleteModal'>" +
                                             "<i class='fas fa-fw fa-trash-alt'></i>" +
@@ -185,6 +190,26 @@ function openDeleteModal(id) {
     });
 }
 
+function openSeasonalPricingModal(data) {
+    let seasonalPricing = $("#seasonalPrices");
+
+    //Bind update ajax function here
+}
+
+
+function getSeasonalPricing() {
+    $.ajax({
+        url: "/manage-pitches/season-pricing",
+        type: "POST",
+        success: function(seasonalData) {
+            openSeasonalPricingModal(seasonalData);
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
 function getPitchById(id) {
     for (let i = 0; i < pitchData.length; i++) {
         if (pitchData[i].pitch_id.toString() === id.toString()) {
@@ -243,7 +268,7 @@ function renderPitchBookingHistory(id) {
     const html = $("#pitchBookingHistory");
     html.html("");
     const oTable = "<div class='history-booking'>" +
-                        "<table class='table table- table-striped table-hover'>" +
+                        "<table class='table table-condensed table-striped table-hover'>" +
                             "<thead>" +
                                 "<tr>" +
                                     "<th>ID</th>" +
