@@ -90,7 +90,7 @@ button.pitch-button {
     transition: all ease 0.5s;
 }
 
-.edit_pitch, .delete_pitch, .view_pitch {
+.edit_pitch, .delete_pitch, .view_pitch, .seasonal_pricing {
     display: inline-block;
 }
 

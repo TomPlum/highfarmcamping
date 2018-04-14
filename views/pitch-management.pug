@@ -206,6 +206,47 @@ block append body-content
                     button#addPitch.btn.btn-success(type='button', data-dismiss='modal')
                         i.fas.fa-fw.fa-plus
                         |  Add Pitch
+    #seasonalPricingModal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal') ×
+                    h4.modal-title Amend Seasonal Pricing
+                .modal-body
+                    #seasonalPrices.container-fluid
+                        .row
+                            table.table.table-condensed.table-striped.table-hover
+                                thead
+                                    tr
+                                        th High Season
+                                        th Mid Season
+                                        th Low Season
+                                tbody
+                                    tr
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                    tr
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                    tr
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                                        td
+                                            input(type="text" placeholder="Price (£)")
+                .modal-footer
+                    button#updateSeasonalPricing.btn.btn-success(type='button', data-dismiss='modal')
+                        i.fas.fa-fw.fa-cloud-upload-alt
+                        |  Update Pricing
 block append scripts
     script(src='js/hammer.min.js')
     script(src='js/muuri.min.js')

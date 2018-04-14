@@ -26,6 +26,7 @@ $(document).ready(() => {
                             "<th>Size</th>" +
                             "<th>Condition</th>" +
                             "<th>Allocated Pitch ID</th>" +
+                            "<th>Location</th>" +
                         "</tr>" +
                     "</thead>";
 
@@ -42,6 +43,7 @@ $(document).ready(() => {
             else{
                 tBody += "<td> Not allocated </td>"
             }
+            tBody += "<td>" + data[i].location + "</td>";
         }
 
 
