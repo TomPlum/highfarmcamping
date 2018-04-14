@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+
+
     //Collapse
     $('#bookingCard').click(function () {
         $('#collapseOne').collapse('show');
@@ -15,6 +17,7 @@ $(document).ready(function () {
     //Call DB for Pitches & relation
     getPitches();
     getPitchBookings();
+
 
     //Initialize the DateRanger of the Booking
     $(function () {
@@ -61,13 +64,11 @@ function hideButton(){
 
 function showInput(){
     $('fieldset#findbutton').css("display","inline");
-    $('fieldset#type').css("display","inline");
     $('fieldset#tentfield').css("display","inline");
     $('fieldset#caravanfield').css("display","inline");
     $('fieldset#motorhomefield').css("display","inline");
     $('fieldset#electricalfield').css("display","inline");
-    $('fieldset#daterange').css("display","inline");
-    $('fieldset#daterangelabel').css("display","inline");
+    $('fieldset#daterange').removeAttr('disabled');
     $('fieldset#changebutton').css("display","none");
 
 }
@@ -78,9 +79,7 @@ function showInput(){
 function populatePitchSelection() {
 
     $('fieldset#changebutton').css("display","inline");
-    $('fieldset#type').css("display","none");
-    $('fieldset#daterangelabel').css("display","none");
-    $('fieldset#daterange').css("display","none");
+    $('fieldset#daterange').attr('disabled','disabled');
     $('fieldset#findbutton').css("display","none");
 
     if ($('input:checked').val()==='tent') {
@@ -118,7 +117,7 @@ function populatePitchSelection() {
 
     const oTable = "<table class='pitch-availability'>";
     const cTable = "</table>";
-    let headers = "<tr><th>Pitch (ID)</th>";
+    let headers = "<tr><th class='hiddenRow'>ID</th><th>Pitch</th>";
     const allDates = getDatesInRange(dateFrom, dateTo);
 
     for (let i = 0; i < allDates.length; i++) {
@@ -153,7 +152,7 @@ function populatePitchSelection() {
                             icon = all;
                     }
                     //body += "<td class='pitch-details'>" + pitches[i].pitch_name + "<br>" + icon + "</td>";
-                    body += "<td class='pitch-details'>" + pitches[i].pitch_name + " ("+ pitches[i].pitch_id +")"+ "<br>" + icon + "</td>";
+                    body += "<td class='hiddenRow'>("+ pitches[i].pitch_id +")</td></td><td class='pitch-details'>" + pitches[i].pitch_name +"<br>" + icon + "</td>";
                 } else {
                     let available = checkAvailability(pitches[i], allDates[j - 1]);
                     if (available === true) {
@@ -170,7 +169,9 @@ function populatePitchSelection() {
 
     $(".pitch-selection").html(oTable + headers + body + cTable);
     $("#selectPitches").css("visibility", "visible");
-    $("#selectPitches").val("");
+
+    //Set default value of the 2nd datepicker based on the first value of the first datepicker
+    $('input[name=selectPitches]').val( $('input[name=date-range]').val().substring(0,10)+"-" + $('input[name=date-range]').val().substring(0,10) );
 
 
     //Make fields selectable
@@ -180,7 +181,6 @@ function populatePitchSelection() {
         rows[i].addEventListener('click', function () {
 
             let selectedPitchID = this.getElementsByTagName("td")[0].innerHTML.substring(this.getElementsByTagName("td")[0].innerHTML.indexOf("(")+1, this.getElementsByTagName("td")[0].innerHTML.indexOf(")"));
-            console.log("again: "+selectedPitchID);
             let selectedPitch;
 
             for(let pitch of pitches){
@@ -202,7 +202,7 @@ function populatePitchSelection() {
                         }
                     }
                 } else {
-                    let dates = $('#selectPitches').val().split("-");
+                    let dates = $('input[name=selectPitches]').val().split("-");
 
                     let allDates = getDatesInRange(dates[0].trim(), dates[1].trim());
                     let available = true;
@@ -222,7 +222,7 @@ function populatePitchSelection() {
 
                 }
             }
-
+            block2ndDatePicker();
         });
     }
 
@@ -263,7 +263,7 @@ function convertDate(date) {
 function calculatePrice() {
     let totalPrice = 0;
 
-    let dates = $('#selectPitches').val().split("-");
+    let dates = $('input[name=selectPitches]').val().split("-");
     let allDates = getDatesInRange(dates[0].trim(), dates[1].trim());
 
     totalPrice += 5 * parseInt($('select[name=dog_amount]').val());
@@ -273,7 +273,7 @@ function calculatePrice() {
         for (let pitch of pitches) {
             if (pitch.pitch_id === selectedPitch.pitch_id) {
 
-                totalPrice += pitch.price * (allDates.length - 1);
+                totalPrice += pitch.price * (allDates.length );
 
             }
         }
@@ -281,6 +281,17 @@ function calculatePrice() {
     }
 
     return totalPrice;
+
+}
+
+function block2ndDatePicker() {
+
+    if( selectedPitches.length != 0 ){
+        $('input[name=selectPitches]').attr('disabled','disabled');
+    }else{
+        $('input[name=selectPitches]').removeAttr('disabled');
+    }
+
 
 }
 
@@ -310,7 +321,7 @@ function book() {
 
 
     //get selected Dates
-    let dates = $('#selectPitches').val().split("-");
+    let dates = $('input[name=selectPitches]').val().split("-");
     let data = {
         customerData:
             {
@@ -386,6 +397,7 @@ function getPitches() {
         }
     });
 }
+
 
 
 

@@ -21,9 +21,10 @@
     color: #2f8fd5;
 }
 
-.pitch-selection-container {
+.pitch-selection{
     display: block;
     width: 100%;
+    padding-left: 15px;
 }
 
 .pitch-availability {
@@ -47,6 +48,7 @@
 .pitch-details {
     color: black !important;
     width: 100px !important;
+    border-left: black 1px solid !important;
 }
 
 
@@ -79,11 +81,16 @@ tr.selected {
 
 #selectPitches{
     visibility: hidden;
+    padding-left: 15px;
 }
 
 #bookingCard, #customerCard{
     text-align: left !important;
     font-size: large;
+}
+
+.hiddenRow{
+    display: none;
 }
 
 

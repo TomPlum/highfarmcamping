@@ -63,7 +63,7 @@ block append body-content
                                     fieldset#changebutton
                                         button.form-control.find-pitch(type='button', onclick='showInput()')
                                             span.glyphicon.glyphicon-repeat
-                                            |  Change Pitch
+                                            |  Change
                                             p
                                         // Show Input Fields Again
                             .row
@@ -110,8 +110,13 @@ block append body-content
 
 
                             .row
-                                input#selectPitches(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018', placeholder='Select Booking Duration')
-                                .row.pitch-selection#pitchSelection
+                                #selectPitches
+                                    | Seelct Booking Duration &nbsp &nbsp &nbsp
+                                    input(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018' )
+                                br
+
+                            .row
+                                .pitch-selection#pitchSelection
 
         .card
             #headingTwo.card-header
