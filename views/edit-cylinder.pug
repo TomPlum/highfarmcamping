@@ -1,0 +1,76 @@
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/ui.css")
+    link(rel="stylesheet" href="css/customer.css")
+
+block append scripts
+    script(src="js/edit-cylinder.js")
+
+
+block append top-content
+    p.page-title
+        span.fa.fa-fw.fa-plus-circle
+        |  Add Cylinder
+
+block append body-content
+    h2
+    div(id='alertBoxContainer')
+        .row
+            .col-md-2
+            .col-md-8
+                div.form-control.alertBox
+                    br
+                    | The cylinder has been added.
+                    br
+                    .col-md-2
+                    .col-md-8
+                        button.form-control.btn-info(type='button', id="alertBoxBtn", onclick="location.href='/gas-cylinder-overview'")
+                            span OK
+                    .col-md-2
+
+            .col-md-2
+
+
+    div(id="addCylinderForm")
+        form#cylinderForm()
+            .row
+                .col-md-2
+                    label Cylinder Reference
+                .col-md-3
+                    input(type='text', name='reference')
+            br
+            .row
+                .col-md-2
+                    label Size
+                .col-md-3
+                    select.selectpicker(name="size")
+                        optgroup()
+                            option Large
+                            option Medium
+                            option Small
+            br
+            .row
+                .col-md-2
+                    label Condition
+                .col-md-3
+                    select.selectpicker(name="condition")
+                        optgroup()
+                            option Full
+                            option Empty
+                            option Half
+            p
+                | All fields are obligatory.
+            br
+            .row
+                .col-md-3
+                    button.form-control.btn-info(type='button' id="btnAddCylinder")
+                        span.fa.fa-fw.fa-check
+                        |  Add Cylinder
+                .col-md-2
+                    button.form-control.btn-info(type='button', onclick="location.href='gas-cylinder-overview'")
+                        span.fa.fa-fw.fa-times
+                        |  Cancel
+
+
+

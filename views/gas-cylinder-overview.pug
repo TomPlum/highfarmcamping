@@ -17,7 +17,7 @@ block append body-content
                     span.fa.fa-fw.fa-plus-circle
                     |  Add Cylinder
             .col-md-3
-                button.form-control.btn-info(type='button', id="Edit")
+                button.form-control.btn-info(type='button', onclick="location.href='/edit-cylinder'")
                     span.fa.fa-fw.fa-edit
                     |  Edit Cylinder
             .col-md-3
@@ -29,7 +29,7 @@ block append body-content
         .row
             .col-sm-12
                 #loading
-                #gas-cylinders-overview
+                .gas-cylinders-overview#cylindersTable
 
 block append scripts
     script(src="js/gas-cylinder-overview.js")
