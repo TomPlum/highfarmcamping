@@ -191,9 +191,24 @@ function openDeleteModal(id) {
 }
 
 function openSeasonalPricingModal(data) {
-    let seasonalPricing = $("#seasonalPrices");
+    //Add Values To Input Fields
+    for (let i = 0; i <  data.length; i++) {
+        $("#" + data[i].season_name).val(parseFloat(data[i].price_per_pitch));
+    }
 
     //Bind update ajax function here
+    $("#updateSeasonalPricing").on("click", () => {
+        let values = [];
+        for (let i = 0; i < data.length; i++) {
+            values.push({
+                id: i + 1,
+                type: data[i].season_name,
+                val: $("#" + data[i].season_name).val()
+            });
+        }
+
+        updateSeasonalPricing(values);
+    });
 }
 
 
@@ -203,6 +218,21 @@ function getSeasonalPricing() {
         type: "POST",
         success: function(seasonalData) {
             openSeasonalPricingModal(seasonalData);
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
+function updateSeasonalPricing(values) {
+    console.log(values);
+    $.ajax({
+        url: "/manage-pitches/update-seasonal-pricing",
+        type: "POST",
+        data: {val: values},
+        success: function(res) {
+
         },
         error: function(err) {
             console.log(err);

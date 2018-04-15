@@ -44,6 +44,17 @@
     background: #ce6bbb !important;
 }
 
+.seasonal_pitch_type {
+    width: 20px;
+    line-height: 52px;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.seasonal_pitch_type i, .seasonal_pitch_type svg {
+    vertical-align: middle;
+}
+
 .item:hover {
     text-decoration: none;
 }

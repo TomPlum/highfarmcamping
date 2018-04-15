@@ -218,31 +218,83 @@ block append body-content
                             table.table.table-condensed.table-striped.table-hover
                                 thead
                                     tr
+                                        th Type
                                         th High Season
                                         th Mid Season
                                         th Low Season
                                 tbody
                                     tr
+                                        td.seasonal_pitch_type
+                                            i.glyphicon.glyphicon-tent
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#tent_high.form-control(type="text" placeholder="Price")
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#tent_medium.form-control(type="text" placeholder="Price")
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#tent_low.form-control(type="text" placeholder="Price")
                                     tr
+                                        td.seasonal_pitch_type
+                                            i.fa.fa-fw.fa-car
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#caravan_high.form-control(type="text" placeholder="Price")
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#caravan_medium.form-control(type="text" placeholder="Price")
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#caravan_low.form-control(type="text" placeholder="Price")
                                     tr
+                                        td.seasonal_pitch_type
+                                            i.fa.fa-fw.fa-truck
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#motorhome_high.form-control(type="text" placeholder="Price")
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#motorhome_medium.form-control(type="text" placeholder="Price")
                                         td
-                                            input(type="text" placeholder="Price (£)")
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#motorhome_low.form-control(type="text" placeholder="Price")
+                                    tr
+                                        td.seasonal_pitch_type
+                                            i.fas.fa-fw.fa-bolt
+                                        td
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#electrical_high.form-control(type="text" placeholder="Price")
+                                        td
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#electrical_medium.form-control(type="text" placeholder="Price")
+                                        td
+                                            .input-group
+                                                span.input-group-addon
+                                                    i.fas.fa-fw.fa-pound-sign
+                                                input#electrical_low.form-control(type="text" placeholder="Price")
                 .modal-footer
                     button#updateSeasonalPricing.btn.btn-success(type='button', data-dismiss='modal')
                         i.fas.fa-fw.fa-cloud-upload-alt

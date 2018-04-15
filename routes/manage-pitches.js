@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('../db/mysql');
 const async = require("async");
+const asyncLoop = require('node-async-loop');
 
 const isAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) {
@@ -69,13 +70,13 @@ module.exports = function(passport) {
 
     /* POST Delete Pitch */
     router.post('/delete-pitch', function(req, res) {
-       mysql.connection.query("DELETE FROM pitches WHERE pitch_id = ?", [req.body.id], function(err) {
-           if (err) {
-               console.log(err);
-           } else {
-               res.status(200).send("Successfully Deleted Pitch " + req.body.id);
-           }
-       });
+        mysql.connection.query("DELETE FROM pitches WHERE pitch_id = ?", [req.body.id], function(err) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.status(200).send("Successfully Deleted Pitch " + req.body.id);
+            }
+        });
     });
 
     /* POST Add Pitch */
@@ -95,13 +96,35 @@ module.exports = function(passport) {
 
     /* POST Get Seasonal Pricing */
     router.post('/season-pricing', function(req, res) {
-       mysql.connection.query("SELECT * FROM seasons;", function(err, rows) {
-          if (err) {
-              console.log(err);
-          }
+        mysql.connection.query("SELECT * FROM seasons;", function(err, rows) {
+            if (err) {
+                console.log(err);
+            }
 
-          res.status(200).send(rows);
-       });
+            res.status(200).send(rows);
+        });
+    });
+
+    /* POST Update Seasonal Pricing */
+    router.post('/update-seasonal-pricing', function(req, res) {
+        let seasons = req.body.val;
+        console.log(seasons);
+        asyncLoop(seasons, function (item, next) {
+            mysql.connection.query("UPDATE seasons SET price_per_pitch = ? WHERE season_name = ?;", [parseFloat(item.val), item.type.toString()], function (err) {
+                if (err) {
+                    console.log("MySQL Error: " + err);
+                } else {
+                    next();
+                }
+            });
+        }, function (err) {
+            if (err) {
+                console.log("Node Async Loop Error: " + err);
+            } else {
+                res.status(200).send("Successfully Updated Seasonal Pricing");
+            }
+        });
+
     });
 
     return router;
