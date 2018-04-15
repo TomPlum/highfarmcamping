@@ -4,7 +4,7 @@ $(document).ready(() => {
     $(".gas-cylinders-overview").html(oTable + headers + tBody + cTable);
 
 
-    if (window.location.pathname.match("gas-cylinders-overview")) {
+
         let rows = document.getElementById('cylindersTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
         for (i = 0; i < rows.length; i++) {
             rows[i].addEventListener('click', function () {
@@ -24,16 +24,9 @@ $(document).ready(() => {
 
             });
         }
-    }
 
 
-    $('#Edit').on('click', function () {
-        localStorage.setItem("selectedRow", selectedRowValue);
-        goToEditCylinders();
-    });
+});
 
-    $('#Delete').on('click', function () {
-        goToDeleteCylinders();
-    });
 
-}
+

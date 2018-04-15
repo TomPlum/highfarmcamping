@@ -52,10 +52,16 @@ module.exports = function(passport) {
         res.render('add-cylinder', {title: "Add Cylinder", username: req.user.username});
     });
 
-    /* GET Add Cylinder Page */
+    /* GET Edit Cylinder Page */
     router.get('/edit-cylinder', isAuthenticated, function (req, res) {
         res.render('edit-cylinder', {title: "Edit Cylinder", username: req.user.username});
     });
+
+    /* GET Delete Cylinder Page */
+    router.get('/delete-cylinder', isAuthenticated, function (req, res) {
+        res.render('deletecylinder', {title: "Delete Cylinder", username: req.user.username});
+    });
+
     /* GET Customer Overview Page */
     router.get('/customer-overview', isAuthenticated, function (req, res) {
         res.render('customer-overview', {title: "Customer Overview", username: req.user.username});

@@ -6,16 +6,14 @@ $(document).ready(() => {
 
     let selectedRowValue="";
 
-    if(localStorage.getItem("selectedRow")){
-        selectedRowValue = localStorage.getItem("selectedRow");
-    }else{
-        localStorage.setItem("selectedRow","");
-    }
+
 
 
 
     startLoadingAnimation();
 
+
+//pulls data from database using ajax
     $.ajax({
         url: "/get-gas_cylinder_overview",
         type: "POST",
@@ -29,6 +27,8 @@ $(document).ready(() => {
         }
     });
 
+
+//renders table to put details in that are pulled from database
     function renderGasCylinderOverview(data) {
         const oTable = "<table class='table table-hover table-striped table-condensed'>";
         const cTable = "</table>";
@@ -61,11 +61,11 @@ $(document).ready(() => {
             tBody += "<td>" + data[i].location + "</td>";
         }
 
-//make row selectable 
+//make row selectable
         $(".gas-cylinders-overview").html(oTable + headers + tBody + cTable);
 
 
-        if(window.location.pathname.match("gas-cylinders-overview") ){
+
             let rows = document.getElementById('cylindersTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
             for (i = 0; i < rows.length; i++) {
                 rows[i].addEventListener('click', function() {
@@ -86,7 +86,7 @@ $(document).ready(() => {
                 });
             }
         }
-    }
+
 
     $('#Edit').on('click', function(){
         localStorage.setItem("selectedRow", selectedRowValue);
@@ -103,7 +103,7 @@ $(document).ready(() => {
     function goToDeleteCylinders(){
 
         if(selectedRowValue !== undefined){
-            window.location = "/Delete-cylinder";
+            window.location = "/delete-cylinder";
         }
         else
         {
@@ -124,5 +124,6 @@ $(document).ready(() => {
         }
 
     }
+   
 
 });

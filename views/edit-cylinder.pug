@@ -10,8 +10,9 @@ block append scripts
 
 block append top-content
     p.page-title
-        span.fa.fa-fw.fa-plus-circle
-        |  Add Cylinder
+
+        span.fa.fa-fw.fa-edit
+        |  Edit Cylinder
 
 block append body-content
     h2
@@ -21,7 +22,7 @@ block append body-content
             .col-md-8
                 div.form-control.alertBox
                     br
-                    | The cylinder has been added.
+                    | The cylinder has been edited.
                     br
                     .col-md-2
                     .col-md-8
@@ -32,7 +33,7 @@ block append body-content
             .col-md-2
 
 
-    div(id="addCylinderForm")
+    div(id="editCylinderForm")
         form#cylinderForm()
             .row
                 .col-md-2
@@ -64,9 +65,9 @@ block append body-content
             br
             .row
                 .col-md-3
-                    button.form-control.btn-info(type='button' id="btnAddCylinder")
+                    button.form-control.btn-info(type='button' id="btnUpdateCylinder")
                         span.fa.fa-fw.fa-check
-                        |  Add Cylinder
+                        |  Update Cylinder
                 .col-md-2
                     button.form-control.btn-info(type='button', onclick="location.href='gas-cylinder-overview'")
                         span.fa.fa-fw.fa-times
