@@ -56,8 +56,18 @@ block append body-content
                     select.selectpicker(name="condition")
                         optgroup()
                             option Full
-                            option Empty
                             option Half
+                            option Empty
+            br
+            .row
+                .col-md-2
+                    label Location
+                .col-md-3
+                    select.selectpicker(name="location")
+                        optgroup()
+                            option Storage
+                            option On site
+                            option Refilling off site
             p
                 | All fields are obligatory.
             br
