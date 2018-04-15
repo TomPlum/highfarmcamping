@@ -7,10 +7,11 @@ $(document).ready(() => {
         let valide = validityCheck();
     // if reference is given, then execute INSERT statement:
         if(valide){
-            let query = "INSERT into gas_cylinder_overview (cylinder_reference, size, `condition`) VALUES (\"" +
+            let query = "INSERT into gas_cylinder_overview (cylinder_reference, size, `condition`, location) VALUES (\"" +
                 document.forms[0].reference.value + "\",\"" +
                 document.forms[0].size.value + "\",\"" +
-                document.forms[0].condition.value + "\");";
+                document.forms[0].condition.value + "\",\"" +
+                document.forms[0].location.value + "\");";
 
             $.ajax({
                 url: "/insert-cylinder",
@@ -21,7 +22,7 @@ $(document).ready(() => {
                     $("#alertBoxContainer").css("visibility","visible");
                 },
                 error: function (error) {
-                    console.log("Error inserting data into the database", error)
+                    console.log("Error inserting data into the database", error);
                     alert(errorNotification);
                 }
             });
