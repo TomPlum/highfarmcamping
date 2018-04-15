@@ -76,8 +76,8 @@ module.exports = function(passport) {
             },
             function(email, callback) {
                 const customerEmail = email[0].email_address;
-                const emailText = 'Hello ' + email[0].first_name + ' ' + email[0].last_name + '. Thanks ' +
-                    'for choosing Highfarm Campsites! This is your booking confirmation: Your ' +
+                const emailText = 'Hello ' + email[0].first_name + ' ' + email[0].last_name + '. <p> Thanks ' +
+                    'for choosing Highfarm Campsites! </p><p> This is your booking confirmation: </p> Your ' +
                     'registration number: ' + email[0].registration + ", your mobile: " + email[0].mobile_phone_number + ', ' +
                     'your booking date: ' + formatDate(email[0].booking_duration) + ', payment total: ' + (email[0].payment_total).toFixed(2) +
                     ', number of dogs: ';
