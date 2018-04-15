@@ -107,7 +107,7 @@ $(document).ready(() => {
         }
         else
         {
-            alert("To continue, please select a customer and click the button again.")
+            alert("To continue, please select a cylinder and click the button again.")
         }
 
     }
@@ -120,10 +120,38 @@ $(document).ready(() => {
         }
         else
         {
-            alert("To continue, please select a customer and click the button again.")
+            alert("To continue, please select a cylinder and click the button again.")
         }
 
     }
-   
+
+    // filter Table through ID when inserting values into "search cylinder through ID" field through JQuery:
+
+    $('#cylinder_id').keyup(function(){
+        let inputValue = document.getElementById("cylinder_id").value.toLowerCase();
+        let table = document.getElementById("cylindersTable");
+        let tr = table.getElementsByTagName("tr");
+        let td;
+
+        // Go through all table rows and search for row with desired ID
+        for (let i = 0; i < tr.length; i++) {
+            // If inputValue starts with digit, filter ID, if not filter reference
+            if (inputValue.match(/^\d/)) {
+                td = tr[i].getElementsByTagName("td")[0];
+            }
+            else {
+                td = tr[i].getElementsByTagName("td")[1];
+            }
+            if(td) {
+                let searchInput = td.innerHTML.toLowerCase();
+                if(searchInput.indexOf(inputValue.toLowerCase()) > -1)
+                {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
 
 });

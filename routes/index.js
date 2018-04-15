@@ -5,7 +5,7 @@ const async = require("async");
 const asyncLoop = require('node-async-loop');
 const bCrypt = require('bcrypt-nodejs');
 
-const isAuthenticated = function(req, res, next) {
+const isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
         console.log("User " + req.user.username + " authenticated.");
         return next();
@@ -14,7 +14,7 @@ const isAuthenticated = function(req, res, next) {
     }
 };
 
-const ifLoggedIn = function(req, res, next) {
+const ifLoggedIn = function (req, res, next) {
     if (req.isAuthenticated()) {
         res.redirect('/dashboard');
     } else {
@@ -26,7 +26,7 @@ const ifLoggedIn = function(req, res, next) {
 /* --- Get Pages --------------------*/
 /*************************************/
 
-module.exports = function(passport) {
+module.exports = function (passport) {
     /* GET Home Page */
     router.get('/dashboard', isAuthenticated, function (req, res) {
         res.render('dashboard', {title: 'Dashboard', username: req.user.username});
@@ -59,7 +59,7 @@ module.exports = function(passport) {
 
     /* GET Delete Cylinder Page */
     router.get('/delete-cylinder', isAuthenticated, function (req, res) {
-        res.render('deletecylinder', {title: "Delete Cylinder", username: req.user.username});
+        res.render('delete-cylinder', {title: "Delete Cylinder", username: req.user.username});
     });
 
     /* GET Customer Overview Page */
@@ -83,7 +83,7 @@ module.exports = function(passport) {
     });
 
     /* GET Email Management Page */
-    router.get('/email-management', isAuthenticated, function(req, res) {
+    router.get('/email-management', isAuthenticated, function (req, res) {
         res.render('email-management', {title: "Email Management", username: req.user.username});
     });
 
@@ -132,17 +132,17 @@ module.exports = function(passport) {
     }));
 
     /* POST Change Password */
-    router.post('/change-password', function(req, res) {
-        let isValidPassword = function(user, password){
+    router.post('/change-password', function (req, res) {
+        let isValidPassword = function (user, password) {
             return bCrypt.compareSync(password, user);
         };
 
-        let createHash = function(password) {
+        let createHash = function (password) {
             return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
         };
 
         console.log(req.body.username);
-        mysql.connection.query("SELECT * FROM users WHERE username = ?;", [req.body.username], function(err, rows) {
+        mysql.connection.query("SELECT * FROM users WHERE username = ?;", [req.body.username], function (err, rows) {
             console.log(rows);
             //If Unexpected Error - Log It & Return It
             if (err || !rows.length || rows === []) {
@@ -163,8 +163,8 @@ module.exports = function(passport) {
                 }
 
                 //Old Password & Current Database Passwords DO NOT match
-                if(!isValidPassword(rows[0].password, req.body.old)) {
-                    res.status(200).render('change-password',{
+                if (!isValidPassword(rows[0].password, req.body.old)) {
+                    res.status(200).render('change-password', {
                         error: "Incorrect Current Password.",
                         success: null,
                         username: req.body.username
@@ -184,7 +184,7 @@ module.exports = function(passport) {
     });
 
     /* Handle Logout */
-    router.get('/logout', isAuthenticated, function(req, res) {
+    router.get('/logout', isAuthenticated, function (req, res) {
         req.logout();
         res.redirect('/');
     });
@@ -199,6 +199,7 @@ module.exports = function(passport) {
             }
         });
     });
+
 
 //POST DB Query of the Customer-Overview
     router.post('/get-PitchBookings', isAuthenticated, function (req, res) {
@@ -257,6 +258,17 @@ module.exports = function(passport) {
         });
     });
 
+    // POST DB Query for getting single customer for delete customer
+    router.post('/get-cylinder', isAuthenticated, function (req, res) {
+        //+req.data.ID+
+        let id = JSON.stringify(req.body["ID"]);
+        //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
+        let sql_statement = "SELECT * FROM gas_cylinder_overview WHERE gas_cylinder_id=" + id + ";";
+        mysql.connection.query(sql_statement, function (err, rows) {
+            res.send(rows);
+        });
+    });
+
 // POST DB Query for deleting customer
     router.post('/delete-single-customer', isAuthenticated, function (req, res) {
         //+req.data.ID+
@@ -269,6 +281,20 @@ module.exports = function(passport) {
             res.send(err);
         });
     });
+
+    // POST DB Query for deleting cylinder
+    router.post('/delete-cylinder', isAuthenticated, function (req, res) {
+        //+req.data.ID+
+        let id = JSON.stringify(req.body["ID"]);
+        //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
+        let sqlStatement = "DELETE FROM gas_cylinders_overview WHERE gas_cylinder_id=" + id + ";";
+
+        mysql.connection.query(sqlStatement, function (err) {
+            console.log("THIS IS OUR" + err);
+            res.send(err);
+        });
+    });
+
 
 // GENERAL DB UPDATE/ INSERT QUERY / HTTP POST Request. CAN BE USED FOR ALL KIND OF SQL UPDATE OR INSERT Statements!
     router.post('/db-query', isAuthenticated, function (req, res) {
@@ -347,7 +373,7 @@ module.exports = function(passport) {
 
         function insertOrUpdateCustomer(callback) {
             let query;
-            if(data.customerData.idUsed === "true"){
+            if (data.customerData.idUsed === "true") {
                 query = "UPDATE customers SET first_name = \"" +
                     data.customerData.firstName + "\",last_name = \"" +
                     data.customerData.lastName + "\",date_of_birth = \"" +
@@ -374,9 +400,9 @@ module.exports = function(passport) {
 
             mysql.connection.query(query, function (err, rows) {
                 let insertedCustomerID;
-                if(data.customerData.idUsed === "true"){
+                if (data.customerData.idUsed === "true") {
                     insertedCustomerID = data.customerData.insertId;
-                }else{
+                } else {
                     insertedCustomerID = rows.insertId;
                 }
 
@@ -402,8 +428,8 @@ module.exports = function(passport) {
                 data.bookingData.paymentMethod + "\"," +
                 data.bookingData.price + "," +
                 data.bookingData.alreadyPaid + ",\"" +
-                data.bookingData.type+ "\",\"" +
-                data.bookingData.bookingDate+  "\");";
+                data.bookingData.type + "\",\"" +
+                data.bookingData.bookingDate + "\");";
             console.log(query);
             mysql.connection.query(query, function (err, okPacket) {
                 insertedId = okPacket.insertId;
