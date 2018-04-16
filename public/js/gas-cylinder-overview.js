@@ -40,7 +40,6 @@ $(document).ready(() => {
                             "<th>Reference</th>" +
                             "<th>Size</th>" +
                             "<th>Condition</th>" +
-                            "<th>Allocated Pitch ID</th>" +
                             "<th>Location</th>" +
                         "</tr>" +
                     "</thead>";
@@ -51,14 +50,13 @@ $(document).ready(() => {
             tBody += "<td>" + data[i].cylinder_reference + "</td>";
             tBody += "<td>" + data[i].size + "</td>";
             tBody += "<td>" + data[i].condition + "</td>";
-            if (data[i].allocated_pitch!== null)
+            if (data[i].location!== null)
             {
-                tBody += "<td>" + data[i].allocated_pitch + "</td>"
+                tBody += "<td>" + data[i].location + "</td>"
             }
-            else{
-                tBody += "<td> Not allocated </td>"
+            else {
+                tBody += "<td> Not Defined </td>"
             }
-            tBody += "<td>" + data[i].location + "</td>";
         }
 
 //make row selectable
