@@ -83,7 +83,6 @@ $(document).ready(() => {
                 "<th>Reference</th>" +
                 "<th>Size</th>" +
                 "<th>Condition</th>" +
-                "<th>Allocated Pitch ID</th>" +
                 "<th>Location</th>" +
                 "</tr>" +
                 "</thead>";
@@ -94,12 +93,6 @@ $(document).ready(() => {
                 tBody += "<td>" + cylinder[i].cylinder_reference + "</td>";
                 tBody += "<td>" + cylinder[i].size + "</td>";
                 tBody += "<td>" + cylinder[i].condition + "</td>";
-                if (cylinder[i].allocated_pitch !== null) {
-                    tBody += "<td>" + cylinder[i].allocated_pitch + "</td>"
-                }
-                else {
-                    tBody += "<td> Not allocated </td>"
-                }
                 tBody += "<td>" + cylinder[i].location + "</td>";
             }
             $('.cylinder-to-be-deleted').html(oTable + headers + tBody + cTable);
