@@ -45,21 +45,15 @@ block append body-content
                 .col-md-2
                     label Size
                 .col-md-3
-                    select.selectpicker(name="size")
-                        optgroup()
-                            option Large
-                            option Medium
-                            option Small
+            input(type='text', name="size")
+
             br
             .row
                 .col-md-2
                     label Condition
                 .col-md-3
-                    select.selectpicker(name="condition")
-                        optgroup()
-                            option Full
-                            option Empty
-                            option Half
+                input(type='text',name="condition")
+
             p
                 | All fields are obligatory.
             br

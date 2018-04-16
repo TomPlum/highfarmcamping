@@ -6,7 +6,7 @@ $(document).ready(() => {
 
     let selectedRowValue="";
 
-
+    let cylinder = [];
 
 
 
@@ -115,15 +115,53 @@ $(document).ready(() => {
 
     function goToEditCylinders(){
 
-        if(selectedRowValue !== undefined){
-            window.location = "/edit-cylinder";
+        if(selectedRowValue !== ""){
+            console.log("This is the selectedRowValue :" + selectedRowValue);
+            window.location.href = "/edit-cylinder?gas_cylinder_id="+selectedRowValue;
         }
         else
         {
             alert("To continue, please select a customer and click the button again.")
         }
 
+
     }
-   
+    // function insertDataInFields(){
+    //     console.log(localStorage.getItem("selectedRow"));
+    //
+    //     //selectedRowValue = parseInt(localStorage.getItem("selectedRow"));
+    //     //if selectedRowValue = NULL
+    //
+    //
+    //     for (let cylinder1 of cylinder){
+    //         if (cylinder1.gas_cylinder_id === parseInt(selectedRowValue)){
+    //             $('input[name=cylinder_reference]').val(cylinder1.cylinder_reference);
+    //
+    //
+
+
+                // function insertDataInFields(){
+    //     console.log(localStorage.getItem("selectedRow"));
+    //
+    //     //selectedRowValue = parseInt(localStorage.getItem("selectedRow"));
+    //     //if selectedRowValue = NULL
+    //     for (let customer1 of customer){
+    //         if (customer1.customer_id === parseInt(selectedRowValue)){
+    //             $('input[name=first_name]').val(customer1.first_name);
+    //             $('input[name=last_name]').val(customer1.last_name);
+    //             $('input[name=date_of_birth]').val(dateConverter2Slashes(customer1.date_of_birth));
+    //             $('input[name=email_address]').val(customer1.email_address);
+    //             $('input[name=address_line_1]').val(customer1.address_line_1);
+    //             $('input[name=address_line_2]').val(customer1.address_line_2);
+    //             $('input[name=registration]').val(customer1.registration);
+    //             $('input[name=home_phone_number]').val(customer1.home_phone_number);
+    //             $('input[name=mobile_phone_number]').val(customer1.mobile_phone_number);
+    //         }
+    //     }
+    //
+    //
+    //
+    //
+    // }
 
 });
