@@ -339,7 +339,7 @@ function book() {
             },
         bookingData:
             {
-                dogs: 0,
+                dogs: $('select[name=dog_amount]').val(),
                 startDate: datePickerDateConverter(dates[0].trim()),
                 endDate: datePickerDateConverter(dates[1].trim()),
                 paymentMethod: $('select[name=payment_method]').val(),
