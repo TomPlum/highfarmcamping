@@ -201,6 +201,8 @@ module.exports = function (passport) {
     });
 
 
+
+
 //POST DB Query of the Customer-Overview
     router.post('/get-PitchBookings', isAuthenticated, function (req, res) {
         mysql.connection.query("select pitch_bookings.*, bookings.* from bookings INNER JOIN pitch_bookings on bookings.booking_id = pitch_bookings.booking_id;", function (err, rows) {
@@ -243,6 +245,20 @@ module.exports = function (passport) {
             } else {
                 console.log(rows);
                 res.send(rows);
+            }
+        });
+    });
+
+    //POST for gas cylinder overview
+    router.post('/update-gas_cylinder_overview', isAuthenticated, function (req, res) {
+        console.log(req.body.query);
+        mysql.connection.query(req.body.query, function (err, data) {
+
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
+                res.send(data);
             }
         });
     });

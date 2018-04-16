@@ -2,7 +2,7 @@ extends structure
 
 block append stylesheets
     link(rel="stylesheet" href="css/ui.css")
-    link(rel="stylesheet" href="css/customer.css")
+    link(rel="stylesheet" href="css/gas-cylinder-overview.css")
 
 block append scripts
     script(src="js/edit-cylinder.js")
@@ -53,6 +53,13 @@ block append body-content
                     label Condition
                 .col-md-3
                 input(type='text',name="condition")
+
+            br
+            .row
+                 .col-md-2
+                     label Location
+                 .col-md-3
+                 input(type='text',name="location")
 
             p
                 | All fields are obligatory.
