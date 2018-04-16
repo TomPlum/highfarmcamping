@@ -75,10 +75,10 @@ module.exports = function(passport) {
 
 // POST DB Query for getting single customer for delete customer -- ? IS THAT CORRECT?
     router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
-        let sql_statement = "SELECT bookings.booking_id, customers.email_address, customers.first_name, customers.last_name, customers.registration, " +
-            "customers.mobile_phone_number, bookings.payment_total, bookings.count_dogs, bookings.stay_start_date, bookings.stay_end_date " +
-            "FROM customers " +
-            "INNER JOIN bookings ON bookings.customer_id = customers.customer_id;";
+        let sql_statement = "SELECT pitches.pitch_id, pitches.pitch_name, pitches.type, customers.email_address, customers.first_name, customers.last_name, bookings.paid, bookings.stay_start_date, bookings.stay_end_date, bookings.payment_total, bookings.booking_id, bookings.booking_date, bookings.count_dogs, customers.registration, customers.mobile_phone_number FROM pitch_bookings " +
+            "INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id " +
+            "INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id " +
+            "INNER JOIN customers ON bookings.customer_id = customers.customer_id;";
         async.waterfall([
             function(callback) {
                 mysql.connection.query(sql_statement, function (err, rows) {
@@ -92,6 +92,7 @@ module.exports = function(passport) {
             },
             function(email, callback) {
                 let email_address, first_name, last_name, registration, mobile_phone_number, stay_start_date, stay_end_date, payment_total, count_dogs;
+                let pitch_name=[];
                 for(let i = 0; i < email.length; i++) {
                     if (email[i].booking_id.toString() === req.body.id.toString()) {
                         email_address = email[i].email_address;
@@ -103,13 +104,13 @@ module.exports = function(passport) {
                         stay_end_date = formatDate(email[i].stay_end_date.toString());
                         payment_total = email[i].payment_total.toString();
                         count_dogs = email[i].count_dogs;
+                        pitch_name.push(email[i].pitch_name.toString());
                     }
                 }
 
-                const emailText = 'Hello';
                 const emailHTML = 'Hello ' + first_name + ' ' + last_name + '. <p> Thanks ' +
                     'for choosing Highfarm Campsites! This is your booking confirmation: <p> ' +
-                    'Pitch booked from: ' + stay_start_date + ' to '+ stay_end_date +'<p>Payment total: £' + payment_total +
+                    'Pitch booked from: ' + stay_start_date + ' to '+ stay_end_date +'<p>'+pitch_name+'<p>Payment total: £' + payment_total +
                     '<p>Number of dogs: '+ count_dogs + '<p>Your registration number: ' + registration +
                     '<p>Your mobile: ' + mobile_phone_number;
 
@@ -129,7 +130,6 @@ module.exports = function(passport) {
                     from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
                     to: email_address,
                     subject: 'Your Booking confirmation',
-                    text: emailText,
                     html: emailHTML
                 };
 
