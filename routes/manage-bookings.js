@@ -75,7 +75,10 @@ module.exports = function(passport) {
 
 // POST DB Query for getting single customer for delete customer -- ? IS THAT CORRECT?
     router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
-        let sql_statement = "SELECT pitches.pitch_id, pitches.pitch_name, pitches.type, customers.email_address, customers.first_name, customers.last_name, bookings.paid, bookings.stay_start_date, bookings.stay_end_date, bookings.payment_total, bookings.booking_id, bookings.booking_date, bookings.count_dogs, customers.registration, customers.mobile_phone_number FROM pitch_bookings " +
+        let sql_statement = "SELECT pitches.pitch_id, pitches.pitch_name, pitches.type, customers.email_address, " +
+            "customers.first_name, customers.last_name, bookings.paid, bookings.stay_start_date, bookings.stay_end_date, " +
+            "bookings.payment_total, bookings.booking_id, bookings.booking_date, bookings.count_dogs, customers.registration, " +
+            "customers.mobile_phone_number FROM pitch_bookings " +
             "INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id " +
             "INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id " +
             "INNER JOIN customers ON bookings.customer_id = customers.customer_id;";
