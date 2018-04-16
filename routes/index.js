@@ -287,7 +287,7 @@ module.exports = function (passport) {
         //+req.data.ID+
         let id = JSON.stringify(req.body["ID"]);
         //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
-        let sqlStatement = "DELETE FROM gas_cylinders_overview WHERE gas_cylinder_id=" + id + ";";
+        let sqlStatement = "DELETE FROM gas_cylinder_overview WHERE gas_cylinder_id=" + id + ";";
 
         mysql.connection.query(sqlStatement, function (err) {
             console.log("THIS IS OUR" + err);

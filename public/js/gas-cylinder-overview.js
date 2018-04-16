@@ -6,7 +6,7 @@ $(document).ready(() => {
 
     let selectedRowValue="";
 
-
+    let cylinder = [];
 
 
 
@@ -101,7 +101,7 @@ $(document).ready(() => {
     function goToDeleteCylinders(){
 
         if(selectedRowValue !== undefined){
-            window.location = "/delete-cylinder";
+            window.location = "/delete-cylinder?gas_id="+selectedRowValue;
         }
         else
         {
@@ -113,13 +113,15 @@ $(document).ready(() => {
 
     function goToEditCylinders(){
 
-        if(selectedRowValue !== undefined){
-            window.location = "/edit-cylinder";
+        if(selectedRowValue !== ""){
+            console.log("This is the selectedRowValue :" + selectedRowValue);
+            window.location.href = "/edit-cylinder?gas_cylinder_id="+selectedRowValue;
         }
         else
         {
             alert("To continue, please select a cylinder and click the button again.")
         }
+
 
     }
 
@@ -151,5 +153,6 @@ $(document).ready(() => {
             }
         }
     });
+
 
 });
