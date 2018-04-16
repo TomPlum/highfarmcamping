@@ -5,7 +5,8 @@ var customerEmail;
 
 $('#printPDF').click(function(){
     //getCustomerFromDB();
-    sendEmailConfirmation();
+    let id = parseURLParams(window.location.toString());
+    sendEmailConfirmation(id.booking_id[0]);
 });
 
 function getCustomerFromDB() {

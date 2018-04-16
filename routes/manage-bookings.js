@@ -58,15 +58,31 @@ module.exports = function(passport) {
             });
     });
 
+//Formats datetime to date
+    function formatDate(date) {
+        date = new Date(date);
+        let DD = date.getDate();
+        if (DD < 10) {
+            DD = "0" + DD;
+        }
+        let MM = date.getMonth() +1;
+        if (MM < 10) {
+            MM = "0" + MM;
+        }
+        const YYYY = date.getFullYear();
+        return DD + "/" + MM + "/" + YYYY;
+    }
+
 // POST DB Query for getting single customer for delete customer -- ? IS THAT CORRECT?
     router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
-        let sql_statement = "SELECT customers.email_address, customers.first_name, customers.last_name, customers.registration, " +
-            "customers.mobile_phone_number, bookings.booking_duration, bookings.payment_total " +
-            "FROM customers WHERE customer_id='1' " +
-            "INNER JOIN customers ON bookings.customer_id = customers.customer_id;";
+        let sql_statement = "SELECT bookings.booking_id, customers.email_address, customers.first_name, customers.last_name, customers.registration, " +
+            "customers.mobile_phone_number, bookings.payment_total, bookings.count_dogs, bookings.stay_start_date, bookings.stay_end_date " +
+            "FROM customers " +
+            "INNER JOIN bookings ON bookings.customer_id = customers.customer_id;";
         async.waterfall([
             function(callback) {
                 mysql.connection.query(sql_statement, function (err, rows) {
+
                     if (err) {
                         callback(err, null);
                     } else {
@@ -75,14 +91,29 @@ module.exports = function(passport) {
                 });
             },
             function(email, callback) {
-                const customerEmail = email[0].email_address;
-                const emailText = 'Hello ' + email[0].first_name + ' ' + email[0].last_name + '. <p> Thanks ' +
-                    'for choosing Highfarm Campsites! </p><p> This is your booking confirmation: </p> Your ' +
-                    'registration number: ' + email[0].registration + ", your mobile: " + email[0].mobile_phone_number + ', ' +
-                    'your booking date: ' + formatDate(email[0].booking_duration) + ', payment total: ' + (email[0].payment_total).toFixed(2) +
-                    ', number of dogs: ';
+                let email_address, first_name, last_name, registration, mobile_phone_number, stay_start_date, stay_end_date, payment_total, count_dogs;
+                for(let i = 0; i < email.length; i++) {
+                    if (email[i].booking_id.toString() === req.body.id.toString()) {
+                        email_address = email[i].email_address;
+                        first_name = email[i].first_name;
+                        last_name = email[i].last_name;
+                        registration = email[i].registration;
+                        mobile_phone_number = email[i].mobile_phone_number;
+                        stay_start_date = formatDate(email[i].stay_start_date.toString());
+                        stay_end_date = formatDate(email[i].stay_end_date.toString());
+                        payment_total = email[i].payment_total.toString();
+                        count_dogs = email[i].count_dogs;
+                    }
+                }
 
-                let transporter = nodemailer.createTransport({
+                const emailText = 'Hello';
+                const emailHTML = 'Hello ' + first_name + ' ' + last_name + '. <p> Thanks ' +
+                    'for choosing Highfarm Campsites! This is your booking confirmation: <p> ' +
+                    'Pitch booked from: ' + stay_start_date + ' to '+ stay_end_date +'<p>Payment total: £' + payment_total +
+                    '<p>Number of dogs: '+ count_dogs + '<p>Your registration number: ' + registration +
+                    '<p>Your mobile: ' + mobile_phone_number;
+
+                let transporter = nodemailer. createTransport({
                     service: 'gmail',
                     auth: {
                         type: 'OAuth2',
@@ -96,9 +127,10 @@ module.exports = function(passport) {
 
                 let mailOptions = {
                     from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
-                    to: customerEmail,
+                    to: email_address,
                     subject: 'Your Booking confirmation',
-                    text: emailText
+                    text: emailText,
+                    html: emailHTML
                 };
 
                 transporter.sendMail(mailOptions, function (err) {
