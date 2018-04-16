@@ -1,0 +1,73 @@
+extends structure
+
+block append stylesheets
+    link(rel="stylesheet" href="css/gas-cylinder-overview.css")
+    link(rel="stylesheet" href="css/ui.css")
+
+block append top-content
+    p.page-title
+        span.glyphicon.glyphicon-remove-circle
+        |  Delete Cylinder
+
+block append body-content
+    h2
+    div(id='alertBoxContainer')
+        .row
+            .col-md-2
+            .col-md-8
+                div.form-control.alertBox
+                    br
+                    | The cylinder has been deleted
+                    br
+                    .col-md-2
+                    .col-md-8
+                        button.form-control.btn-info(type='button', id="alertBoxBtn", onclick="location.href='/gas-cylinder-overview'")
+                            span OK
+                    .col-md-2
+
+            .col-md-2
+    div(id='alertBoxContainer2')
+        .row
+            .col-md-2
+            .col-md-8
+                div.form-control.alertBox
+                    br
+                    | The cylinder could not be deleted because of still existing pitches related to the cylinder
+                    br
+                    .col-md-2
+                    .col-md-8
+                        button.form-control.btn-info(type='button', id="alertBoxBtn2", onclick="location.href='/gas-cylinder-overview'")
+                            span OK
+
+                    .col-md-2
+
+            .col-md-2
+    p
+        | Do you really want to delete this cylinder?
+    br
+    div(id="deleteCylinderSection")
+        form(action='')
+            .container-fluid
+                .row
+                    .cylinder-to-be-deleted
+        .row
+            .col-md-2
+            .col-md-8
+            p
+                |
+            br
+            .row
+                .col-md-3
+                    button.form-control.btn-info(type='button' id="btnDeleteCylinder")
+                        span.fa.fa-fw.fa-trash-alt
+                        |  Delete Cylinder
+                .col-md-2
+
+                    button.form-control.btn-info(type='button', onclick="location.href='/gas-cylinder-overview'")
+                        span.fa.fa-fw.fa-times
+                        |  Cancel
+
+        div(class="error")
+
+block append scripts
+    script(src="js/delete-cylinder.js")

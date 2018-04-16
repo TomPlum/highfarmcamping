@@ -6,3 +6,19 @@ tr.selected {
     background-color: #2f8fd5 !important;
     color: #FFF;
 }
+
+.alertBox{
+    height: 120px;
+    position: absolute;
+    z-index: 3;
+    color: black;
+    margin-top: 80px;
+    text-align: center;
+}
+
+#alertBoxContainer{
+    visibility: hidden;
+}
+#alertBoxContainer2{
+    visibility: hidden;
+}

@@ -58,9 +58,12 @@ module.exports = function(passport) {
             });
     });
 
-// POST DB Query for getting single customer for delete customer
+// POST DB Query for getting single customer for delete customer -- ? IS THAT CORRECT?
     router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
-        let sql_statement = "SELECT email_address FROM customers WHERE customer_id='1';";
+        let sql_statement = "SELECT customers.email_address, customers.first_name, customers.last_name, customers.registration, " +
+            "customers.mobile_phone_number, bookings.booking_duration, bookings.payment_total " +
+            "FROM customers WHERE customer_id='1' " +
+            "INNER JOIN customers ON bookings.customer_id = customers.customer_id;";
         async.waterfall([
             function(callback) {
                 mysql.connection.query(sql_statement, function (err, rows) {
@@ -73,6 +76,11 @@ module.exports = function(passport) {
             },
             function(email, callback) {
                 const customerEmail = email[0].email_address;
+                const emailText = 'Hello ' + email[0].first_name + ' ' + email[0].last_name + '. <p> Thanks ' +
+                    'for choosing Highfarm Campsites! </p><p> This is your booking confirmation: </p> Your ' +
+                    'registration number: ' + email[0].registration + ", your mobile: " + email[0].mobile_phone_number + ', ' +
+                    'your booking date: ' + formatDate(email[0].booking_duration) + ', payment total: ' + (email[0].payment_total).toFixed(2) +
+                    ', number of dogs: ';
 
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
@@ -90,7 +98,7 @@ module.exports = function(passport) {
                     from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
                     to: customerEmail,
                     subject: 'Your Booking confirmation',
-                    text: 'This is a test. Thx'
+                    text: emailText
                 };
 
                 transporter.sendMail(mailOptions, function (err) {
