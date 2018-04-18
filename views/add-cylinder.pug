@@ -63,11 +63,7 @@ block append body-content
                 .col-md-2
                     label Location
                 .col-md-3
-                    select.selectpicker(name="location")
-                        optgroup()
-                            option Storage
-                            option On site
-                            option Refilling off site
+                    input(type='text', name='location')
             p
                 | All fields are obligatory.
             br

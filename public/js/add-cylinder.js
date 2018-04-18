@@ -5,7 +5,7 @@ $(document).ready(() => {
     $('#btnAddCylinder').click(function () {
 
         let valide = validityCheck();
-    // if reference is given, then execute INSERT statement:
+        // if reference is given, then execute INSERT statement:
         if(valide){
             let query = "INSERT into gas_cylinder_overview (cylinder_reference, size, `condition`, location) VALUES (\"" +
                 document.forms[0].reference.value + "\",\"" +
@@ -30,9 +30,9 @@ $(document).ready(() => {
         }
         // if reference is not given, mark this input box red:
         else{
-                $('.error').text("");
-                for (let error of errors){
-                    $('.error').append(error+"<br>");
+            $('.error').text("");
+            for (let error of errors){
+                $('.error').append(error+"<br>");
             }
 
         }
