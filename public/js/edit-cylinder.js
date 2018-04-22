@@ -34,6 +34,10 @@ $(document).ready(() => {
         //if selectedRowValue = NULL
         for (let cylinder1 of cylinder) {
             if (cylinder1.gas_cylinder_id === parseInt(selectedRowValue)) {
+                $('output[name=reference]').val(cylinder1.cylinder_reference);
+                $('output[name=size]').val(cylinder1.size);
+                $('output[name=condition]').val(cylinder1.condition);
+                $('output[name=location]').val(cylinder1.location);
                 $('input[name=reference]').val(cylinder1.cylinder_reference);
                 $('input[name=size]').val(cylinder1.size);
                 $('input[name=condition]').val(cylinder1.condition);

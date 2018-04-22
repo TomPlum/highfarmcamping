@@ -26,40 +26,85 @@ block append body-content
                     br
                     .col-md-2
                     .col-md-8
+
+                    .col-md-2
                         button.form-control.btn-info(type='button', id="alertBoxBtn", onclick="location.href='/gas-cylinder-overview'")
                             span OK
-                    .col-md-2
 
             .col-md-2
 
 
     div(id="editCylinderForm")
         form#cylinderForm()
+
+            //.row
+            //    .col-md-2
+            //        label Cylinder Reference
+            //    .col-md-2
+            //        input(type='text', name='reference')
+            //    .col-md-3
+            //        label Size
+            //    .col-md-3
+            //        input(type='text', name='reference')
+            //
+            //    .row
+            //
+            //
+            //
+            //    .col-md-2
+            //        label Choose new reference if needed :
+            //
+            //    .col-md-3
+            //
+            //        output(name="size")
+            //    .col-md-2
+            //        label Choose new size if needed :
+            //    .col-md-3
+            //        input(type='text', name="size")
+
+
             .row
                 .col-md-2
                     label Cylinder Reference
                 .col-md-3
-                    input(type='text', name='reference')
-            br
-            .row
+                    output(type='text',name="reference")
                 .col-md-2
                     label Size
                 .col-md-3
-            input(type='text', name="size")
+                    output(type='text',name="size")
+
+                .row
+
+                .col-md-2
+                    label New Reference
+                .col-md-3
+                    input(type='text',name="reference")
+                .col-md-2
+                    label Choose new size :
+                .col-md-3
+                    input(type='text',name="size")
 
             br
             .row
                 .col-md-2
                     label Condition
                 .col-md-3
-                input(type='text',name="condition")
+                    output(type='text',name="condition")
+                .col-md-2
+                    label Location
+                .col-md-3
+                    output(type='text',name="location")
 
-            br
-            .row
-                 .col-md-2
-                     label Location
-                 .col-md-3
-                 input(type='text',name="location")
+                .row
+
+                .col-md-2
+                    label New Condition
+                .col-md-3
+                    input(type='text',name="condition")
+                .col-md-2
+                    label New Location :
+                .col-md-3
+                    input(type='text',name="location")
 
             p
                 | All fields are obligatory.
