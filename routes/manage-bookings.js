@@ -73,7 +73,8 @@ module.exports = function(passport) {
         return DD + "/" + MM + "/" + YYYY;
     }
 
-// POST DB Query for getting single customer for delete customer -- ? IS THAT CORRECT?
+// SELECT everything needed for the email confirmation
+
     router.post('/send-booking-confirmation', isAuthenticated, function (req, res) {
         let sql_statement = "SELECT pitches.pitch_id, pitches.pitch_name, pitches.type, customers.email_address, " +
             "customers.first_name, customers.last_name, bookings.paid, bookings.stay_start_date, bookings.stay_end_date, " +
@@ -110,13 +111,13 @@ module.exports = function(passport) {
                         pitch_name.push(email[i].pitch_name.toString());
                     }
                 }
-
+//Content of email
                 const emailHTML = 'Hello ' + first_name + ' ' + last_name + '. <p> Thanks ' +
                     'for choosing Highfarm Campsites! This is your booking confirmation: <p> ' +
                     'Pitch booked from: ' + stay_start_date + ' to '+ stay_end_date +'<p>'+pitch_name+'<p>Payment total: £' + payment_total +
                     '<p>Number of dogs: '+ count_dogs + '<p>Your registration number: ' + registration +
                     '<p>Your mobile: ' + mobile_phone_number;
-
+//Access to gmail API
                 let transporter = nodemailer. createTransport({
                     service: 'gmail',
                     auth: {
@@ -128,7 +129,7 @@ module.exports = function(passport) {
                         accessToken: 'ya29.GluYBev-3ScBR8waQNph75piaCzUAFRwCVQagfv7m6hoXzoxOoeGqs1rCSCbsdmFOWZ2wseU8eCHMoIKIIWFywEU8g4j88MHl-nQ0rXkiriuMmiqCVydyYOsmqZv',
                     },
                 });
-
+//Email settings
                 let mailOptions = {
                     from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
                     to: email_address,
@@ -150,7 +151,7 @@ module.exports = function(passport) {
             }
             res.status(200).send(success);
         });
-
+        
     });
 
     /* POST Booking Overview */

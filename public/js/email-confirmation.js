@@ -7,8 +7,23 @@ $('#printPDF').click(function(){
     //getCustomerFromDB();
     let id = parseURLParams(window.location.toString());
     sendEmailConfirmation(id.booking_id[0]);
+    alert("Email has been sent");
 });
 
+//Sends email confirmation to selected user
+function sendEmailConfirmation(id) {
+    $.ajax({
+        url: "/manage-booking/send-booking-confirmation",
+        data: {id: id},
+        type: "POST",
+        success: function(data) {
+        },
+        error: function(err) {
+        }
+    });
+}
+
+/*
 function getCustomerFromDB() {
     $.ajax({
         type: 'POST',
@@ -29,17 +44,4 @@ function getCustomerFromDB() {
         }
     });
 }
-
-function sendEmailConfirmation(id) {
-    $.ajax({
-        url: "/manage-booking/send-booking-confirmation",
-        data: {id: id},
-        type: "POST",
-        success: function(data) {
-
-        },
-        error: function(err) {
-            console.log(err);
-        }
-    });
-}
+*/
