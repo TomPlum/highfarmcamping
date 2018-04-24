@@ -82,7 +82,11 @@ block append body-content
                 .col-md-2
                     label Choose new size :
                 .col-md-3
-                    input(type='text',name="size")
+                    select.selectpicker(name="size")
+                        optgroup()
+                            option Large
+                            option Medium
+                            option Small
 
             br
             .row
@@ -100,7 +104,11 @@ block append body-content
                 .col-md-2
                     label New Condition
                 .col-md-3
-                    input(type='text',name="condition")
+                    select.selectpicker(name="condition")
+                        optgroup()
+                            option Full
+                            option Half
+                            option Empty
                 .col-md-2
                     label New Location :
                 .col-md-3

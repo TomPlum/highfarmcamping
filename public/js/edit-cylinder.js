@@ -39,8 +39,8 @@ $(document).ready(() => {
                 $('output[name=condition]').val(cylinder1.condition);
                 $('output[name=location]').val(cylinder1.location);
                 $('input[name=reference]').val(cylinder1.cylinder_reference);
-                $('input[name=size]').val(cylinder1.size);
-                $('input[name=condition]').val(cylinder1.condition);
+                $('select[name=size]').val(cylinder1.size);
+                $('select[name=condition]').val(cylinder1.condition);
                 $('input[name=location]').val(cylinder1.location);
 
             }
@@ -60,8 +60,8 @@ $(document).ready(() => {
         let query;
         query = "UPDATE gas_cylinder_overview SET cylinder_reference=\"" +
             $('input[name=reference]').val() + "\",size=\"" +
-            $('input[name=size]').val() + "\",`condition`=\"" +
-            $('input[name=condition]').val() + "\",location=\"" +
+            $('select[name=size]').val() + "\",`condition`=\"" +
+            $('select[name=condition]').val() + "\",location=\"" +
             $('input[name=location]').val() + "\" WHERE gas_cylinder_id =" + selectedRowValue + ";";
 
         $.ajax({
