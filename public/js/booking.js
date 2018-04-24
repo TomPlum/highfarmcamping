@@ -17,6 +17,7 @@ $(document).ready(function () {
     //Call DB for Pitches & relation
     getPitches();
     getPitchBookings();
+    getCustomers();
 
 
     //Initialize the DateRanger of the Booking
@@ -71,6 +72,7 @@ $(document).ready(function () {
 let pitches = [];
 let pitchBookings = [];
 let selectedPitches = [];
+let customers = [];
 
 function hideButton(){
     $('fieldset#changebutton').css("display","none");
@@ -376,8 +378,7 @@ $('.massCancellation').click(function () {
 
 
 function confirmCancellation() {
-    console.log(pitchBookings);
-    console.log(pitches);
+
     let dates = $('#cancelDate').val().split("-");
 
     let type = $('input[name=mass]:checked').val();
@@ -386,30 +387,75 @@ function confirmCancellation() {
     let concernedBookings=[];
     let concernedCustomers=[];
 
+    //Find concerned bookings
     for(pitchBooking of pitchBookings) {
-        console.log(pitchBooking);
         if(type=="all"){
-            concernedBookings.push(pitchBooking);
+            for(cancellationDate of cancellationDates){
+                if(cancellationDate>=convertDate(pitchBooking.stay_start_date) && cancellationDate <=convertDate(pitchBooking.stay_end_date)){
+                    concernedBookings.push(pitchBooking);
+                    break;
+                }
+            }
         }else{
             for(pitch of pitches){
-                console.log(pitch);
                 if(pitchBooking.pitch_id == pitch.pitch_id){
-                    console.log("idmatch");
                     if(pitch.type=="tent"){
-                        concernedBookings.push(pitchBooking);
-                        console.log("pitchpushed");
-                    }else {
-                        console.log("pitch not pushed");
+                        for(cancellationDate of cancellationDates){
+                            if(cancellationDate>=convertDate(pitchBooking.stay_start_date) && cancellationDate <=convertDate(pitchBooking.stay_end_date)){
+                                concernedBookings.push(pitchBooking);
+                                break;
+                            }
+                        }
                     }
-                }else {
-                    console.log("id not match");
                 }
             }
         }
 
     }
 
-    console.log(type,cancellationDates,reason,concernedBookings);
+    //Delete multiple records in concerned bookings
+    let newConcernedBookings = [];
+    newConcernedBookings.push(concernedBookings[0]);
+    for(let i =1;i<concernedBookings.length;i++){
+        if(concernedBookings[i].booking_id != concernedBookings[i-1].booking_id){
+            newConcernedBookings.push(concernedBookings[i]);
+        }
+    }
+    concernedBookings = newConcernedBookings;
+
+    //Find concerned customers
+    for(concernedBooking of concernedBookings){
+        for(customer of customers){
+            if(customer.customer_id == concernedBooking.customer_id){
+                concernedCustomers.push(customer);
+            }
+        }
+    }
+
+    //Delete multiple records in concerned customers
+    let newConcernedCustomers = [];
+    newConcernedCustomers.push(concernedCustomers[0]);
+    for(let i = 1;i<concernedCustomers.length;i++){
+        if(concernedCustomers[i].customer_id != concernedCustomers[i-1].customer_id){
+            newConcernedCustomers.push(concernedCustomers[i]);
+        }else{
+            console.log(concernedCustomers[i]);
+        }
+    }
+    concernedCustomers = newConcernedCustomers;
+
+
+
+
+
+
+
+    console.log(type);
+    console.log(cancellationDates);
+    console.log(reason);
+    console.log(concernedBookings);
+    console.log(concernedCustomers);
+
 
 
 
@@ -510,6 +556,19 @@ function getPitches() {
         type: "POST",
         success: function (rows) {
             pitches = rows;
+        },
+        error: function (error) {
+            console.log("Error getting pitches", error)
+        }
+    });
+}
+
+function getCustomers() {
+    $.ajax({
+        url: "/get-customers",
+        type: "POST",
+        success: function (rows) {
+            customers = rows;
         },
         error: function (error) {
             console.log("Error getting pitches", error)
