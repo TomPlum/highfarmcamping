@@ -93,10 +93,67 @@ tr.selected {
     display: none;
 }
 
+.massCancellation{
+    background-color: #FFFF00;
+    color: rgba(0, 0, 0, 0.9);
+    border: 2px solid white;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+}
 
- /*
- Bootstrap 4.0.0 Card
-  */
+.massCancellation:hover {
+    background-color: white;
+    border: 2px solid #FFFF00;
+
+}
+
+#confirmCancellationButton{
+    background-color: #2f8fd5;
+    color: white;
+    border: 2px solid white;
+    transition: all ease 0.5s;
+    border-radius: 5px;
+    display: none;
+}
+
+#confirmCancellationButton:hover{
+    background-color: white;
+    border: 2px solid #2f8fd5;
+    color: #2f8fd5;
+}
+
+
+#cancelMassCancellation{
+    display: none;
+}
+
+#reasonLabel{
+    display: none;
+}
+
+#reasonInput{
+    display: none;
+}
+
+#cancelDate{
+    visibility: hidden;
+}
+
+#radioButtons{
+    visibility: hidden;
+}
+
+#onlyTentCheckbox{
+    margin-left: 15px;
+}
+
+#allPitchesCheckbox{
+    margin-left: 15px;
+}
+
+/*
+Bootstrap 4.0.0 Card
+ */
 
 .card {
     position: relative;

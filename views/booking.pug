@@ -27,20 +27,9 @@ block append body-content
                             .row
                                 .col-md-3
                                     fieldset#type
-                                        |Pitch Type
-                                .col-md-3
-                                    fieldset#daterangelabel
-                                        |Select Date Range
-                                .col-md-3
-                                    fieldset#findbutton
-                                        button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
-                                            span.glyphicon.glyphicon-tent
-                                            |  Find Pitch
-                                            p
-                                        // Available Pitches Output Here
+                                        | Pitch Type
+                                        br
 
-                            .row
-                                .col-md-3
                                     fieldset#tentfield
                                         // Tent Filter Checkbox
                                         .form-group(class='[ ]')
@@ -50,24 +39,9 @@ block append body-content
                                                     span.glyphicon.glyphicon-ok(class='[ ]')
                                                     span
                                                 label.btn.btn-default.active(for='tent', class='[ ]')
-                                                    i.glyphicon.glyphicon-tent
-                                                    |                                             Tent
-                                .col-md-3
-                                    fieldset#daterange
-                                        label(for='date-range')
-                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 04/01/2018')
-                                        P
-                                        |
-                                        P
-                                .col-md-3
-                                    fieldset#changebutton
-                                        button.form-control.find-pitch(type='button', onclick='showInput()')
-                                            span.glyphicon.glyphicon-repeat
-                                            |  Change
-                                            p
-                                        // Show Input Fields Again
-                            .row
-                                .col-md-3
+                                                    span.glyphicon.glyphicon-tent
+                                                    |  Tent
+
                                     fieldset#caravanfield
                                         // Caravan Filter Checkbox
                                         .form-group(class='[]')
@@ -78,9 +52,8 @@ block append body-content
                                                     span
                                                 label.btn.btn-default.active(for='caravan', class='[ ]')
                                                     span.fa.fa-fw.fa-car
-                                                    |                                             Caravan
-                            .row
-                                .col-md-3
+                                                    |  Caravan
+
                                     fieldset#motorhomefield
                                         // Motorhome Filter Checkbox
                                         .form-group(class='[ ]')
@@ -91,9 +64,8 @@ block append body-content
                                                     span
                                                 label.btn.btn-default.active(for='motorhome', class='[ ]')
                                                     span.fa.fa-fw.fa-truck
-                                                    |                                             Motorhome
-                            .row
-                                .col-md-3
+                                                    |  Motorhome
+
                                     fieldset#electricalfield
                                         // Electrical Filter Checkbox
                                         .form-group(class='[ ]')
@@ -104,7 +76,71 @@ block append body-content
                                                     span
                                                 label.btn.btn-default.active(for='electrical', class='[ ]')
                                                     span.fa.fa-fw.fa-bolt
-                                                    |                                             Electrical
+                                                    |   Electrical
+
+
+                                .col-md-3
+                                    fieldset#daterangelabel
+                                        | Select Date Range
+
+                                    fieldset#daterange
+                                        label(for='date-range')
+                                        input#date-range(type='text', name='date-range', value='01/01/2018 - 04/01/2018')
+                                        P
+                                        |
+                                        P
+
+
+
+                                .col-md-3
+                                    fieldset#findbutton
+                                        button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
+                                            span.glyphicon.glyphicon-tent
+                                            |  Find Pitch
+                                            p
+
+                                    fieldset#changebutton
+                                        button.form-control.find-pitch(type='button', onclick='showInput()')
+                                            span.glyphicon.glyphicon-repeat
+                                            |  Change
+                                            p
+
+                                .col-md-3
+                                    fieldset
+                                        button.form-control.massCancellation(type='button' id="massCancellation")
+                                            span.glyphicon.glyphicon-warning-sign
+                                            |  Mass-cancellation
+                                    fieldset
+                                        button.form-control.massCancellation(type='button' id="cancelMassCancellation")
+                                            span.glyphicon.glyphicon-warning-sign
+                                            |  Cancel Mass-cancellation
+
+                                        fieldset#radioButtons
+                                            form
+                                                input.form-radio-input(type="radio" name="mass" value="all" id="allPitchesCheckbox" autocomplete="off" checked)
+                                                | &nbsp;&nbsp; All Pitches
+                                                br
+                                                input.form-radio-input(type="radio" name="mass" value="tent" id="onlyTentCheckbox" autocomplete="off")
+                                                | &nbsp;&nbsp; Only Tent Pitches
+                                        br
+
+                                    fieldset
+                                        input#cancelDate(type='text', name='cancelDate', value='01/01/2018 - 07/01/2018')
+                                    br
+
+                                    fieldset#reasonLabel
+                                        | Reason for Cancellation:
+
+                                    fieldset#reasonInput
+                                        input(type="text" name="reasonInput")
+
+                                    br
+                                    br
+                                    fieldset
+                                        button.form-control#confirmCancellationButton(type='button' onclick='confirmCancellation()')
+                                            span.glyphicon.glyphicon-tent
+                                            |  Confirm Cancellation
+                                            p
 
 
 

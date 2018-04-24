@@ -33,6 +33,19 @@ $(document).ready(function () {
         });
     });
 
+    $(function () {
+        $('input[name="cancelDate"]').daterangepicker({
+            "opens": "left",
+            "showDropdowns": true,
+            dateLimit: {
+                days: '7'
+            },
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+        });
+    });
+
     $("input:checkbox").on('click', function () {
         // in the handler, 'this' refers to the box clicked on
         let $box = $(this);
@@ -53,6 +66,8 @@ $(document).ready(function () {
 /*************************************/
 /* --- Global Variables -------------*/
 /*************************************/
+
+
 let pitches = [];
 let pitchBookings = [];
 let selectedPitches = [];
@@ -70,6 +85,7 @@ function showInput(){
     $('fieldset#electricalfield').css("display","inline");
     $('fieldset#daterange').removeAttr('disabled');
     $('fieldset#changebutton').css("display","none");
+    $('#massCancellation').css("display","inline");
 
 }
 /*************************************/
@@ -81,6 +97,7 @@ function populatePitchSelection() {
     $('fieldset#changebutton').css("display","inline");
     $('fieldset#daterange').attr('disabled','disabled');
     $('fieldset#findbutton').css("display","none");
+    $('#massCancellation').css("display","none");
 
     if ($('input:checked').val()==='tent') {
         $('fieldset#caravanfield').css("display","none");
@@ -295,6 +312,108 @@ function block2ndDatePicker() {
 
 }
 
+/*************************************/
+/* --- Mass cancellation ------------*/
+/*************************************/
+
+let cancellationProcess = false;
+
+$('.massCancellation').click(function () {
+    if(cancellationProcess){
+
+
+
+        $('fieldset#findbutton').css("display","inline");
+        $('fieldset#tentfield').css("display","inline");
+        $('fieldset#caravanfield').css("display","inline");
+        $('fieldset#motorhomefield').css("display","inline");
+        $('fieldset#electricalfield').css("display","inline");
+        $('fieldset#type').css("display","inline");
+        $('fieldset#daterange').css("display","inline");
+        $('fieldset#daterangelabel').css("display","inline");
+
+
+        $('fieldset#radioButtons').css("visibility","hidden");
+        $('#cancelDate').css("visibility","hidden");
+        $('fieldset#reasonLabel').css("display","none");
+        $('fieldset#reasonInput').css("display","none");
+
+
+        $('#massCancellation').css("display","inline");
+        $('#cancelMassCancellation').css("display","none");
+        $('#confirmCancellationButton').css("display","none")
+
+        cancellationProcess = false;
+
+
+
+    }else{
+        $('fieldset#findbutton').css("display","none");
+        $('fieldset#tentfield').css("display","none");
+        $('fieldset#caravanfield').css("display","none");
+        $('fieldset#motorhomefield').css("display","none");
+        $('fieldset#electricalfield').css("display","none");
+        $('fieldset#type').css("display","none");
+        $('fieldset#daterange').css("display","none");
+        $('fieldset#daterangelabel').css("display","none");
+
+
+        $('fieldset#radioButtons').css("visibility","visible");
+        $('#cancelDate').css("visibility","visible");
+        $('fieldset#reasonLabel').css("display","inline");
+        $('fieldset#reasonInput').css("display","inline");
+
+        $('#massCancellation').css("display","none");
+        $('#cancelMassCancellation').css("display","inline");
+        $('#confirmCancellationButton').css("display","inline");
+
+        cancellationProcess = true;
+
+    }
+
+
+})
+
+
+function confirmCancellation() {
+    console.log(pitchBookings);
+    console.log(pitches);
+    let dates = $('#cancelDate').val().split("-");
+
+    let type = $('input[name=mass]:checked').val();
+    let cancellationDates = getDatesInRange(dates[0],dates[1]);
+    let reason = $('input[name=reasonInput]').val();
+    let concernedBookings=[];
+    let concernedCustomers=[];
+
+    for(pitchBooking of pitchBookings) {
+        console.log(pitchBooking);
+        if(type=="all"){
+            concernedBookings.push(pitchBooking);
+        }else{
+            for(pitch of pitches){
+                console.log(pitch);
+                if(pitchBooking.pitch_id == pitch.pitch_id){
+                    console.log("idmatch");
+                    if(pitch.type=="tent"){
+                        concernedBookings.push(pitchBooking);
+                        console.log("pitchpushed");
+                    }else {
+                        console.log("pitch not pushed");
+                    }
+                }else {
+                    console.log("id not match");
+                }
+            }
+        }
+
+    }
+
+    console.log(type,cancellationDates,reason,concernedBookings);
+
+
+
+}
 
 /*************************************/
 /* --- DB Calls ----- ---------------*/
@@ -397,6 +516,8 @@ function getPitches() {
         }
     });
 }
+
+
 
 
 

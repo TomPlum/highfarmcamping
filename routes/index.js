@@ -205,7 +205,8 @@ module.exports = function (passport) {
 
 //POST DB Query of the Customer-Overview
     router.post('/get-PitchBookings', isAuthenticated, function (req, res) {
-        mysql.connection.query("select pitch_bookings.*, bookings.* from bookings INNER JOIN pitch_bookings on bookings.booking_id = pitch_bookings.booking_id;", function (err, rows) {
+        //mysql.connection.query("select pitch_bookings.*, bookings.* from bookings INNER JOIN pitch_bookings on bookings.booking_id = pitch_bookings.booking_id;", function (err, rows) {
+        mysql.connection.query("select pitches.*, pitch_bookings.*, bookings.* from bookings, pitches, pitch_bookings WHERE bookings.booking_id=pitch_bookings.booking_id AND pitch_bookings.pitch_id = pitches.pitch_id;", function (err, rows) {
             if (err) {
                 console.log(err);
             } else {
