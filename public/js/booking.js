@@ -441,26 +441,7 @@ function confirmCancellation() {
         }
     }
 
-    //Find concerned customers
-    /*for(concernedBooking of concernedBookings){
-        for(customer of customers){
-            if(customer.customer_id == concernedBooking.customer_id){
-                concernedCustomers.push(customer);
-            }
-        }
-    }
 
-    //Delete multiple records in concerned customers
-    let newConcernedCustomers = [];
-    newConcernedCustomers.push(concernedCustomers[0]);
-    for(let i = 1;i<concernedCustomers.length;i++){
-        if(concernedCustomers[i].customer_id != concernedCustomers[i-1].customer_id){
-            newConcernedCustomers.push(concernedCustomers[i]);
-        }else{
-            console.log(concernedCustomers[i]);
-        }
-    }
-    concernedCustomers = newConcernedCustomers;*/
 
     // Send emails to concernedCustomers
 

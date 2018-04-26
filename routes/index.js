@@ -393,10 +393,9 @@ module.exports = function (passport) {
             },
         });
 
-        for(customer of customers){
-            console.log(customers);
-            let emailHTML=`Hello${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your`+
-                            `booking with the bookingID : ${customer.booking_id} because of the following reason:<br>${reason}<br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team`;
+        asyncLoop(customers, function (customer, next) {
+            let emailHTML=`Hello ${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your `+
+                `booking with the bookingID : ${customer.booking_id} because of the following reason:<br>${reason}<br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team<br><br>`;
 
 
             let mailOptions = {
@@ -406,16 +405,30 @@ module.exports = function (passport) {
                 html: emailHTML
             };
 
+            console.log("Start");
             transporter.sendMail(mailOptions, function(error, info){
                 if (error) {
                     console.log(error);
-                    res.sendStatus(500);
+                    next(err);
+                    return;
+
                 } else {
                     console.log('Email sent: ' + info.response+ " to " + email_address);
-                    res.sendStatus(200);
+                    next();
+
                 }
             });
-        }
+            console.log("End");
+
+        }, function (err) {
+            if (err) {
+                console.error('Error: ' + err.message);
+                res.sendStatus(500);
+                return;
+            }
+            res.sendStatus(200);
+            console.log('Finished!');
+        });
 
 
     });
