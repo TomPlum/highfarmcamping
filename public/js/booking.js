@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    /**
+     * TODO Bookings mit customers holen und um dann später eine bessere aussage treffen zu können
+     */
 
 
     //Collapse
@@ -18,6 +21,7 @@ $(document).ready(function () {
     getPitches();
     getPitchBookings();
     getCustomers();
+    getBookingWithCustomer();
 
 
     //Initialize the DateRanger of the Booking
@@ -73,6 +77,7 @@ let pitches = [];
 let pitchBookings = [];
 let selectedPitches = [];
 let customers = [];
+let bookingsWithCustomers = [];
 
 function hideButton(){
     $('fieldset#changebutton').css("display","none");
@@ -387,6 +392,8 @@ function confirmCancellation() {
     let concernedBookings=[];
     let concernedCustomers=[];
 
+    console.log(bookingsWithCustomers);
+
     //Find concerned bookings
     for(pitchBooking of pitchBookings) {
         if(type=="all"){
@@ -423,8 +430,19 @@ function confirmCancellation() {
     }
     concernedBookings = newConcernedBookings;
 
+    //Filter bookingsWithCustomers
+    let filteredBookingsWithCustomers = [];
+    for(bookingWithCustomer of bookingsWithCustomers){
+        for(concernedBooking of concernedBookings){
+            if(bookingWithCustomer.booking_id == concernedBooking.booking_id ){
+                filteredBookingsWithCustomers.push(bookingWithCustomer);
+                continue;
+            }
+        }
+    }
+
     //Find concerned customers
-    for(concernedBooking of concernedBookings){
+    /*for(concernedBooking of concernedBookings){
         for(customer of customers){
             if(customer.customer_id == concernedBooking.customer_id){
                 concernedCustomers.push(customer);
@@ -442,12 +460,22 @@ function confirmCancellation() {
             console.log(concernedCustomers[i]);
         }
     }
-    concernedCustomers = newConcernedCustomers;
+    concernedCustomers = newConcernedCustomers;*/
 
+    // Send emails to concernedCustomers
 
+    $.ajax({
+        url: "/mass-cancellation-email",
+        type: "POST",
+        data: {"filteredBookingsWithCustomers": filteredBookingsWithCustomers,"reason":reason },
+        success: function () {
+            alert("Emails have been sent.");
 
-
-
+        },
+        error: function (error) {
+            console.log("Error sending emails:", error)
+        }
+    })
 
 
     console.log(type);
@@ -455,6 +483,7 @@ function confirmCancellation() {
     console.log(reason);
     console.log(concernedBookings);
     console.log(concernedCustomers);
+    console.log(filteredBookingsWithCustomers);
 
 
 
@@ -575,6 +604,21 @@ function getCustomers() {
         }
     });
 }
+
+function getBookingWithCustomer() {
+    $.ajax({
+        url: "/get-bookings-with-customer",
+        type: "POST",
+        success: function (rows) {
+             bookingsWithCustomers = rows;
+        },
+        error: function (error) {
+            console.log("Error getting bookings with customers", error)
+        }
+    });
+}
+
+
 
 
 
