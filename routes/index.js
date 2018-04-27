@@ -377,11 +377,13 @@ module.exports = function (passport) {
     router.post('/mass-cancellation-email', isAuthenticated, function (req, res) {
         let customers = req.body.filteredBookingsWithCustomers;
         let reason = req.body.reason;
-        if(reason==""){
-            reason="Internal reasons."
+        console.log(customers);
+        console.log(reason);
+        if(reason === ""){
+            reason="Internal Reasons"
         }
 
-        let transporter = nodemailer. createTransport({
+        let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
@@ -394,9 +396,9 @@ module.exports = function (passport) {
         });
 
         asyncLoop(customers, function (customer, next) {
+            console.log(customer);
             let emailHTML=`Hello ${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your `+
                 `booking with the bookingID : ${customer.booking_id} because of the following reason:<br>${reason}<br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team<br><br>`;
-
 
             let mailOptions = {
                 from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
@@ -405,32 +407,25 @@ module.exports = function (passport) {
                 html: emailHTML
             };
 
-            console.log("Start");
-            transporter.sendMail(mailOptions, function(error, info){
+            transporter.sendMail(mailOptions, (error, info) => {
+                console.log("Inside sendMail()");
                 if (error) {
                     console.log(error);
-                    next(err);
-                    return;
-
+                    next(error);
                 } else {
-                    console.log('Email sent: ' + info.response+ " to " + email_address);
+                    console.log('Email sent: ' + info.messageId + " to " + customer.email_address);
                     next();
-
                 }
             });
-            console.log("End");
-
         }, function (err) {
             if (err) {
                 console.error('Error: ' + err.message);
-                res.sendStatus(500);
-                return;
+                res.status(200).send({success: false});
+            } else {
+                res.status(200).send({success: true});
+                console.log('Finished Sending ' + customers.length + ' emails!');
             }
-            res.sendStatus(200);
-            console.log('Finished!');
         });
-
-
     });
 
 

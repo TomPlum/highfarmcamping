@@ -327,9 +327,6 @@ let cancellationProcess = false;
 
 $('.massCancellation').click(function () {
     if(cancellationProcess){
-
-
-
         $('fieldset#findbutton').css("display","inline");
         $('fieldset#tentfield').css("display","inline");
         $('fieldset#caravanfield').css("display","inline");
@@ -339,22 +336,17 @@ $('.massCancellation').click(function () {
         $('fieldset#daterange').css("display","inline");
         $('fieldset#daterangelabel').css("display","inline");
 
-
         $('fieldset#radioButtons').css("visibility","hidden");
         $('#cancelDate').css("visibility","hidden");
         $('fieldset#reasonLabel').css("display","none");
         $('fieldset#reasonInput').css("display","none");
 
-
         $('#massCancellation').css("display","inline");
         $('#cancelMassCancellation').css("display","none");
-        $('#confirmCancellationButton').css("display","none")
+        $('#confirmCancellationButton').css("display","none");
 
         cancellationProcess = false;
-
-
-
-    }else{
+    } else {
         $('fieldset#findbutton').css("display","none");
         $('fieldset#tentfield').css("display","none");
         $('fieldset#caravanfield').css("display","none");
@@ -363,7 +355,6 @@ $('.massCancellation').click(function () {
         $('fieldset#type').css("display","none");
         $('fieldset#daterange').css("display","none");
         $('fieldset#daterangelabel').css("display","none");
-
 
         $('fieldset#radioButtons').css("visibility","visible");
         $('#cancelDate').css("visibility","visible");
@@ -375,11 +366,8 @@ $('.massCancellation').click(function () {
         $('#confirmCancellationButton').css("display","inline");
 
         cancellationProcess = true;
-
     }
-
-
-})
+});
 
 
 function confirmCancellation() {
@@ -387,28 +375,35 @@ function confirmCancellation() {
     let dates = $('#cancelDate').val().split("-");
 
     let type = $('input[name=mass]:checked').val();
-    let cancellationDates = getDatesInRange(dates[0],dates[1]);
+    let cancellationDates = getDatesInRange(dates[0], dates[1]);
+    let cancelStart = cancellationDates[0];
+    let cancelEnd = cancellationDates[cancellationDates.length - 1];
     let reason = $('input[name=reasonInput]').val();
     let concernedBookings=[];
     let concernedCustomers=[];
 
     console.log(bookingsWithCustomers);
+    console.log(cancellationDates);
 
     //Find concerned bookings
+    /*
     for(pitchBooking of pitchBookings) {
-        if(type=="all"){
+        //If user has selected to cancel 'All' pitches
+        if(type === "all"){
             for(cancellationDate of cancellationDates){
-                if(cancellationDate>=convertDate(pitchBooking.stay_start_date) && cancellationDate <=convertDate(pitchBooking.stay_end_date)){
+                if(cancellationDate >= convertDate(pitchBooking.stay_start_date) && cancellationDate <= convertDate(pitchBooking.stay_end_date)){
                     concernedBookings.push(pitchBooking);
                     break;
                 }
             }
-        }else{
+
+        //If user has NOT selected 'All' pitches, filter by 'Tent' as only other option
+        } else {
             for(pitch of pitches){
-                if(pitchBooking.pitch_id == pitch.pitch_id){
-                    if(pitch.type=="tent"){
+                if(pitchBooking.pitch_id === pitch.pitch_id){
+                    if(pitch.type === "tent"){
                         for(cancellationDate of cancellationDates){
-                            if(cancellationDate>=convertDate(pitchBooking.stay_start_date) && cancellationDate <=convertDate(pitchBooking.stay_end_date)){
+                            if(cancellationDate >= convertDate(pitchBooking.stay_start_date) && cancellationDate <= convertDate(pitchBooking.stay_end_date)){
                                 concernedBookings.push(pitchBooking);
                                 break;
                             }
@@ -417,14 +412,35 @@ function confirmCancellation() {
                 }
             }
         }
-
     }
+    */
+    console.log(pitchBookings);
+    if (type === "all") {
+        for (let i = 0; i < pitchBookings.length; i++) {
+            const booking = pitchBookings[i];
+            if (Date.parse(booking.stay_start_date) >= Date.parse(cancelStart) && Date.parse(booking.stay_end_date) <= Date.parse(cancelEnd)) {
+                concernedBookings.push(booking);
+            }
+        }
+    } else {
+        for (let i = 0; i < pitchBookings.length; i++) {
+            const booking = pitchBookings[i];
+            if (booking.type === "tent" && Date.parse(booking.stay_start_date) >= Date.parse(cancelStart) && Date.parse(booking.stay_end_date) <= Date.parse(cancelEnd)) {
+                concernedBookings.push(booking);
+            }
+        }
+    }
+
+    if (concernedBookings.length < 1) {
+        alert("There are no bookings within that date range.");
+    }
+    console.log(concernedBookings);
 
     //Delete multiple records in concerned bookings
     let newConcernedBookings = [];
     newConcernedBookings.push(concernedBookings[0]);
-    for(let i =1;i<concernedBookings.length;i++){
-        if(concernedBookings[i].booking_id != concernedBookings[i-1].booking_id){
+    for(let i = 1; i < concernedBookings.length; i++) {
+        if(concernedBookings[i].booking_id !== concernedBookings[i-1].booking_id) {
             newConcernedBookings.push(concernedBookings[i]);
         }
     }
@@ -432,32 +448,36 @@ function confirmCancellation() {
 
     //Filter bookingsWithCustomers
     let filteredBookingsWithCustomers = [];
-    for(bookingWithCustomer of bookingsWithCustomers){
+    for(bookingWithCustomer of bookingsWithCustomers) {
         for(concernedBooking of concernedBookings){
-            if(bookingWithCustomer.booking_id == concernedBooking.booking_id ){
+            if(bookingWithCustomer.booking_id === concernedBooking.booking_id ) {
                 filteredBookingsWithCustomers.push(bookingWithCustomer);
-                continue;
             }
         }
     }
 
-
+    //Start Email Loading Animation
+    $("#confirmCancellationButton").html("<span class='fas fa-fw fa-spinner fa-pulse'></span> Sending Emails...");
 
     // Send emails to concernedCustomers
-
     $.ajax({
         url: "/mass-cancellation-email",
         type: "POST",
-        data: {"filteredBookingsWithCustomers": filteredBookingsWithCustomers,"reason":reason },
+        data: {"filteredBookingsWithCustomers": filteredBookingsWithCustomers, "reason": reason },
         success: function () {
-            alert("Emails have been sent.");
+            //Notify User They Have Sent
+            $("#confirmCancellationButton").html("<span class='fa fa-fw fa-check'></span>  Sent!");
 
+            //Wait a second, then switch back to booking
+            setTimeout(() => {
+                //Click 'Cancel Mass-Cancellation' to hide menu
+                $('#cancelMassCancellation').trigger("click");
+            }, 1500);
         },
         error: function (error) {
-            console.log("Error sending emails:", error)
+            console.log("Error sending emails: " + error)
         }
-    })
-
+    });
 
     console.log(type);
     console.log(cancellationDates);
@@ -465,10 +485,6 @@ function confirmCancellation() {
     console.log(concernedBookings);
     console.log(concernedCustomers);
     console.log(filteredBookingsWithCustomers);
-
-
-
-
 }
 
 /*************************************/
@@ -477,10 +493,7 @@ function confirmCancellation() {
 
 //Booking
 $('#next').click(function () {
-
-
     if (validityCheck()){
-
         book();
     } else {
         $('#error').text("");
@@ -488,13 +501,9 @@ $('#next').click(function () {
             $('#error').append(error + "<br>");
         }
     }
-
-
 });
 
 function book() {
-
-
     //get selected Dates
     let dates = $('input[name=selectPitches]').val().split("-");
     let data = {
@@ -591,7 +600,7 @@ function getBookingWithCustomer() {
         url: "/get-bookings-with-customer",
         type: "POST",
         success: function (rows) {
-             bookingsWithCustomers = rows;
+            bookingsWithCustomers = rows;
         },
         error: function (error) {
             console.log("Error getting bookings with customers", error)
