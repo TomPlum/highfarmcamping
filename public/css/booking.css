@@ -1,3 +1,11 @@
+.alertBox{
+    height: 120px;
+    position: absolute;
+    z-index: 3;
+    color: black;
+    margin-top: 80px;
+    text-align: center;
+}
 .find-pitch {
     background-color: #2f8fd5;
     color: white;

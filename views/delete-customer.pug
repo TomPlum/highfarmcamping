@@ -14,31 +14,31 @@ block append body-content
     div(id='alertBoxContainer')
         .row
             .col-md-2
-            .col-md-8
-                div.form-control.alertBox
+            .col-md-6
+                div.form-control.alertBox(style="text-align:center;")
                     br
-                    | The customer has been deleted
+                    | The customer has been deleted.
                     br
-                    .col-md-2
-                    .col-md-8
+                    .col-md-3
+                    .col-md-6
                         button.form-control.btn-info(type='button', id="alertBoxBtn",onclick="location.href='/customer-overview'")
                             span OK
-                    .col-md-2
+                    .col-md-3
 
             .col-md-2
     div(id='alertBoxContainer2')
         .row
             .col-md-2
-            .col-md-8
+            .col-md-6
                 div.form-control.alertBox
                     br
-                    | The customer could not be deleted because of still existing bookings related to the customer
+                    | The customer could not be deleted because of still existing bookings related to the customer.
                     br
-                    .col-md-2
-                    .col-md-8
+                    .col-md-3
+                    .col-md-6
                         button.form-control.btn-info(type='button', id="alertBoxBtn2",onclick="location.href='/customer-overview'")
                             span OK
-                    .col-md-2
+                    .col-md-3
 
             .col-md-2
     p
