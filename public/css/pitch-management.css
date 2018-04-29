@@ -153,10 +153,14 @@ input, select {
     cursor: pointer;
 }
 
-#refreshPitchManagement svg {
+#refreshPitchManagement svg, #addPitchBeforeModal svg {
     transition: all ease 0.5s;
 }
 
 #refreshPitchManagement:hover svg {
     transform: rotateZ(180deg);
+}
+
+#addPitchBeforeModal:hover svg {
+    transform: scale(1.4);
 }

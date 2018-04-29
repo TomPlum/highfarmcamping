@@ -23,28 +23,41 @@ $(document).ready(() => {
             grid.layout();
         }, 200);
     });
+
+    //Debug
+    $("#debug").on("click",() => {
+        console.log("Pitch Data: ");
+        console.log(pitchData);
+        console.log("\nPitch Information: ");
+        console.log(pitchInformation);
+    });
 });
 
 function loadPitchManagementData() {
-    startLoadingAnimation();
-    $.ajax({
-        url: "/manage-pitches/get-pitches",
-        type: "POST",
-        async: true,
-        success: function(data) {
-            console.log(data.pitches);
-            console.log(data.info);
-            //renderPitchOverview(parsePitchTypes(data.pitches));
-            renderPitchOverview(data.pitches);
-            stopLoadingAnimation();
-            bindGridControlEvents();
-            pitchData = data.pitches;
-            pitchInformation = data.info;
-        },
-        error: function(err) {
-            console.log(err);
-        }
-    });
+    if ($(".item").length === 0) {
+        startLoadingAnimation();
+        $.ajax({
+            url: "/manage-pitches/get-pitches",
+            type: "POST",
+            async: true,
+            success: function(data) {
+                console.log(data.pitches);
+                console.log(data.info);
+                //renderPitchOverview(parsePitchTypes(data.pitches));
+                renderPitchOverview(data.pitches);
+                stopLoadingAnimation();
+                bindGridControlEvents();
+                pitchData = data.pitches;
+                pitchInformation = data.info;
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    } else {
+        clearPitchManagementGrid();
+        loadPitchManagementData();
+    }
 }
 
 function clearPitchManagementGrid() {
@@ -132,7 +145,7 @@ function bindGridControlEvents() {
 
     $("#filterGrid").change(filter);
 
-    $("#addPitch").on("click", () => {
+    $("#addPitch").one("click", () => {
         addPitch();
     })
 }
@@ -168,7 +181,7 @@ function openEditModal(id) {
     $("#editPitchElectrical").val(pitch.electrical);
 
     //Bind Finished Editing Button Event
-    $("#finishedEditing").on("click", () => {
+    $("#finishedEditing").one("click", () => {
         let type = $("#editPitchType").val();
         if (type === "all-manage") {
             type = "all";
@@ -185,7 +198,7 @@ function openDeleteModal(id) {
     $("#areYouSure").html("Are you sure you want to delete Pitch " + id + "?\nThis action cannot be un-done.");
 
     //Bind Delete Pitch Button Event
-    $("#deletePitch").on("click", () => {
+    $("#deletePitch").one("click", () => {
         deletePitch(id);
     });
 }
@@ -197,7 +210,7 @@ function openSeasonalPricingModal(data) {
     }
 
     //Bind update ajax function here
-    $("#updateSeasonalPricing").on("click", () => {
+    $("#updateSeasonalPricing").one("click", () => {
         let values = [];
         for (let i = 0; i < data.length; i++) {
             values.push({
@@ -210,7 +223,6 @@ function openSeasonalPricingModal(data) {
         updateSeasonalPricing(values);
     });
 }
-
 
 function getSeasonalPricing() {
     $.ajax({
@@ -284,7 +296,7 @@ function deletePitch(id) {
         async: true,
         data: {id: id},
         success: function(data) {
-            alert("Successfully Deleted Pitch " + id);
+            //alert("Successfully Deleted Pitch " + id);
             refreshPitchManagement();
         },
         error: function(err) {
@@ -370,7 +382,8 @@ function addPitch() {
         async: true,
         data: {name: name, type: type, price: price, available: available, electrical: electrical},
         success: function(data) {
-            alert("Successfully Added Pitch " + name);
+            //alert("Successfully Added Pitch " + name);
+            console.log(data + ": " + name);
             refreshPitchManagement();
         },
         error: function(err) {
