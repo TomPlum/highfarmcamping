@@ -100,8 +100,8 @@ module.exports = function(passport) {
                 for(let i = 0; i < email.length; i++) {
                     if (email[i].booking_id.toString() === req.body.id.toString()) {
                         email_address = email[i].email_address;
-                        first_name = email[i].first_name;
-                        last_name = email[i].last_name;
+                        first_name = email[i].first_name.toString();
+                        last_name = email[i].last_name.toString();
                         registration = email[i].registration;
                         mobile_phone_number = email[i].mobile_phone_number;
                         stay_start_date = formatDate(email[i].stay_start_date.toString());
@@ -112,11 +112,11 @@ module.exports = function(passport) {
                     }
                 }
 //Content of email
-                const emailHTML = 'Hello ' + first_name + ' ' + last_name + '. <p> Thanks ' +
-                    'for choosing Highfarm Campsites! This is your booking confirmation: <p> ' +
-                    'Pitch booked from: ' + stay_start_date + ' to '+ stay_end_date +'<p>'+pitch_name+'<p>Payment total: £' + payment_total +
-                    '<p>Number of dogs: '+ count_dogs + '<p>Your registration number: ' + registration +
-                    '<p>Your mobile: ' + mobile_phone_number;
+                const emailHTML = '<b>Hello ' + first_name + ' ' + last_name + '</b><p> Thanks ' +
+                    'for choosing Highfarm Campsites!<br>This is your booking confirmation: <p> <b>' +
+                    pitch_name + '</b> booked from: <b>' + stay_start_date + ' to '+ stay_end_date +'</b><p>Payment total: £' + payment_total +
+                    '<br>Number of dogs: '+ count_dogs + '<br>Your registration number: ' + registration +
+                    '<br>Your mobile: ' + mobile_phone_number + '<p> See you soon!';
 //Access to gmail API
                 let transporter = nodemailer. createTransport({
                     service: 'gmail',
