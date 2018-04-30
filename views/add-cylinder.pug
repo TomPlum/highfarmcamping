@@ -13,19 +13,15 @@ block append top-content
         |  Add Cylinder
 
 block append body-content
-    h2
-    div(id='alertBoxContainer')
+    #alertBoxContainer
         .row
-            .col-md-2
-            .col-md-6
-                div.form-control.alertBox
-                    br
-                    | The cylinder has been added.
-                    br
-                    .col-md-3
-                    .col-md-6
-                        button.form-control.btn-info(type='button', id="alertBoxBtn", onclick="location.href='/gas-cylinder-overview'")
-                            span OK
+            .col-xs-12
+                p The cylinder has been Added.
+            .col-xs-6.col-xs-offset-3
+
+                .col-md-6
+                    button#alertBoxBtn.form-control.btn-info(type='button', onclick="location.href='/gas-cylinder-overview'")
+                        span OK
                     .col-md-3
 
             .col-md-2
