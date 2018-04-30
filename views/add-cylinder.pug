@@ -4,9 +4,6 @@ block append stylesheets
     link(rel="stylesheet" href="css/ui.css")
     link(rel="stylesheet" href="css/customer.css")
 
-block append scripts
-    script(src="js/add-cylinder.js")
-
 block append top-content
     p.page-title
         span.fa.fa-fw.fa-plus-circle
@@ -73,9 +70,11 @@ block append body-content
                         span.fa.fa-fw.fa-check
                         |  Add Cylinder
                 .col-md-2
-                    button.form-control.btn-info(type='button', onclick="location.href='gas-cylinder-overview'")
+                    button.form-control.btn-info(id="btnCancelButton" type='button')
                         span.fa.fa-fw.fa-times
                         |  Cancel
 
+block append scripts
+    script(src="js/add-cylinder.js")
 
 
