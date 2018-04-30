@@ -56,6 +56,10 @@ $(document).ready(() => {
     }
 });
 
+$('#btnCancelCylinder').click(function () {
+
+    window.location.href = "/gas-cylinder-overview";
+});
 
 
 // This file is to add a cylinder to the database

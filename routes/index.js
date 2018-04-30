@@ -489,8 +489,8 @@ module.exports = function (passport) {
         });
 
         asyncLoop(customers, function (customer, next) {
-            let emailHTML = `Hello ${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your ` +
-                `booking with the bookingID : ${customer.booking_id} because of the following reason:<br>${reason}<br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team<br><br>`;
+            let emailHTML = `<b>Hello ${customer.first_name}</b>,<br>unfortunately, we have to tell you that we cancelled your ` +
+                `booking with the bookingID : <b>${customer.booking_id}</b> because of the following reason:<br><b>${reason}</b><br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team<br><br>`;
 
             let mailOptions = {
                 from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
