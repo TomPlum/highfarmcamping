@@ -44,7 +44,7 @@ module.exports = function(passport) {
 //* POST Search Booking */
     router.post('/get-booking', isAuthenticated, function(req, res) {
         let id = req.body.ID;
-        let queryString = "SELECT pitches.pitch_id, pitches.pitch_name, customers.customer_id, customers.first_name, customers.last_name, customers.address_line_1, customers.address_line_2, customers.email_address, customers.home_phone_number, customers.mobile_phone_number, customers.registration, customers.date_of_birth, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.type, bookings.booking_id, bookings.payment_total, bookings.paid, bookings.payment_type, bookings.booking_date FROM pitch_bookings" +
+        let queryString = "SELECT pitches.pitch_id, pitches.pitch_name, pitches.type, customers.customer_id, customers.first_name, customers.last_name, customers.address_line_1, customers.address_line_2, customers.email_address, customers.home_phone_number, customers.mobile_phone_number, customers.registration, customers.date_of_birth, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.booking_id, bookings.payment_total, bookings.paid, bookings.payment_type, bookings.booking_date FROM pitch_bookings" +
             " INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id" +
             " INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id" +
             " INNER JOIN customers ON bookings.customer_id = customers.customer_id" +

@@ -132,6 +132,66 @@ module.exports = function (passport) {
         failureFlash: true
     }));
 
+    /* Lost Password */
+    router.post('/lost-password', function(req, res) {
+        let isValidPassword = function (user, password) {
+            return bCrypt.compareSync(password, user);
+        };
+
+        let createHash = function (password) {
+            return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+        };
+
+        mysql.connection.query("SELECT * FROM users WHERE username = ?;", [req.body.username], function (err, rows) {
+
+            console.log("New: " + req.body.newPassword + ", Confirm: " + req.body.confirm);
+
+            //If Unexpected Error - Log It & Return It
+            if (err || !rows.length || rows === []) {
+                console.log("Error: " + err);
+                res.status(200).send({
+                    error: "User " + req.body.username + " Not Found.",
+                    success: null,
+                    username: req.body.username
+                });
+            } else {
+                //Old Password & Current Database Passwords DO NOT match
+                if (!isValidPassword(rows[0].password, req.body.old)) {
+                    res.status(200).send({
+                        error: "Incorrect Current Password.",
+                        success: null,
+                        username: req.body.username
+                    });
+                } else
+                //New Password & Confirm Passwords DO NOT match
+                if (req.body.newPassword !== req.body.confirm) {
+                    res.status(200).send({
+                        error: "Passwords Do Not Match.",
+                        success: null,
+                        username: req.body.username
+                    });
+                } else {
+                    //Update Password
+                    mysql.connection.query("UPDATE users SET password = ? WHERE username = ?;", [createHash(req.body.confirm), req.body.username], err => {
+                        if (err) {
+                            res.status(200).send({
+                                error: err,
+                                success: null,
+                                username: req.body.username
+                            });
+                        } else {
+                            res.status(200).send({
+                                error: null,
+                                success: "Successfully Updated Password.",
+                                username: req.body.username
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    });
+
     /* POST Change Password */
     router.post('/change-password', function (req, res) {
         let isValidPassword = function (user, password) {
@@ -144,7 +204,7 @@ module.exports = function (passport) {
 
         console.log(req.body.username);
         mysql.connection.query("SELECT * FROM users WHERE username = ?;", [req.body.username], function (err, rows) {
-            console.log(rows);
+
             //If Unexpected Error - Log It & Return It
             if (err || !rows.length || rows === []) {
                 console.log("Error: " + err);

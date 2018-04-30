@@ -57,13 +57,21 @@ html(lang="en")
                             .modal-body
                                 #div-lost-msg
                                     #icon-lost-msg.glyphicon.glyphicon-chevron-right
-                                    span#text-lost-msg Whoops! We'll send you a reminder.
-                                input#lost_email.form-control(type='text', placeholder='E-Mail Address', required)
+                                    span#text-lost-msg Whoops! Please change your password.
+                                input.form-control#lostPasswordUsername(type="text" name="username" placeholder="Username" required)
+                                input.form-control#lostPasswordOld(type="password" name="old" placeholder="Current Password" required)
+                                input.form-control#lostPasswordNew(type="password" name="new" placeholder="New Password" required)
+                                input.form-control#lostPasswordConfirm(type="password" name="confirm" placeholder="Confirm Password" required)
+                                button#submit_handle(type="submit" style="display: none")
+                                p#lostPasswordError
+                                p#lostPasswordSuccess
                             .modal-footer
                                 div
-                                    button.btn.btn-primary.btn-lg.btn-block(type='submit') Send
+                                    button#lostPassword.btn.btn-primary.btn-lg.btn-block(type='button') Submit
+                                    button#lostPasswordResponseMessage.btn.btn-lg.btn-block(type="button")
                                 div
                                     button#lost_login_btn.btn.btn-link(type='button') Log In
+                                    br
         #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true', style='display: none;')
             .modal-dialog
                 .modal-content

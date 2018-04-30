@@ -56,6 +56,7 @@ $(document).ready(() => {
             tBody += "<td>" + ucFirst(data[0].payment_type) + "</td>";
             tBody += "<td>" + formatPaid(data[0].paid) + "</td>";
             tBody += "<td>";
+        
             // in case when one booking has several pitches:
             if (data.length > 1) {
                 // one booking has two pitches:
