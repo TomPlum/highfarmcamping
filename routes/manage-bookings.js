@@ -222,11 +222,11 @@ module.exports = function(passport) {
     /* POST Booking History */
     router.post('/history', isAuthenticated, function(req, res) {
         mysql.connection.query(
-            "SELECT * FROM pitch_bookings " +
-            "INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id " +
-            "INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id " +
-            "INNER JOIN customers ON bookings.customer_id = customers.customer_id " +
-            "ORDER BY bookings.booking_id", (err, rows) => {
+            "SELECT * FROM bookings_history " +
+            //"INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id " +
+            //"INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id " +
+            "INNER JOIN customers ON bookings_history.customer_id = customers.customer_id " +
+            "ORDER BY bookings_history.booking_id", (err, rows) => {
                 if (err) {
                     console.log(err);
                 }

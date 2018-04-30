@@ -531,9 +531,30 @@ module.exports = function (passport) {
 
         }
 
+
         function insertBooking(customerID, callback) {
 
             let query;
+            query = "INSERT bookings_history (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (" +
+                customerID + "," +
+                data.bookingData.dogs + ",\"" +
+                data.bookingData.startDate + "\",\"" +
+                data.bookingData.endDate + "\",\"" +
+                data.bookingData.paymentMethod + "\"," +
+                data.bookingData.price + "," +
+                data.bookingData.alreadyPaid + ",\"" +
+                data.bookingData.type + "\",\"" +
+                data.bookingData.bookingDate + "\");";
+
+            mysql.connection.query(query, function (err, okPacket) {
+                if (!err) {
+                    console.log("Book a pitch: Booking inserted in booking history!");
+                } else {
+                    console.log(err);
+                }
+
+            });
+
             query = "INSERT bookings (customer_id, count_dogs, stay_start_date, stay_end_date, payment_type, payment_total, paid, type, booking_date) VALUES (" +
                 customerID + "," +
                 data.bookingData.dogs + ",\"" +
@@ -544,7 +565,9 @@ module.exports = function (passport) {
                 data.bookingData.alreadyPaid + ",\"" +
                 data.bookingData.type + "\",\"" +
                 data.bookingData.bookingDate + "\");";
+
             mysql.connection.query(query, function (err, okPacket) {
+                //console.log(okPacket);
                 insertedId = okPacket.insertId;
                 bookingIdReturnValue = okPacket.insertId;
                 if (!err) {
