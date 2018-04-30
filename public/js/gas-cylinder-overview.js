@@ -100,7 +100,7 @@ $(document).ready(() => {
 
     function goToDeleteCylinders(){
 
-        if(selectedRowValue !== undefined){
+        if(selectedRowValue !== ""){
             window.location = "/delete-cylinder?gas_id="+selectedRowValue;
         }
         else
