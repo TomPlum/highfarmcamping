@@ -49,9 +49,10 @@ $(document).ready(() => {
 
 
 
+    $('#btnCancelCylinder').click(function () {
 
-
-
+        window.location.href = "/gas-cylinder-overview";
+    });
 
 
     $('#btnUpdateCylinder').click(function () {
