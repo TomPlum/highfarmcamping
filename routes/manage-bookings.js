@@ -138,15 +138,21 @@ module.exports = function(passport) {
                     html: emailHTML
                 };
 
-
+                let err;
                 transporter.sendMail(mailOptions, (error, info) => {
 
                     if (error) {
                         console.log(error);
-                        callback(err, null);
+                        err=error;
                     }
+
                 });
-                callback(null, "Successfully Sent Email To: " + email_address);
+                if(err){
+                    callback(err, null);
+                }else{
+                    callback(null, "Successfully Sent Email To: " + email_address);
+                }
+
             }
         ], function(err, success) {
             if (err) {
