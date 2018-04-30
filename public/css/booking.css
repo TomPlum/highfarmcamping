@@ -1,3 +1,11 @@
+.alertBox{
+    height: 120px;
+    position: absolute;
+    z-index: 3;
+    color: black;
+    margin-top: 80px;
+    text-align: center;
+}
 .find-pitch {
     background-color: #2f8fd5;
     color: white;
@@ -92,7 +100,7 @@ tr.selected {
 .hiddenRow{
     display: none;
 }
-
+/*
 .massCancellation{
     background-color: #FFFF00;
     color: rgba(0, 0, 0, 0.9);
@@ -106,7 +114,11 @@ tr.selected {
     border: 2px solid #FFFF00;
 
 }
-
+*/
+#confirmCancellationButton {
+    display: none;
+}
+/*
 #confirmCancellationButton{
     background-color: #2f8fd5;
     color: white;
@@ -121,7 +133,7 @@ tr.selected {
     border: 2px solid #2f8fd5;
     color: #2f8fd5;
 }
-
+*/
 
 #cancelMassCancellation{
     display: none;

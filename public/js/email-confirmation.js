@@ -1,7 +1,7 @@
 $(document).ready(() => {
 });
 
-var customerEmail;
+let customerEmail;
 
 $('#printPDF').click(function(){
     //getCustomerFromDB();

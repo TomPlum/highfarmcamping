@@ -44,7 +44,7 @@ module.exports = function(passport) {
 //* POST Search Booking */
     router.post('/get-booking', isAuthenticated, function(req, res) {
         let id = req.body.ID;
-        let queryString = "SELECT pitches.pitch_id, pitches.pitch_name,  pitches.type, customers.customer_id, customers.first_name, customers.last_name, customers.address_line_1, customers.address_line_2, customers.email_address, customers.home_phone_number, customers.mobile_phone_number, customers.registration, customers.date_of_birth, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.booking_id, bookings.payment_total, bookings.paid, bookings.payment_type, bookings.booking_date FROM pitch_bookings" +
+        let queryString = "SELECT pitches.pitch_id, pitches.pitch_name, customers.customer_id, customers.first_name, customers.last_name, customers.address_line_1, customers.address_line_2, customers.email_address, customers.home_phone_number, customers.mobile_phone_number, customers.registration, customers.date_of_birth, bookings.stay_start_date, bookings.stay_end_date, bookings.count_dogs, bookings.type, bookings.booking_id, bookings.payment_total, bookings.paid, bookings.payment_type, bookings.booking_date FROM pitch_bookings" +
             " INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id" +
             " INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id" +
             " INNER JOIN customers ON bookings.customer_id = customers.customer_id" +
@@ -100,8 +100,8 @@ module.exports = function(passport) {
                 for(let i = 0; i < email.length; i++) {
                     if (email[i].booking_id.toString() === req.body.id.toString()) {
                         email_address = email[i].email_address;
-                        first_name = email[i].first_name;
-                        last_name = email[i].last_name;
+                        first_name = email[i].first_name.toString();
+                        last_name = email[i].last_name.toString();
                         registration = email[i].registration;
                         mobile_phone_number = email[i].mobile_phone_number;
                         stay_start_date = formatDate(email[i].stay_start_date.toString());
@@ -112,11 +112,11 @@ module.exports = function(passport) {
                     }
                 }
 //Content of email
-                const emailHTML = 'Hello ' + first_name + ' ' + last_name + '. <p> Thanks ' +
-                    'for choosing Highfarm Campsites! This is your booking confirmation: <p> ' +
-                    'Pitch booked from: ' + stay_start_date + ' to '+ stay_end_date +'<p>'+pitch_name+'<p>Payment total: £' + payment_total +
-                    '<p>Number of dogs: '+ count_dogs + '<p>Your registration number: ' + registration +
-                    '<p>Your mobile: ' + mobile_phone_number;
+                const emailHTML = '<b>Hello ' + first_name + ' ' + last_name + '</b><p> Thanks ' +
+                    'for choosing Highfarm Campsites!<br>This is your booking confirmation: <p> <b>' +
+                    pitch_name + '</b> booked from: <b>' + stay_start_date + ' to '+ stay_end_date +'</b><p>Payment total: £' + payment_total +
+                    '<br>Number of dogs: '+ count_dogs + '<br>Your registration number: ' + registration +
+                    '<br>Your mobile: ' + mobile_phone_number + '<p> See you soon!';
 //Access to gmail API
                 let transporter = nodemailer. createTransport({
                     service: 'gmail',

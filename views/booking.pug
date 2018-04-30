@@ -90,8 +90,6 @@ block append body-content
                                         |
                                         P
 
-
-
                                 .col-md-3
                                     fieldset#findbutton
                                         button.form-control.find-pitch(type='button', onclick='populatePitchSelection()')
@@ -107,13 +105,13 @@ block append body-content
 
                                 .col-md-3
                                     fieldset
-                                        button.form-control.massCancellation(type='button' id="massCancellation")
-                                            span.glyphicon.glyphicon-warning-sign
-                                            |  Mass-cancellation
+                                        button.btn.btn-warning.form-control.massCancellation(type='button' id="massCancellation")
+                                            span.fas.fa-fw.fa-exclamation-triangle
+                                            |  Mass-Cancellation
                                     fieldset
-                                        button.form-control.massCancellation(type='button' id="cancelMassCancellation")
-                                            span.glyphicon.glyphicon-warning-sign
-                                            |  Cancel Mass-cancellation
+                                        button.btn.btn-danger.form-control.massCancellation(type='button' id="cancelMassCancellation")
+                                            span.fas.fa-fw.fa-times
+                                            |  Abort
 
                                         fieldset#radioButtons
                                             form
@@ -125,29 +123,24 @@ block append body-content
                                         br
 
                                     fieldset
-                                        input#cancelDate(type='text', name='cancelDate', value='01/01/2018 - 07/01/2018')
+                                        input.form-control#cancelDate(type='text', name='cancelDate', value='01/01/2018 - 07/01/2018')
                                     br
 
                                     fieldset#reasonLabel
                                         | Reason for Cancellation:
 
                                     fieldset#reasonInput
-                                        input(type="text" name="reasonInput")
+                                        input.form-control(type="text" name="reasonInput")
 
                                     br
                                     br
                                     fieldset
-                                        button.form-control#confirmCancellationButton(type='button' onclick='confirmCancellation()')
+                                        button.btn.btn-success.form-control#confirmCancellationButton(type='button' onclick='confirmCancellation()')
                                             span.glyphicon.glyphicon-tent
-                                            |  Confirm Cancellation
-                                            p
-
-
-
-
+                                            |  Submit
                             .row
                                 #selectPitches
-                                    | Seelct Booking Duration &nbsp &nbsp &nbsp
+                                    | Select Booking Duration &nbsp &nbsp &nbsp
                                     input(type='text', name='selectPitches', value='01/01/2018 - 01/14/2018' )
                                 br
 
@@ -241,7 +234,7 @@ block append body-content
                                         option(value="Paypal") Paypal
 
                             .col-md-2
-                                label Already paid?
+                                label Already Paid?
                                 |
                                 input(type='checkbox', id="already_paid", name='already_paid' )
                         br

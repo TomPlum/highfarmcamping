@@ -11,17 +11,24 @@ block append top-content
         |  Delete Booking
 
 block append body-content
-    #alertBoxContainer
+    h2
+    div(id='alertBoxContainer')
         .row
-            .col-md-8
-                .form-control.alertBox
+            .col-md-2
+            .col-md-6
+                div.form-control.alertBox
                     br
-                    | The booking has been deleted
+                    | The booking has been deleted.
                     br
-                    .col-md-8
+                    .col-md-3
+                    .col-md-6
                         button.form-control.btn-info(type='button', id="alertBoxBtn", onclick="location.href='/manage-booking/overview'")
                             span OK
-    #alertBoxContainer2
+                    .col-md-3
+
+            .col-md-2
+
+    div(id='alertBoxContainer2')
         .row
             .col-md-8
                 .form-control.alertBox
@@ -41,7 +48,7 @@ block append body-content
             .col-md-2.col-sm-4
                 button.form-control.btn-info(type='button' id="btnDeleteBooking")
                     span.fa.fa-fw.fa-trash-alt
-                    |  Delete Booking
+                    |  Delete
             .col-md-2.col-sm-4
                 button.form-control.btn-info(type='button', onclick="location.href='/manage-booking/overview'")
                     span.fa.fa-fw.fa-times

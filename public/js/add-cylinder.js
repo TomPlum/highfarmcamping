@@ -2,6 +2,10 @@
 
 $(document).ready(() => {
 
+    $('#btnCancelButton').click(function () {
+        window.location.href="/gas-cylinder-overview";
+    });
+
     $('#btnAddCylinder').click(function () {
 
         let valide = validityCheck();

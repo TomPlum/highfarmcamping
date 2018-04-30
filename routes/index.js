@@ -4,6 +4,7 @@ const mysql = require('../db/mysql');
 const async = require("async");
 const asyncLoop = require('node-async-loop');
 const bCrypt = require('bcrypt-nodejs');
+const nodemailer = require('nodemailer');
 
 const isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -201,8 +202,6 @@ module.exports = function (passport) {
     });
 
 
-
-
 //POST DB Query of the Customer-Overview
     router.post('/get-PitchBookings', isAuthenticated, function (req, res) {
         //mysql.connection.query("select pitch_bookings.*, bookings.* from bookings INNER JOIN pitch_bookings on bookings.booking_id = pitch_bookings.booking_id;", function (err, rows) {
@@ -232,7 +231,18 @@ module.exports = function (passport) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(rows);
+
+                res.send(rows);
+            }
+        });
+    });
+
+    //POST DB Query to get all Bookings
+    router.post('/get-bookings-with-customer', isAuthenticated, function (req, res) {
+        mysql.connection.query("SELECT * FROM bookings b INNER JOIN customers c ON b.customer_id = c.customer_id; ", function (err, rows) {
+            if (err) {
+                console.log(err);
+            } else {
                 res.send(rows);
             }
         });
@@ -244,7 +254,7 @@ module.exports = function (passport) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(rows);
+
                 res.send(rows);
             }
         });
@@ -258,7 +268,7 @@ module.exports = function (passport) {
             if (err) {
                 console.log(err);
             } else {
-                console.log(data);
+
                 res.send(data);
             }
         });
@@ -315,7 +325,6 @@ module.exports = function (passport) {
 
 // GENERAL DB UPDATE/ INSERT QUERY / HTTP POST Request. CAN BE USED FOR ALL KIND OF SQL UPDATE OR INSERT Statements!
     router.post('/db-query', isAuthenticated, function (req, res) {
-        console.log(req.body.query);
         mysql.connection.query(req.body.query, function (err) {
             //console.log("GENERAL DB-QUERY ERROR: " + err);
             res.send(err);
@@ -324,7 +333,6 @@ module.exports = function (passport) {
 
 // General SELECT db query:
     router.post('/select-db-query', isAuthenticated, function (req, res) {
-        console.log(req.body.query);
         //let sql_statement = "SELECT * FROM customers JOIN address JOIN customers_addresses WHERE customers.customer_id = customers_addresses.customer_id AND address.address_id = customers_addresses.address_id AND customers.customer_id="+id+";";
         mysql.connection.query(req.body.query, function (err, rows) {
             res.send(rows);
@@ -334,11 +342,8 @@ module.exports = function (passport) {
 
 //POST DB Query of add / edit customer
     router.post('/insert-customer', isAuthenticated, function (req, res) {
-        console.log(req.body.query);
         let insertedId;
         mysql.connection.query(req.body.query, function (err, rows) {
-            console.log(err);
-            console.log(rows);
             insertedId = rows.insertId;
             if (!err) {
                 res.send([200, insertedId]);
@@ -350,11 +355,9 @@ module.exports = function (passport) {
 
     //POST DB Query for insert cylinder
     router.post('/insert-cylinder', isAuthenticated, function (req, res) {
-        console.log(req.body.query);
         let insertedId;
         mysql.connection.query(req.body.query, function (err, rows) {
-            console.log(err);
-            console.log(rows);
+
             insertedId = rows.insertId;
             if (!err) {
                 res.send([200, insertedId]);
@@ -363,6 +366,100 @@ module.exports = function (passport) {
         });
 
     });
+
+    /*************************************/
+    /* --- Mass cancellation ------------*/
+    /*************************************/
+
+    //Send Mails
+    router.post('/mass-cancellation-email', isAuthenticated, function (req, res) {
+        let customers = req.body.filteredBookingsWithCustomers;
+        let reason = req.body.reason;
+        if (reason === "") {
+            reason = "Internal Reasons"
+        }
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: 'highfarm.campsites@gmail.com',
+                clientId: '211967510289-m2if3f96pcrauqp26s9q9pbc5njni23l.apps.googleusercontent.com',
+                clientSecret: 'UI3d-NQTmGPkEQCx1vTYtPFC',
+                refreshToken: '1/GFMjz4NXVjrTt09mDhKct7GH6bjEaO7AfaDoDB_OtlM',
+                accessToken: 'ya29.GluYBev-3ScBR8waQNph75piaCzUAFRwCVQagfv7m6hoXzoxOoeGqs1rCSCbsdmFOWZ2wseU8eCHMoIKIIWFywEU8g4j88MHl-nQ0rXkiriuMmiqCVydyYOsmqZv',
+            },
+        });
+
+
+        asyncLoop(customers, function (customer, next) {
+            let id = customer.booking_id;
+            async.waterfall([
+                function (callback) {
+                    mysql.connection.query("DELETE FROM pitch_bookings WHERE booking_id=" + id + ";", (err) => {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        callback(null, "Success");
+                    });
+                },
+                function (pitch_booking, callback) {
+                    mysql.connection.query("DELETE FROM bookings WHERE booking_id=" + id + ";", (err) => {
+                        if (err) {
+                            callback(pitch_booking, err);
+                        }
+                        callback(pitch_booking, "Success");
+                    });
+                }
+            ], function (pitch_booking, booking, error) {
+                if (error) {
+                    console.log("Error: " + error);
+                } else {
+                    next();
+                    console.log("Booking with booking id: " + id + " deleted!")
+                }
+            });
+
+        }, function (err) {
+            if (err) {
+                console.error('Error: ' + err.message);
+            } else {
+                console.log('Finished deleting bookings');
+            }
+        });
+
+        asyncLoop(customers, function (customer, next) {
+            let emailHTML = `Hello ${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your ` +
+                `booking with the bookingID : ${customer.booking_id} because of the following reason:<br>${reason}<br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team<br><br>`;
+
+            let mailOptions = {
+                from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
+                to: customer.email_address,
+                subject: 'Your Booking has been cancelled',
+                html: emailHTML
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                console.log("Inside sendMail()");
+                if (error) {
+                    console.log(error);
+                    next(error);
+                } else {
+                    console.log('Email sent: ' + info.messageId + " to " + customer.email_address);
+                    next();
+                }
+            });
+        }, function (err) {
+            if (err) {
+                console.error('Error: ' + err.message);
+                res.status(200).send({success: false});
+            } else {
+                res.status(200).send({success: true});
+                console.log('Finished Sending ' + customers.length + ' emails!');
+            }
+        });
+    });
+
 
     /*************************************/
     /* --- Queries for book a pitch -----*/
@@ -401,7 +498,7 @@ module.exports = function (passport) {
                     data.customerData.registration + "\",address_line_1 = \"" +
                     data.customerData.addressLine1 + "\",address_line_2 = \"" +
                     data.customerData.addressLine2 + "\" WHERE customer_id = \"" + data.customerData.insertId + "\";";
-                console.log(query);
+
             } else {
                 query = "INSERT INTO customers ( first_name, last_name, date_of_birth, email_address, home_phone_number, mobile_phone_number, registration, address_line_1,address_line_2) VALUES (\"" +
                     data.customerData.firstName + "\",\"" +
@@ -447,7 +544,6 @@ module.exports = function (passport) {
                 data.bookingData.alreadyPaid + ",\"" +
                 data.bookingData.type + "\",\"" +
                 data.bookingData.bookingDate + "\");";
-            console.log(query);
             mysql.connection.query(query, function (err, okPacket) {
                 insertedId = okPacket.insertId;
                 bookingIdReturnValue = okPacket.insertId;

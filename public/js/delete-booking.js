@@ -81,20 +81,21 @@ $(document).ready(() => {
                 "</thead>";
 
             //Create Table Body
-            for (let i = 0; i < booking.length; i++) {
-                tBody += "<tr>";
-                tBody += "<td>" + booking[i].booking_id + "</td>";
-                tBody += "<td>" + booking[i].customer_id + "</td>";
-                tBody += "<td>" + booking[i].count_dogs + "</td>";
-                tBody += "<td>" + formatDate(booking[i].stay_start_date) + "</td>";
-                tBody += "<td>" + formatDate(booking[i].stay_end_date) + "</td>"
-                tBody += "<td>" + booking[i].payment_type + "</td>";
-                tBody += "<td>" + booking[i].payment_total + "</td>";
-                tBody += "<td>" + booking[i].paid + "</td>";
-                tBody += "<td>" + booking[i].type + "</td>";
-                tBody += "<td>" + formatDate(booking[i].booking_date) + "</td>";
-                tBody += "</tr>";
-            }
+            let i = 0;
+
+            tBody += "<tr>";
+            tBody += "<td>" + booking[i].booking_id + "</td>";
+            tBody += "<td>" + booking[i].customer_id + "</td>";
+            tBody += "<td>" + booking[i].count_dogs + "</td>";
+            tBody += "<td>" + formatDate(booking[i].stay_start_date) + "</td>";
+            tBody += "<td>" + formatDate(booking[i].stay_end_date) + "</td>"
+            tBody += "<td>" + booking[i].payment_type + "</td>";
+            tBody += "<td>" + booking[i].payment_total + "</td>";
+            tBody += "<td>" + booking[i].paid + "</td>";
+            tBody += "<td>" + booking[i].type + "</td>";
+            tBody += "<td>" + formatDate(booking[i].booking_date) + "</td>";
+            tBody += "</tr>";
+
             tBody += "</tbody>";
             $(".booking-to-be-deleted").html(oTable + headers + tBody + cTable);
         } catch (err) {
