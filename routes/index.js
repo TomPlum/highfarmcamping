@@ -202,8 +202,6 @@ module.exports = function (passport) {
     });
 
 
-
-
 //POST DB Query of the Customer-Overview
     router.post('/get-PitchBookings', isAuthenticated, function (req, res) {
         //mysql.connection.query("select pitch_bookings.*, bookings.* from bookings INNER JOIN pitch_bookings on bookings.booking_id = pitch_bookings.booking_id;", function (err, rows) {
@@ -377,10 +375,8 @@ module.exports = function (passport) {
     router.post('/mass-cancellation-email', isAuthenticated, function (req, res) {
         let customers = req.body.filteredBookingsWithCustomers;
         let reason = req.body.reason;
-        console.log(customers);
-        console.log(reason);
-        if(reason === ""){
-            reason="Internal Reasons"
+        if (reason === "") {
+            reason = "Internal Reasons"
         }
 
         let transporter = nodemailer.createTransport({
@@ -395,9 +391,45 @@ module.exports = function (passport) {
             },
         });
 
+
         asyncLoop(customers, function (customer, next) {
-            console.log(customer);
-            let emailHTML=`Hello ${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your `+
+            let id = customer.booking_id;
+            async.waterfall([
+                function (callback) {
+                    mysql.connection.query("DELETE FROM pitch_bookings WHERE booking_id=" + id + ";", (err) => {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        callback(null, "Success");
+                    });
+                },
+                function (pitch_booking, callback) {
+                    mysql.connection.query("DELETE FROM bookings WHERE booking_id=" + id + ";", (err) => {
+                        if (err) {
+                            callback(pitch_booking, err);
+                        }
+                        callback(pitch_booking, "Success");
+                    });
+                }
+            ], function (pitch_booking, booking, error) {
+                if (error) {
+                    console.log("Error: " + error);
+                } else {
+                    next();
+                    console.log("Booking with booking id: " + id + " deleted!")
+                }
+            });
+
+        }, function (err) {
+            if (err) {
+                console.error('Error: ' + err.message);
+            } else {
+                console.log('Finished deleting bookings');
+            }
+        });
+
+        asyncLoop(customers, function (customer, next) {
+            let emailHTML = `Hello ${customer.first_name},<br>unfortunately, we have to tell you that we cancelled your ` +
                 `booking with the bookingID : ${customer.booking_id} because of the following reason:<br>${reason}<br><br>Please contact us for more information.<br><br>Kind regards<br>High Farm Campsites Team<br><br>`;
 
             let mailOptions = {
