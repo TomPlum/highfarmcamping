@@ -386,7 +386,6 @@ function confirmCancellation() {
     console.log(cancellationDates);
 
     //Find concerned bookings
-    /*
     for(pitchBooking of pitchBookings) {
         //If user has selected to cancel 'All' pitches
         if(type === "all"){
@@ -413,12 +412,14 @@ function confirmCancellation() {
             }
         }
     }
-    */
+
+
+    /*
     console.log(pitchBookings);
     if (type === "all") {
         for (let i = 0; i < pitchBookings.length; i++) {
             const booking = pitchBookings[i];
-            if (Date.parse(booking.stay_start_date) >= Date.parse(cancelStart) && Date.parse(booking.stay_end_date) <= Date.parse(cancelEnd)) {
+            if (Date.parse(booking.stay_start_date) >= Date.parse(cancelStart) && Date.parse(booking.stay_start_date) <= Date.parse(cancelEnd)) {
                 concernedBookings.push(booking);
             }
         }
@@ -430,61 +431,70 @@ function confirmCancellation() {
             }
         }
     }
+    */
 
     if (concernedBookings.length < 1) {
         alert("There are no bookings within that date range.");
-    }
-    console.log(concernedBookings);
+    }else{
 
-    //Delete multiple records in concerned bookings
-    let newConcernedBookings = [];
-    newConcernedBookings.push(concernedBookings[0]);
-    for(let i = 1; i < concernedBookings.length; i++) {
-        if(concernedBookings[i].booking_id !== concernedBookings[i-1].booking_id) {
-            newConcernedBookings.push(concernedBookings[i]);
-        }
-    }
-    concernedBookings = newConcernedBookings;
-
-    //Filter bookingsWithCustomers
-    let filteredBookingsWithCustomers = [];
-    for(bookingWithCustomer of bookingsWithCustomers) {
-        for(concernedBooking of concernedBookings){
-            if(bookingWithCustomer.booking_id === concernedBooking.booking_id ) {
-                filteredBookingsWithCustomers.push(bookingWithCustomer);
+        //Delete multiple records in concerned bookings
+        let newConcernedBookings = [];
+        newConcernedBookings.push(concernedBookings[0]);
+        for(let i = 0; i < concernedBookings.length - 1; i++) {
+            if(i >= 1 && concernedBookings[i].booking_id !== concernedBookings[i-1].booking_id) {
+                newConcernedBookings.push(concernedBookings[i]);
             }
         }
+        concernedBookings = newConcernedBookings;
+
+        //Filter bookingsWithCustomers
+        let filteredBookingsWithCustomers = [];
+        for(bookingWithCustomer of bookingsWithCustomers) {
+            for(concernedBooking of concernedBookings){
+                if(bookingWithCustomer.booking_id === concernedBooking.booking_id ) {
+                    filteredBookingsWithCustomers.push(bookingWithCustomer);
+                }
+            }
+        }
+        console.log(filteredBookingsWithCustomers);
+
+        //Start Email Loading Animation
+        $("#confirmCancellationButton").html("<span class='fas fa-fw fa-spinner fa-pulse'></span> Sending Emails...");
+
+        console.log(type);
+        console.log(cancellationDates);
+        console.log(reason);
+        console.log(concernedBookings);
+        console.log(concernedCustomers);
+        console.log(filteredBookingsWithCustomers);
+
+        // Send emails to concernedCustomers
+
+        $.ajax({
+            url: "/mass-cancellation-email",
+            type: "POST",
+            data: {"filteredBookingsWithCustomers": filteredBookingsWithCustomers, "reason": reason },
+            success: function () {
+                //Notify User They Have Sent
+                $("#confirmCancellationButton").html("<span class='fa fa-fw fa-check'></span>  Sent!");
+
+                //Wait a second, then switch back to booking
+                setTimeout(() => {
+                    //Click 'Cancel Mass-Cancellation' to hide menu
+                    $('#cancelMassCancellation').trigger("click");
+                }, 1500);
+            },
+            error: function (error) {
+                console.log("Error sending emails: " + error)
+            }
+        });
+
+
     }
 
-    //Start Email Loading Animation
-    $("#confirmCancellationButton").html("<span class='fas fa-fw fa-spinner fa-pulse'></span> Sending Emails...");
 
-    // Send emails to concernedCustomers
-    $.ajax({
-        url: "/mass-cancellation-email",
-        type: "POST",
-        data: {"filteredBookingsWithCustomers": filteredBookingsWithCustomers, "reason": reason },
-        success: function () {
-            //Notify User They Have Sent
-            $("#confirmCancellationButton").html("<span class='fa fa-fw fa-check'></span>  Sent!");
 
-            //Wait a second, then switch back to booking
-            setTimeout(() => {
-                //Click 'Cancel Mass-Cancellation' to hide menu
-                $('#cancelMassCancellation').trigger("click");
-            }, 1500);
-        },
-        error: function (error) {
-            console.log("Error sending emails: " + error)
-        }
-    });
 
-    console.log(type);
-    console.log(cancellationDates);
-    console.log(reason);
-    console.log(concernedBookings);
-    console.log(concernedCustomers);
-    console.log(filteredBookingsWithCustomers);
 }
 
 /*************************************/
