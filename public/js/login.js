@@ -45,4 +45,38 @@ $(function() {
             $iconTag.removeClass($iconClass + " " + $divClass);
         }, $msgShowTime);
     }
+
+    //Bind Lost Password Event
+    $("#lostPassword").on("click", () => {
+        let button = $("#lostPasswordResponseMessage");
+
+        //Add Loading Animation
+        button.html("<span class='fa fa-fw fa-spinner fa-pulse'></span> Changing Password...");
+
+        $.ajax({
+            type: "POST",
+            url: "/lost-password",
+            data: {
+                username: $("#lostPasswordUsername").val(),
+                old: $("#lostPasswordOld").val(),
+                newPassword: $("#lostPasswordNew").val(),
+                confirm: $("#lostPasswordConfirm").val()
+            },
+            success: function(data) {
+                let buttonHTML;
+                if (data.success) {
+                    button.addClass("btn-success").removeClass("btn-danger");
+                    buttonHTML = "<span class='fa fa-fw fa-check'></span> Success!";
+                } else {
+                    button.addClass("btn-danger").removeClass("btn-success");
+                    buttonHTML = "<span class='fa fa-fw fa-times'></span> " + data.error;
+                }
+
+                button.html(buttonHTML);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    })
 });
