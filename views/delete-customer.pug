@@ -13,17 +13,13 @@ block append body-content
     h2
     div(id='alertBoxContainer')
         .row
-            .col-md-2
-            .col-md-6
-                div.form-control.alertBox(style="text-align:center;")
-                    br
-                    | The customer has been deleted.
-                    br
-                    .col-md-3
-                    .col-md-6
+            .col-md-6.col-md-offset-3.text-center
+                .form-control.alertBox
+                    .col-xs-12
+                        p The customer has been deleted
+                    .col-xs-12
                         button.form-control.btn-info(type='button', id="alertBoxBtn",onclick="location.href='/customer-overview'")
                             span OK
-                    .col-md-3
 
             .col-md-2
     div(id='alertBoxContainer2')
