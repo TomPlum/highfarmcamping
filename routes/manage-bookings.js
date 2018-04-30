@@ -83,6 +83,7 @@ module.exports = function(passport) {
             "INNER JOIN pitches ON pitch_bookings.pitch_id = pitches.pitch_id " +
             "INNER JOIN bookings ON pitch_bookings.booking_id = bookings.booking_id " +
             "INNER JOIN customers ON bookings.customer_id = customers.customer_id;";
+
         async.waterfall([
             function(callback) {
                 mysql.connection.query(sql_statement, function (err, rows) {
@@ -111,13 +112,13 @@ module.exports = function(passport) {
                         pitch_name.push(email[i].pitch_name.toString());
                     }
                 }
-//Content of email
+                //Content of email
                 const emailHTML = '<b>Hello ' + first_name + ' ' + last_name + '</b><p> Thanks ' +
                     'for choosing Highfarm Campsites!<br>This is your booking confirmation: <p> <b>' +
                     pitch_name + '</b> booked from: <b>' + stay_start_date + ' to '+ stay_end_date +'</b><p>Payment total: £' + payment_total +
                     '<br>Number of dogs: '+ count_dogs + '<br>Your registration number: ' + registration +
                     '<br>Your mobile: ' + mobile_phone_number + '<p> See you soon!';
-//Access to gmail API
+                //Access to gmail API
                 let transporter = nodemailer. createTransport({
                     service: 'gmail',
                     auth: {
@@ -129,7 +130,7 @@ module.exports = function(passport) {
                         accessToken: 'ya29.GluYBev-3ScBR8waQNph75piaCzUAFRwCVQagfv7m6hoXzoxOoeGqs1rCSCbsdmFOWZ2wseU8eCHMoIKIIWFywEU8g4j88MHl-nQ0rXkiriuMmiqCVydyYOsmqZv',
                     },
                 });
-//Email settings
+                //Email settings
                 let mailOptions = {
                     from: 'High Farm Campsites <highfarm.campsites@gmail.com>',
                     to: email_address,
@@ -137,19 +138,30 @@ module.exports = function(passport) {
                     html: emailHTML
                 };
 
-                transporter.sendMail(mailOptions, function (err) {
-                    if (err) {
+
+                transporter.sendMail(mailOptions, (error, info) => {
+
+                    if (error) {
+                        console.log(error);
                         callback(err, null);
-                    } else {
-                        callback(null, "Successfully Sent Email To: " + customerEmail);
                     }
                 });
+                callback(null, "Successfully Sent Email To: " + email_address);
             }
         ], function(err, success) {
+            if (err) {
+                console.error('Error: ' + err.message);
+                res.status(200).send({success: false});
+            } else {
+                res.status(200).send({success: true});
+                console.log('Booking confirmation: '+success);
+            }
+            /*
             if (err) {
                 console.log(err);
             }
             res.status(200).send(success);
+            */
         });
         
     });

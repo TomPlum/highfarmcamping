@@ -7,7 +7,6 @@ $('#printPDF').click(function(){
     //getCustomerFromDB();
     let id = parseURLParams(window.location.toString());
     sendEmailConfirmation(id.booking_id[0]);
-    alert("Email has been sent");
 });
 
 //Sends email confirmation to selected user
@@ -17,8 +16,10 @@ function sendEmailConfirmation(id) {
         data: {id: id},
         type: "POST",
         success: function(data) {
+            alert("Email has been sent");
         },
         error: function(err) {
+            alert("An error occured while sending the confirmation. Please call the IT support.");
         }
     });
 }
